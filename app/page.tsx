@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -21,16 +23,22 @@ export default function Home() {
         </div>
 
         <div className="flex gap-4 justify-center pt-8">
-          <button className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+          <Link 
+            href="/auth/signup"
+            className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+          >
             Get Started
-          </button>
-          <button className="px-8 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
-            Learn More
-          </button>
+          </Link>
+          <Link 
+            href="/auth/login"
+            className="px-8 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+          >
+            Sign In
+          </Link>
         </div>
 
         <div className="pt-12 text-sm text-gray-500">
-          <p>🚀 Phase 1: Foundation in progress</p>
+          <p>🎉 Authentication system ready!</p>
           <p className="pt-2">Built with ❄️ by Brumalia</p>
         </div>
       </div>
