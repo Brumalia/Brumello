@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/SignOutButton'
 import CreateListButton from '@/components/CreateListButton'
+import CreateCardButton from '@/components/CreateCardButton'
 
 export default async function BoardPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -83,9 +84,7 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
                     </div>
                   ))}
                 </div>
-                <button className="w-full mt-3 text-left text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded p-2 transition-colors">
-                  + Add a card
-                </button>
+                <CreateCardButton listId={list.id} cardsCount={list.cards?.length || 0} />
               </div>
             ))}
             <CreateListButton boardId={board.id} listsCount={lists.length} />
