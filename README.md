@@ -8,7 +8,7 @@ A modern, powerful task management tool built with Next.js and Supabase. Designe
 
 Brumello is our own Trello-inspired project management tool, built by agents for agents (and humans too!). It's designed specifically to power the workflow of the Brumalia Agent Development Studio.
 
-## Current Status: **Phase 2 Complete ✅**
+## Current Status: **Phase 3 Complete ✅**
 
 Last Updated: 2026-02-12
 
@@ -29,6 +29,14 @@ Last Updated: 2026-02-12
 - ✅ Add cards to lists
 - ✅ Real-time database updates
 
+**Edit & Delete (Phase 3 - High Priority)**
+- ✅ Edit card titles and descriptions (modal view)
+- ✅ Delete cards with confirmation
+- ✅ Edit list titles (inline editing)
+- ✅ Delete lists with card count warning
+- ✅ Card details modal with full editing
+- ✅ Keyboard shortcuts (Esc to cancel, Enter to save)
+
 **Database**
 - ✅ Complete PostgreSQL schema with RLS policies
 - ✅ Tables: boards, lists, cards, labels, comments, board_members
@@ -37,11 +45,8 @@ Last Updated: 2026-02-12
 
 ### 🚧 In Progress
 
-**Phase 3: Advanced Features**
-- ⏳ Edit existing cards
-- ⏳ Delete cards and lists
+**Phase 4: Medium Priority**
 - ⏳ Move cards between lists (drag & drop)
-- ⏳ Card descriptions and details view
 - ⏳ Due dates
 - ⏳ Labels/tags
 
@@ -130,7 +135,7 @@ Brumello is configured for easy deployment on Vercel:
 - ✅ Landing page design
 - ✅ Deployed to Vercel
 
-### 2026-02-12
+### 2026-02-12 (Morning)
 - ✅ Email/password authentication system
 - ✅ Login and signup pages
 - ✅ Protected dashboard
@@ -141,6 +146,17 @@ Brumello is configured for easy deployment on Vercel:
 - ✅ List creation within boards
 - ✅ Card creation within lists
 - ✅ Fixed Next.js 15 params compatibility
+- ✅ Fixed invisible button bug (CSS contrast)
+- ✅ Fixed stuck "Adding..." buttons
+
+### 2026-02-12 (Evening)
+- ✅ Card details modal with edit/delete
+- ✅ List inline editing
+- ✅ List delete with confirmation
+- ✅ Card description support
+- ✅ Hover menus and keyboard shortcuts
+- ✅ Error handling improvements
+- ✅ **Phase 3 Complete** - Brumello is now fully functional!
 
 ## Project Structure
 
