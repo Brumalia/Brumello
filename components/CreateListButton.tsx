@@ -47,10 +47,10 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
 
   if (!isAdding) {
     return (
-      <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 min-w-[300px] max-w-[300px]">
+      <div className="bg-gray-800 bg-opacity-30 backdrop-blur-sm rounded-lg p-4 min-w-[300px] max-w-[300px]">
         <button
           onClick={() => setIsAdding(true)}
-          className="w-full text-left text-white hover:bg-white hover:bg-opacity-20 rounded p-2 transition-colors font-semibold"
+          className="w-full text-left text-white hover:bg-gray-700 hover:bg-opacity-50 rounded p-2 transition-colors font-semibold"
           type="button"
         >
           + Add a list
