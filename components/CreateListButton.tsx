@@ -22,21 +22,26 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
     setLoading(true)
     setError(null)
 
-    const { error: insertError } = await supabase
-      .from('lists')
-      .insert({
-        board_id: boardId,
-        title,
-        position: listsCount,
-      })
+    try {
+      const { error: insertError } = await supabase
+        .from('lists')
+        .insert({
+          board_id: boardId,
+          title,
+          position: listsCount,
+        })
 
-    if (insertError) {
-      setError(insertError.message)
+      if (insertError) {
+        setError(insertError.message)
+        setLoading(false)
+      } else {
+        setTitle('')
+        setIsAdding(false)
+        router.refresh()
+      }
+    } catch (err) {
+      setError('Failed to create list')
       setLoading(false)
-    } else {
-      setTitle('')
-      setIsAdding(false)
-      router.refresh()
     }
   }
 
@@ -46,6 +51,7 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
         <button
           onClick={() => setIsAdding(true)}
           className="w-full text-left text-white hover:bg-white hover:bg-opacity-20 rounded p-2 transition-colors font-semibold"
+          type="button"
         >
           + Add a list
         </button>
@@ -68,6 +74,7 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter list title..."
           autoFocus
+          required
           className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
 
