@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import SignOutButton from '@/components/SignOutButton'
 
 export default async function DashboardPage() {
@@ -45,10 +46,19 @@ export default async function DashboardPage() {
                 </p>
               </div>
 
+              <div className="bg-green-50 p-6 rounded-lg">
+                <h3 className="font-semibold text-green-900 mb-3">✅ Ready to Use:</h3>
+                <Link 
+                  href="/boards"
+                  className="inline-block px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                >
+                  Go to Your Boards →
+                </Link>
+              </div>
+
               <div className="bg-gray-50 p-6 rounded-lg">
                 <h3 className="font-semibold text-gray-900 mb-2">🚀 Coming Soon:</h3>
                 <ul className="text-sm text-gray-700 space-y-2">
-                  <li>• Create and manage boards</li>
                   <li>• Add lists and cards</li>
                   <li>• Drag & drop interface</li>
                   <li>• Real-time collaboration</li>
