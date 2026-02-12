@@ -3,7 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/SignOutButton'
 import CreateListButton from '@/components/CreateListButton'
-import CreateCardButton from '@/components/CreateCardButton'
+import BoardContent from '@/components/BoardContent'
 
 export default async function BoardPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -67,28 +67,7 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {lists && lists.length > 0 ? (
-          <div className="flex gap-4 overflow-x-auto pb-4">
-            {lists.map((list) => (
-              <div
-                key={list.id}
-                className="bg-gray-100 rounded-lg p-4 min-w-[300px] max-w-[300px]"
-              >
-                <h3 className="font-bold text-gray-900 mb-3">{list.title}</h3>
-                <div className="space-y-2">
-                  {list.cards?.map((card: any) => (
-                    <div
-                      key={card.id}
-                      className="bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                    >
-                      <p className="text-sm text-gray-900">{card.title}</p>
-                    </div>
-                  ))}
-                </div>
-                <CreateCardButton listId={list.id} cardsCount={list.cards?.length || 0} />
-              </div>
-            ))}
-            <CreateListButton boardId={board.id} listsCount={lists.length} />
-          </div>
+          <BoardContent lists={lists} boardId={board.id} />
         ) : (
           <div className="flex gap-4">
             <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg p-12 text-center flex-1">
