@@ -3,7 +3,8 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/SignOutButton'
 
-export default async function BoardPage({ params }: { params: { id: string } }) {
+export default async function BoardPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const supabase = await createClient()
   
   const { data: { user } } = await supabase.auth.getUser()
@@ -16,7 +17,7 @@ export default async function BoardPage({ params }: { params: { id: string } }) 
   const { data: board, error } = await supabase
     .from('boards')
     .select('*')
-    .eq('id', params.id)
+    .eq('id', id)
     .eq('created_by', user.id)
     .single()
 
@@ -28,7 +29,7 @@ export default async function BoardPage({ params }: { params: { id: string } }) 
   const { data: lists } = await supabase
     .from('lists')
     .select('*, cards(*)')
-    .eq('board_id', params.id)
+    .eq('board_id', id)
     .order('position', { ascending: true })
 
   return (
