@@ -24,21 +24,33 @@ export default function CreateCardButton({ listId, cardsCount }: CreateCardButto
     setLoading(true)
     setError(null)
 
-    const { error: insertError } = await supabase
-      .from('cards')
-      .insert({
-        list_id: listId,
-        title: title.trim(),
-        position: cardsCount,
-      })
+    try {
+      const { data, error: insertError } = await supabase
+        .from('cards')
+        .insert({
+          list_id: listId,
+          title: title.trim(),
+          position: cardsCount,
+        })
+        .select()
 
-    if (insertError) {
-      setError(insertError.message)
+      if (insertError) {
+        console.error('Card creation error:', insertError)
+        setError(insertError.message)
+        setLoading(false)
+      } else if (data) {
+        setTitle('')
+        setIsAdding(false)
+        setLoading(false)
+        router.refresh()
+      } else {
+        setError('No data returned from insert')
+        setLoading(false)
+      }
+    } catch (err: any) {
+      console.error('Card creation exception:', err)
+      setError(err?.message || 'Failed to create card')
       setLoading(false)
-    } else {
-      setTitle('')
-      setIsAdding(false)
-      router.refresh()
     }
   }
 

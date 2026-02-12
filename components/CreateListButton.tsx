@@ -19,28 +19,37 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!title.trim()) return
+    
     setLoading(true)
     setError(null)
 
     try {
-      const { error: insertError } = await supabase
+      const { data, error: insertError } = await supabase
         .from('lists')
         .insert({
           board_id: boardId,
-          title,
+          title: title.trim(),
           position: listsCount,
         })
+        .select()
 
       if (insertError) {
+        console.error('List creation error:', insertError)
         setError(insertError.message)
         setLoading(false)
-      } else {
+      } else if (data) {
         setTitle('')
         setIsAdding(false)
+        setLoading(false)
         router.refresh()
+      } else {
+        setError('No data returned from insert')
+        setLoading(false)
       }
-    } catch (err) {
-      setError('Failed to create list')
+    } catch (err: any) {
+      console.error('List creation exception:', err)
+      setError(err?.message || 'Failed to create list')
       setLoading(false)
     }
   }
