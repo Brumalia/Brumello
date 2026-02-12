@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import SignOutButton from '@/components/SignOutButton'
+import CreateListButton from '@/components/CreateListButton'
 
 export default async function BoardPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -87,20 +88,16 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
                 </button>
               </div>
             ))}
-            <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 min-w-[300px] max-w-[300px]">
-              <button className="w-full text-left text-white hover:bg-white hover:bg-opacity-20 rounded p-2 transition-colors font-semibold">
-                + Add a list
-              </button>
-            </div>
+            <CreateListButton boardId={board.id} listsCount={lists.length} />
           </div>
         ) : (
-          <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg p-12 text-center">
-            <div className="text-6xl mb-4">📝</div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">No lists yet</h3>
-            <p className="text-gray-600 mb-6">Add your first list to start organizing tasks!</p>
-            <button className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-              + Create First List
-            </button>
+          <div className="flex gap-4">
+            <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg p-12 text-center flex-1">
+              <div className="text-6xl mb-4">📝</div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">No lists yet</h3>
+              <p className="text-gray-600 mb-6">Add your first list to start organizing tasks!</p>
+            </div>
+            <CreateListButton boardId={board.id} listsCount={0} />
           </div>
         )}
       </main>
