@@ -92,6 +92,13 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
   }
 
   const addLabelToCard = async (labelId: string) => {
+    // First, remove all existing labels (one label per card)
+    await supabase
+      .from('card_labels')
+      .delete()
+      .eq('card_id', cardId)
+
+    // Then add the new label
     const { error } = await supabase
       .from('card_labels')
       .insert({ card_id: cardId, label_id: labelId })
@@ -125,7 +132,7 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
     <div className="space-y-3">
       <h3 className="text-sm font-semibold text-gray-700">Labels</h3>
 
-      {/* Selected Labels */}
+      {/* Selected Label (only one) */}
       {selectedLabels.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {selectedLabels.map((label) => (
@@ -141,7 +148,9 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
 
       {/* Available Labels */}
       <div className="space-y-2">
-        <div className="text-xs text-gray-500">Add label:</div>
+        <div className="text-xs text-gray-500">
+          {selectedLabels.length > 0 ? 'Change label:' : 'Select label:'}
+        </div>
         <div className="flex flex-wrap gap-2">
           {boardLabels.map((label) => (
             <button

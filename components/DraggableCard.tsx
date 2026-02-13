@@ -2,7 +2,6 @@
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import LabelBadge from './LabelBadge'
 
 interface Label {
   id: string
@@ -38,13 +37,23 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
     opacity: isDragging ? 0.5 : 1,
   }
 
+  const labelColor = card.card_labels?.[0]?.labels?.color
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow relative group"
+      className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow relative group overflow-hidden"
     >
+      {/* Color bar on left edge if card has a label */}
+      {labelColor && (
+        <div
+          className="absolute left-0 top-0 bottom-0 w-1"
+          style={{ backgroundColor: labelColor }}
+        />
+      )}
+
       {/* Drag Handle - only this part triggers dragging */}
       <button
         {...listeners}
@@ -71,21 +80,8 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
       <div
         onClick={onClick}
         className="p-3 pr-8 cursor-pointer"
+        style={{ paddingLeft: labelColor ? '16px' : '12px' }}
       >
-        {/* Labels */}
-        {card.card_labels && card.card_labels.length > 0 && (
-          <div className="flex flex-wrap gap-1 mb-2">
-            {card.card_labels.map((cl) => (
-              <LabelBadge
-                key={cl.labels.id}
-                name={cl.labels.name}
-                color={cl.labels.color}
-                compact
-              />
-            ))}
-          </div>
-        )}
-        
         <p className="text-sm text-gray-900">{card.title}</p>
         {card.description && (
           <p className="text-xs text-gray-500 mt-1 line-clamp-2">
