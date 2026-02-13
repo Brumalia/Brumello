@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import LabelSelector from './LabelSelector'
@@ -49,11 +49,53 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
   )
   const [completed, setCompleted] = useState(card.completed)
   const [labels, setLabels] = useState<Label[]>([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const router = useRouter()
   const supabase = createClient()
+
+  // Debounced auto-save function
+  const autoSave = useCallback(async () => {
+    if (!title.trim()) return
+    
+    setSaveStatus('saving')
+    
+    const { error } = await supabase
+      .from('cards')
+      .update({
+        title: title.trim(),
+        description: description.trim() || null,
+        background_color: backgroundColor,
+        due_date: dueDate || null,
+        completed: completed,
+      })
+      .eq('id', card.id)
+
+    if (error) {
+      console.error('Auto-save error:', error)
+      setSaveStatus('error')
+    } else {
+      setSaveStatus('saved')
+      router.refresh()
+      // Reset to idle after 2 seconds
+      setTimeout(() => setSaveStatus('idle'), 2000)
+    }
+  }, [title, description, backgroundColor, dueDate, completed, card.id, supabase, router])
+
+  // Auto-save when any field changes (debounced)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (title !== card.title || 
+          description !== (card.description || '') || 
+          backgroundColor !== card.background_color ||
+          dueDate !== (card.due_date ? new Date(card.due_date).toISOString().split('T')[0] : '') ||
+          completed !== card.completed) {
+        autoSave()
+      }
+    }, 500) // 500ms debounce
+
+    return () => clearTimeout(timer)
+  }, [title, description, backgroundColor, dueDate, completed, card, autoSave])
 
   useEffect(() => {
     fetchLabels()
@@ -70,63 +112,50 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
     }
   }
 
-  const handleUpdate = async () => {
-    if (!title.trim()) {
-      setError('Title is required')
-      return
-    }
+  const handleDelete = async () => {
+    const { error } = await supabase
+      .from('cards')
+      .delete()
+      .eq('id', card.id)
 
-    setLoading(true)
-    setError(null)
-
-    try {
-      const { error: updateError } = await supabase
-        .from('cards')
-        .update({
-          title: title.trim(),
-          description: description.trim() || null,
-          background_color: backgroundColor,
-          due_date: dueDate || null,
-          completed: completed,
-        })
-        .eq('id', card.id)
-
-      if (updateError) {
-        setError(updateError.message)
-        setLoading(false)
-      } else {
-        // Refresh the page data
-        router.refresh()
-        // Small delay to ensure Next.js fetches updated data
-        await new Promise(resolve => setTimeout(resolve, 300))
-        onClose()
-      }
-    } catch (err: any) {
-      setError(err?.message || 'Failed to update card')
-      setLoading(false)
+    if (!error) {
+      router.refresh()
+      onClose()
     }
   }
 
-  const handleDelete = async () => {
-    setLoading(true)
-    setError(null)
-
-    try {
-      const { error: deleteError } = await supabase
-        .from('cards')
-        .delete()
-        .eq('id', card.id)
-
-      if (deleteError) {
-        setError(deleteError.message)
-        setLoading(false)
-      } else {
-        router.refresh()
-        onClose()
-      }
-    } catch (err: any) {
-      setError(err?.message || 'Failed to delete card')
-      setLoading(false)
+  const getSaveStatusDisplay = () => {
+    switch (saveStatus) {
+      case 'saving':
+        return (
+          <span className="text-sm text-gray-500 flex items-center gap-1">
+            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Saving...
+          </span>
+        )
+      case 'saved':
+        return (
+          <span className="text-sm text-green-600 flex items-center gap-1">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            Saved
+          </span>
+        )
+      case 'error':
+        return (
+          <span className="text-sm text-red-600 flex items-center gap-1">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Error saving
+          </span>
+        )
+      default:
+        return null
     }
   }
 
@@ -137,8 +166,9 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
           {/* Header */}
           <div className="flex justify-between items-start mb-6">
             <div className="flex-1 mr-4">
-              <div className="text-sm text-gray-500 mb-2">
+              <div className="text-sm text-gray-500 mb-2 flex items-center gap-2">
                 in list <span className="font-semibold">{listTitle}</span>
+                {getSaveStatusDisplay()}
               </div>
               <input
                 type="text"
@@ -154,12 +184,6 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
               ×
             </button>
           </div>
-
-          {error && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm">
-              {error}
-            </div>
-          )}
 
           {/* Description */}
           <div className="mb-6">
@@ -240,36 +264,25 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
             </div>
           </div>
 
-          {/* Actions */}
-          <div className="flex gap-3">
-            <button
-              onClick={handleUpdate}
-              disabled={loading}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {loading ? 'Saving...' : 'Save Changes'}
-            </button>
-            
+          {/* Delete Button Only */}
+          <div className="flex justify-end">
             {!deleteConfirm ? (
               <button
                 onClick={() => setDeleteConfirm(true)}
-                disabled={loading}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 disabled:opacity-50 transition-colors"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors"
               >
-                Delete
+                Delete Card
               </button>
             ) : (
               <div className="flex gap-2">
                 <button
                   onClick={handleDelete}
-                  disabled={loading}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 disabled:opacity-50 transition-colors"
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors"
                 >
                   Confirm Delete
                 </button>
                 <button
                   onClick={() => setDeleteConfirm(false)}
-                  disabled={loading}
                   className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
                 >
                   Cancel
