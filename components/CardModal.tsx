@@ -89,7 +89,10 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
         setError(updateError.message)
         setLoading(false)
       } else {
+        // Refresh the page data
         router.refresh()
+        // Small delay to ensure Next.js fetches updated data
+        await new Promise(resolve => setTimeout(resolve, 300))
         onClose()
       }
     } catch (err: any) {
