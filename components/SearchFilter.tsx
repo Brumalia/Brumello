@@ -15,8 +15,8 @@ interface Card {
 }
 
 interface SearchFilterProps {
-  cards: Card[]
-  onFilter: (filtered: Card[]) => void
+  cards: any[]
+  onFilter: (filtered: any[]) => void
 }
 
 export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
