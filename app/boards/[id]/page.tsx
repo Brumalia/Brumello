@@ -30,9 +30,21 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
   // Fetch lists for this board
   const { data: lists } = await supabase
     .from('lists')
-    .select('*, cards(*)')
+    .select(`
+      *,
+      cards(*)
+    `)
     .eq('board_id', id)
     .order('position', { ascending: true })
+  
+  // Sort cards within each list by position
+  if (lists) {
+    lists.forEach(list => {
+      if (list.cards) {
+        list.cards.sort((a: any, b: any) => a.position - b.position)
+      }
+    })
+  }
 
   return (
     <div 
