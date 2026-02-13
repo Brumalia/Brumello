@@ -3,6 +3,14 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import LabelSelector from './LabelSelector'
+
+interface Label {
+  id: string
+  name: string
+  color: string
+  board_id: string
+}
 
 interface Card {
   id: string
@@ -15,17 +23,34 @@ interface Card {
 interface CardModalProps {
   card: Card
   listTitle: string
+  boardId: string
   onClose: () => void
 }
 
-export default function CardModal({ card, listTitle, onClose }: CardModalProps) {
+export default function CardModal({ card, listTitle, boardId, onClose }: CardModalProps) {
   const [title, setTitle] = useState(card.title)
   const [description, setDescription] = useState(card.description || '')
+  const [labels, setLabels] = useState<Label[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const router = useRouter()
   const supabase = createClient()
+
+  useEffect(() => {
+    fetchLabels()
+  }, [card.id])
+
+  const fetchLabels = async () => {
+    const { data } = await supabase
+      .from('card_labels')
+      .select('label_id, labels(*)')
+      .eq('card_id', card.id)
+
+    if (data) {
+      setLabels(data.map((cl: any) => cl.labels))
+    }
+  }
 
   const handleUpdate = async () => {
     if (!title.trim()) {
@@ -121,6 +146,16 @@ export default function CardModal({ card, listTitle, onClose }: CardModalProps) 
               placeholder="Add a more detailed description..."
               rows={6}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            />
+          </div>
+
+          {/* Labels */}
+          <div className="mb-6">
+            <LabelSelector
+              cardId={card.id}
+              boardId={boardId}
+              selectedLabels={labels}
+              onUpdate={fetchLabels}
             />
           </div>
 

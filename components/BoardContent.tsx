@@ -226,6 +226,7 @@ export default function BoardContent({ lists: initialLists, boardId }: BoardCont
         <CardModal
           card={selectedCard.card}
           listTitle={selectedCard.listTitle}
+          boardId={boardId}
           onClose={() => setSelectedCard(null)}
         />
       )}

@@ -27,12 +27,17 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
     notFound()
   }
 
-  // Fetch lists for this board
+  // Fetch lists for this board with labels
   const { data: lists } = await supabase
     .from('lists')
     .select(`
       *,
-      cards(*)
+      cards(
+        *,
+        card_labels(
+          labels(*)
+        )
+      )
     `)
     .eq('board_id', id)
     .order('position', { ascending: true })
