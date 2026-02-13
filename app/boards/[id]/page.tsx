@@ -4,6 +4,7 @@ import Link from 'next/link'
 import SignOutButton from '@/components/SignOutButton'
 import CreateListButton from '@/components/CreateListButton'
 import BoardContent from '@/components/BoardContent'
+import BoardSettingsButton from '@/components/BoardSettingsButton'
 
 export default async function BoardPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -72,6 +73,7 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
             </div>
             <div className="flex items-center gap-4">
               <span className="text-sm text-white">{user.email}</span>
+              <BoardSettingsButton board={board} />
               <SignOutButton />
             </div>
           </div>
