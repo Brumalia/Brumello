@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import LabelSelector from './LabelSelector'
 import ChecklistSelector from './ChecklistSelector'
+import CommentSelector from './CommentSelector'
 
 interface Label {
   id: string
@@ -268,6 +269,14 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
           {/* Checklists */}
           <div className="mb-6">
             <ChecklistSelector
+              cardId={card.id}
+              onUpdate={() => {}}
+            />
+          </div>
+
+          {/* Comments */}
+          <div className="mb-6">
+            <CommentSelector
               cardId={card.id}
               onUpdate={() => {}}
             />

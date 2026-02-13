@@ -26,6 +26,7 @@ import CreateCardButton from './CreateCardButton'
 import CreateListButton from './CreateListButton'
 import CardModal from './CardModal'
 import DraggableCard from './DraggableCard'
+import SearchFilter from './SearchFilter'
 
 interface Label {
   id: string
@@ -61,6 +62,7 @@ export default function BoardContent({ lists: initialLists, boardId }: BoardCont
   const [activeCard, setActiveCard] = useState<Card | null>(null)
   const [selectedCard, setSelectedCard] = useState<{ card: Card; listTitle: string } | null>(null)
   const [showCompleted, setShowCompleted] = useState(true)
+  const [searchFilter, setSearchFilter] = useState<Card[] | null>(null)
   const router = useRouter()
   const supabase = createClient()
 
@@ -174,14 +176,37 @@ export default function BoardContent({ lists: initialLists, boardId }: BoardCont
     router.refresh()
   }
 
-  // Filter cards based on completion status
+  // Get all cards from all lists for search
+  const getAllCards = (): Card[] => {
+    return lists.flatMap(list => list.cards || [])
+  }
+
+  // Filter cards based on completion status and search
   const getFilteredCards = (cards: Card[]) => {
-    if (showCompleted) return cards
-    return cards.filter(card => !card.completed)
+    let filtered = cards
+    
+    // Apply search filter if active
+    if (searchFilter) {
+      const searchIds = new Set(searchFilter.map(c => c.id))
+      filtered = filtered.filter(card => searchIds.has(card.id))
+    }
+    
+    // Apply completion filter
+    if (!showCompleted) {
+      filtered = filtered.filter(card => !card.completed)
+    }
+    
+    return filtered
   }
 
   return (
     <>
+      {/* Search & Filter */}
+      <SearchFilter 
+        cards={getAllCards()} 
+        onFilter={(filtered) => setSearchFilter(filtered)} 
+      />
+
       {/* Archive Toggle */}
       <div className="mb-4 flex justify-end">
         <button
