@@ -59,29 +59,48 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
     if (!newLabelName.trim()) return
 
     setLoading(true)
-    const { data, error } = await supabase
-      .from('labels')
-      .insert({
-        board_id: boardId,
-        name: newLabelName.trim(),
-        color: newLabelColor,
-      })
-      .select()
-      .single()
+    try {
+      const { data, error } = await supabase
+        .from('labels')
+        .insert({
+          board_id: boardId,
+          name: newLabelName.trim(),
+          color: newLabelColor,
+        })
+        .select()
+        .single()
 
-    if (!error && data) {
-      await addLabelToCard(data.id)
-      setNewLabelName('')
-      setShowCreateForm(false)
-      fetchBoardLabels()
+      if (error) {
+        console.error('Error creating label:', error)
+        alert('Failed to create label: ' + error.message)
+        setLoading(false)
+        return
+      }
+
+      if (data) {
+        // Add the new label to the card immediately
+        await addLabelToCard(data.id)
+        setNewLabelName('')
+        setShowCreateForm(false)
+        await fetchBoardLabels()
+      }
+    } catch (err) {
+      console.error('Error creating label:', err)
+      alert('Failed to create label')
     }
     setLoading(false)
   }
 
   const addLabelToCard = async (labelId: string) => {
-    await supabase
+    const { error } = await supabase
       .from('card_labels')
       .insert({ card_id: cardId, label_id: labelId })
+
+    if (error) {
+      console.error('Error adding label to card:', error)
+      alert('Failed to add label: ' + error.message)
+      return
+    }
 
     router.refresh()
     onUpdate()
