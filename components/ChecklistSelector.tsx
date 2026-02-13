@@ -44,7 +44,7 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
 
     if (checklistData) {
       const checklistsWithItems = await Promise.all(
-        checklistData.map(async (checklist) => {
+        checklistData.map(async (checklist: any) => {
           const { data: items } = await supabase
             .from('checklist_items')
             .select('*')
