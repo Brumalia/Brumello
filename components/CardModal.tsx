@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import LabelSelector from './LabelSelector'
+import ChecklistSelector from './ChecklistSelector'
 
 interface Label {
   id: string
@@ -262,6 +263,14 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Checklists */}
+          <div className="mb-6">
+            <ChecklistSelector
+              cardId={card.id}
+              onUpdate={() => {}}
+            />
           </div>
 
           {/* Delete Button Only */}
