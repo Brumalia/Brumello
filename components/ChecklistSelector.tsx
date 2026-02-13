@@ -26,6 +26,8 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
   const [checklists, setChecklists] = useState<Checklist[]>([])
   const [newItemText, setNewItemText] = useState('')
   const [showAddItem, setShowAddItem] = useState<string | null>(null)
+  const [showAddChecklist, setShowAddChecklist] = useState(false)
+  const [newChecklistName, setNewChecklistName] = useState('')
   const router = useRouter()
   const supabase = createClient()
 
@@ -60,20 +62,33 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
   }
 
   const addChecklist = async () => {
+    const title = newChecklistName.trim() || 'Checklist'
     const { data, error } = await supabase
       .from('checklists')
       .insert({
         card_id: cardId,
-        title: 'Checklist',
+        title: title,
         position: checklists.length
       })
       .select()
       .single()
 
     if (!error && data) {
+      setNewChecklistName('')
+      setShowAddChecklist(false)
       await fetchChecklists()
       onUpdate()
     }
+  }
+
+  const updateChecklistTitle = async (checklistId: string, newTitle: string) => {
+    await supabase
+      .from('checklists')
+      .update({ title: newTitle })
+      .eq('id', checklistId)
+    
+    await fetchChecklists()
+    onUpdate()
   }
 
   const addItem = async (checklistId: string) => {
@@ -138,22 +153,56 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-gray-700">Checklists</h3>
-        <button
-          onClick={addChecklist}
-          className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-        >
-          + Add checklist
-        </button>
+        {!showAddChecklist ? (
+          <button
+            onClick={() => setShowAddChecklist(true)}
+            className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+          >
+            + Add checklist
+          </button>
+        ) : (
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={newChecklistName}
+              onChange={(e) => setNewChecklistName(e.target.value)}
+              placeholder="Checklist name..."
+              className="px-2 py-1 text-sm border border-gray-300 rounded"
+              autoFocus
+              onKeyDown={(e) => e.key === 'Enter' && addChecklist()}
+            />
+            <button
+              onClick={addChecklist}
+              className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Add
+            </button>
+            <button
+              onClick={() => {
+                setShowAddChecklist(false)
+                setNewChecklistName('')
+              }}
+              className="px-2 py-1 text-sm text-gray-600 hover:text-gray-800"
+            >
+              ×
+            </button>
+          </div>
+        )}
       </div>
 
-      {checklists.length === 0 ? (
+      {checklists.length === 0 && !showAddChecklist ? (
         <p className="text-sm text-gray-500 italic">No checklists yet</p>
       ) : (
         checklists.map((checklist) => (
           <div key={checklist.id} className="border border-gray-200 rounded-lg p-3">
             {/* Checklist Header */}
             <div className="flex items-center justify-between mb-2">
-              <span className="font-medium text-gray-900">{checklist.title}</span>
+              <input
+                type="text"
+                value={checklist.title}
+                onChange={(e) => updateChecklistTitle(checklist.id, e.target.value)}
+                className="font-medium text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none px-1 -ml-1"
+              />
               <button
                 onClick={() => deleteChecklist(checklist.id)}
                 className="text-xs text-red-600 hover:text-red-700"
