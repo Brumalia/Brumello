@@ -18,6 +18,7 @@ interface Card {
   description: string | null
   due_date: string | null
   completed: boolean
+  background_color: string | null
 }
 
 interface CardModalProps {
@@ -27,9 +28,22 @@ interface CardModalProps {
   onClose: () => void
 }
 
+const CARD_COLORS = [
+  { name: 'None', color: null },
+  { name: 'Green', color: '#D3F8E2' },
+  { name: 'Yellow', color: '#FFF4C4' },
+  { name: 'Orange', color: '#FFE5C4' },
+  { name: 'Red', color: '#FFD5D5' },
+  { name: 'Purple', color: '#EDE4FF' },
+  { name: 'Blue', color: '#D4E5FF' },
+  { name: 'Sky', color: '#C4F0FF' },
+  { name: 'Lime', color: '#E4FFD4' },
+]
+
 export default function CardModal({ card, listTitle, boardId, onClose }: CardModalProps) {
   const [title, setTitle] = useState(card.title)
   const [description, setDescription] = useState(card.description || '')
+  const [backgroundColor, setBackgroundColor] = useState(card.background_color)
   const [labels, setLabels] = useState<Label[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -67,6 +81,7 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
         .update({
           title: title.trim(),
           description: description.trim() || null,
+          background_color: backgroundColor,
         })
         .eq('id', card.id)
 
@@ -157,6 +172,32 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
               selectedLabels={labels}
               onUpdate={fetchLabels}
             />
+          </div>
+
+          {/* Card Background Color */}
+          <div className="mb-6">
+            <h3 className="text-sm font-semibold text-gray-700 mb-3">Card Color</h3>
+            <div className="grid grid-cols-5 gap-2">
+              {CARD_COLORS.map((colorOption) => (
+                <button
+                  key={colorOption.name}
+                  onClick={() => setBackgroundColor(colorOption.color)}
+                  className={`h-10 rounded-lg border-2 transition-all flex items-center justify-center text-xs font-medium ${
+                    backgroundColor === colorOption.color
+                      ? 'border-blue-600 ring-2 ring-blue-200'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                  style={{
+                    backgroundColor: colorOption.color || '#ffffff',
+                    color: colorOption.color ? '#374151' : '#9CA3AF'
+                  }}
+                  title={colorOption.name}
+                >
+                  {colorOption.color === null && 'None'}
+                  {backgroundColor === colorOption.color && colorOption.color && '✓'}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Actions */}

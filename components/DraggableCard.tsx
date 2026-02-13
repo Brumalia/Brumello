@@ -13,6 +13,7 @@ interface Card {
   id: string
   title: string
   description: string | null
+  background_color: string | null
   card_labels?: Array<{ labels: Label }>
 }
 
@@ -38,13 +39,17 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
   }
 
   const labelColor = card.card_labels?.[0]?.labels?.color
+  const cardBgColor = card.background_color || '#ffffff'
 
   return (
     <div
       ref={setNodeRef}
-      style={style}
+      style={{
+        ...style,
+        backgroundColor: cardBgColor,
+      }}
       {...attributes}
-      className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow relative group overflow-hidden"
+      className="rounded-lg shadow-sm hover:shadow-md transition-shadow relative group overflow-hidden"
     >
       {/* Color bar on left edge if card has a label */}
       {labelColor && (
