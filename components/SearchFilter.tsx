@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
 
 interface Card {
   id: string
@@ -24,17 +23,21 @@ export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
   const [filterCompleted, setFilterCompleted] = useState<boolean | null>(null)
   const [showFilters, setShowFilters] = useState(false)
   const [availableLabels, setAvailableLabels] = useState<Array<{ id: string; name: string; color: string }>>([])
-  const supabase = createClient()
 
   // Get all unique labels from cards
-  useEffect(() => {
+  const labelsFromCards = (): Array<{ id: string; name: string; color: string }> => {
     const labels = new Map<string, { id: string; name: string; color: string }>()
     cards.forEach(card => {
       card.card_labels?.forEach(cl => {
         labels.set(cl.labels.id, cl.labels)
       })
     })
-    setAvailableLabels(Array.from(labels.values()))
+    return Array.from(labels.values())
+  }
+
+  // Update available labels when cards change
+  useEffect(() => {
+    setAvailableLabels(labelsFromCards())
   }, [cards])
 
   // Filter cards when search/filters change
