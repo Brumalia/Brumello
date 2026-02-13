@@ -27,14 +27,22 @@ import CreateListButton from './CreateListButton'
 import CardModal from './CardModal'
 import DraggableCard from './DraggableCard'
 
+interface Label {
+  id: string
+  name: string
+  color: string
+}
+
 interface Card {
   id: string
   title: string
   description: string | null
   due_date: string | null
   completed: boolean
+  background_color: string | null
   list_id: string
   position: number
+  card_labels?: Array<{ labels: Label }>
 }
 
 interface List {
