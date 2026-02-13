@@ -36,7 +36,7 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
   const [newLabelName, setNewLabelName] = useState('')
   const [newLabelColor, setNewLabelColor] = useState(DEFAULT_COLORS[0].color)
   const [loading, setLoading] = useState(false)
-  const supabase = createClient()
+  const supabase = createClient() as any
   const router = useRouter()
 
   useEffect(() => {

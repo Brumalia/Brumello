@@ -7,7 +7,7 @@ import { useState } from 'react'
 export default function SignOutButton() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = createClient() as any
 
   const handleSignOut = async () => {
     setLoading(true)

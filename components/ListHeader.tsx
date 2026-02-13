@@ -17,7 +17,7 @@ export default function ListHeader({ listId, title, cardsCount }: ListHeaderProp
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = createClient() as any
 
   const handleUpdate = async () => {
     if (!newTitle.trim()) return

@@ -64,7 +64,7 @@ export default function BoardContent({ lists: initialLists, boardId }: BoardCont
   const [showCompleted, setShowCompleted] = useState(true)
   const [searchFilter, setSearchFilter] = useState<Card[] | null>(null)
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = createClient() as any
 
   const sensors = useSensors(
     useSensor(PointerSensor),

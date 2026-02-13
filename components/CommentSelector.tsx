@@ -21,7 +21,7 @@ export default function CommentSelector({ cardId, onUpdate }: CommentSelectorPro
   const [newComment, setNewComment] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = createClient() as any
 
   useEffect(() => {
     fetchComments()

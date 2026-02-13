@@ -29,7 +29,7 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
   const [showAddChecklist, setShowAddChecklist] = useState(false)
   const [newChecklistName, setNewChecklistName] = useState('')
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = createClient() as any
 
   useEffect(() => {
     fetchChecklists()

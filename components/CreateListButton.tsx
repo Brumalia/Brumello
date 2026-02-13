@@ -15,7 +15,7 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = createClient() as any
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()

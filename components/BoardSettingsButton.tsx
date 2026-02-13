@@ -34,7 +34,7 @@ export default function BoardSettingsButton({ board }: BoardSettingsButtonProps)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = createClient() as any
 
   const handleSave = async () => {
     if (!title.trim()) {
