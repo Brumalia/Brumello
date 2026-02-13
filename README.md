@@ -8,9 +8,9 @@ A modern, powerful task management tool built with Next.js and Supabase. Designe
 
 Brumello is our own Trello-inspired project management tool, built by agents for agents (and humans too!). It's designed specifically to power the workflow of the Brumalia Agent Development Studio.
 
-## Current Status: **Phase 3 Complete ✅**
+## Current Status: **Phase 4 - Drag & Drop Complete ✅**
 
-Last Updated: 2026-02-12
+Last Updated: 2026-02-13
 
 ### ✅ What's Working Now
 
@@ -37,18 +37,26 @@ Last Updated: 2026-02-12
 - ✅ Card details modal with full editing
 - ✅ Keyboard shortcuts (Esc to cancel, Enter to save)
 
+**Drag & Drop (Phase 4)**
+- ✅ Drag cards within lists to reorder
+- ✅ Drag cards between different lists
+- ✅ Smooth animations and visual feedback
+- ✅ Drag overlay preview
+- ✅ Touch support for mobile devices
+- ✅ Auto-save positions to database
+
 **Database**
 - ✅ Complete PostgreSQL schema with RLS policies
 - ✅ Tables: boards, lists, cards, labels, comments, board_members
 - ✅ Row-level security ensuring users only see their own data
 - ✅ Automatic timestamps and triggers
 
-### 🚧 In Progress
+### 🚧 Next Features
 
-**Phase 4: Medium Priority**
-- ⏳ Move cards between lists (drag & drop)
-- ⏳ Due dates
-- ⏳ Labels/tags
+**Phase 5: Polish & Enhancement**
+- ⏳ Due dates with calendar picker
+- ⏳ Labels/tags with colors
+- ⏳ Board settings (edit/delete boards)
 
 **Phase 4: Collaboration**
 - ⏳ Real-time updates (multiple users)
@@ -157,6 +165,15 @@ Brumello is configured for easy deployment on Vercel:
 - ✅ Hover menus and keyboard shortcuts
 - ✅ Error handling improvements
 - ✅ **Phase 3 Complete** - Brumello is now fully functional!
+
+### 2026-02-13 (Morning)
+- ✅ Installed @dnd-kit libraries
+- ✅ Drag & drop for cards (within lists)
+- ✅ Drag & drop for cards (between lists)
+- ✅ Smooth animations and drag overlay
+- ✅ Position persistence to database
+- ✅ Touch/mobile support
+- ✅ **Phase 4 Complete** - Drag & drop working! 🎯
 
 ## Project Structure
 
