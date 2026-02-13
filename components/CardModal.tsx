@@ -44,6 +44,10 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
   const [title, setTitle] = useState(card.title)
   const [description, setDescription] = useState(card.description || '')
   const [backgroundColor, setBackgroundColor] = useState(card.background_color)
+  const [dueDate, setDueDate] = useState(
+    card.due_date ? new Date(card.due_date).toISOString().split('T')[0] : ''
+  )
+  const [completed, setCompleted] = useState(card.completed)
   const [labels, setLabels] = useState<Label[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -82,6 +86,8 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
           title: title.trim(),
           description: description.trim() || null,
           background_color: backgroundColor,
+          due_date: dueDate || null,
+          completed: completed,
         })
         .eq('id', card.id)
 
@@ -165,6 +171,37 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
               rows={6}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
             />
+          </div>
+
+          {/* Due Date & Completion */}
+          <div className="mb-6 grid grid-cols-2 gap-4">
+            {/* Due Date */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Due Date
+              </label>
+              <input
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            {/* Completion Checkbox */}
+            <div className="flex items-end">
+              <label className="flex items-center gap-2 cursor-pointer px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={completed}
+                  onChange={(e) => setCompleted(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                />
+                <span className="text-sm font-medium text-gray-700">
+                  Mark as completed
+                </span>
+              </label>
+            </div>
           </div>
 
           {/* Labels */}

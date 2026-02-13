@@ -14,6 +14,8 @@ interface Card {
   title: string
   description: string | null
   background_color: string | null
+  due_date: string | null
+  completed: boolean
   card_labels?: Array<{ labels: Label }>
 }
 
@@ -40,6 +42,29 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
 
   const labelColor = card.card_labels?.[0]?.labels?.color
   const cardBgColor = card.background_color || '#ffffff'
+  
+  // Check if card is overdue
+  const isOverdue = card.due_date && !card.completed && new Date(card.due_date) < new Date()
+  
+  // Format due date
+  const formatDueDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const dueDate = new Date(date)
+    dueDate.setHours(0, 0, 0, 0)
+    
+    const diffTime = dueDate.getTime() - today.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    
+    if (diffDays === 0) return 'Today'
+    if (diffDays === 1) return 'Tomorrow'
+    if (diffDays === -1) return 'Yesterday'
+    if (diffDays < 0) return `${Math.abs(diffDays)} days ago`
+    if (diffDays < 7) return `${diffDays} days`
+    
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
 
   return (
     <div
@@ -87,11 +112,40 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
         className="p-3 pr-8 cursor-pointer"
         style={{ paddingLeft: labelColor ? '16px' : '12px' }}
       >
-        <p className="text-sm text-gray-900">{card.title}</p>
+        <div className="flex items-start gap-2">
+          {card.completed && (
+            <span className="text-green-600 flex-shrink-0 mt-0.5">✓</span>
+          )}
+          <p className={`text-sm flex-1 ${card.completed ? 'line-through text-gray-500' : 'text-gray-900'}`}>
+            {card.title}
+          </p>
+        </div>
+        
         {card.description && (
           <p className="text-xs text-gray-500 mt-1 line-clamp-2">
             {card.description}
           </p>
+        )}
+        
+        {/* Due Date Badge */}
+        {card.due_date && !card.completed && (
+          <div className="flex items-center gap-1 mt-2">
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+            </svg>
+            <span className={`text-xs font-medium ${isOverdue ? 'text-red-600' : 'text-gray-600'}`}>
+              {formatDueDate(card.due_date)}
+            </span>
+          </div>
+        )}
+        
+        {/* Completed Badge */}
+        {card.completed && card.due_date && (
+          <div className="flex items-center gap-1 mt-2">
+            <span className="text-xs font-medium text-green-600">
+              Completed
+            </span>
+          </div>
         )}
       </div>
     </div>
