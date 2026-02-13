@@ -9,6 +9,8 @@ interface Card {
   completed: boolean
   background_color: string | null
   due_date: string | null
+  list_id: string
+  position: number
   card_labels?: Array<{ labels: { id: string; name: string; color: string } }>
 }
 
