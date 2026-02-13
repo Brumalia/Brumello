@@ -54,7 +54,7 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [deleteConfirm, setDeleteConfirm] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
+  const supabase: ReturnType<typeof createClient> = createClient()
 
   // Debounced auto-save function
   const autoSave = useCallback(async () => {
