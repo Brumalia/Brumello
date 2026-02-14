@@ -20,20 +20,26 @@ export default async function BoardsPage() {
     .eq('created_by', user.id)
     .order('created_at', { ascending: false })
 
-  // Fetch boards where user is a member
-  const { data: memberBoards } = await supabase
+  // Fetch board IDs where user is a member
+  const { data: memberShip } = await supabase
     .from('board_members')
-    .select('board_id, boards(id, title, description, background_color, created_by)')
+    .select('board_id')
     .eq('user_id', user.id)
 
-  // Combine and deduplicate
-  const memberBoardData = (memberBoards || [])
-    .map(m => ({ ...m.boards, member: true }))
-    .filter((b: any) => b && b.id && b.created_by !== user.id)
+  let memberBoards: any[] = []
+  if (memberShip && memberShip.length > 0) {
+    const boardIds = memberShip.map(m => m.board_id)
+    const { data: boards } = await supabase
+      .from('boards')
+      .select('*')
+      .in('id', boardIds)
+      .neq('created_by', user.id)
+    memberBoards = (boards || []).map(b => ({ ...b, member: true }))
+  }
 
   const allBoards = [
     ...(ownedBoards || []).map(b => ({ ...b, owned: true })),
-    ...memberBoardData
+    ...memberBoards
   ]
 
   return (
