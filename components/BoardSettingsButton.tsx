@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import React from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { createPortal } from 'react-dom'
@@ -84,8 +85,8 @@ export default function BoardSettingsButton({ board, currentUserId }: { board: B
                   <button onClick={save} disabled={saving} className="w-full py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50">{saving ? 'Saving...' : 'Save Changes'}</button>
                 </div>
               ) : (
-                <div className="py-8 text-center text-gray-500">
-                  <p>Member management coming soon!</p>
+                <div className="space-y-4">
+                  <MembersTab boardId={board.id} />
                 </div>
               )}
             </div>
@@ -94,5 +95,123 @@ export default function BoardSettingsButton({ board, currentUserId }: { board: B
         document.body
       )}
     </>
+  )
+}
+
+function MembersTab({ boardId }: { boardId: string }) {
+  const [members, setMembers] = useState<any[]>([])
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [inviting, setInviting] = useState(false)
+  const supabase = createClient() as any
+
+  // Load members on mount
+  useEffect(() => {
+    loadMembers()
+  }, [boardId])
+
+  const loadMembers = async () => {
+    setLoading(true)
+    const { data, error } = await supabase.rpc('get_board_members', { p_board_id: boardId })
+    if (!error && data) {
+      setMembers(data)
+    }
+    setLoading(false)
+  }
+
+  const searchUsers = async (query: string) => {
+    if (query.length < 2) {
+      setSearchResults([])
+      return
+    }
+    const { data, error } = await supabase.rpc('search_users', { p_query: query })
+    if (!error && data) {
+      // Filter out already-added members
+      const filtered = data.filter((user: any) => !members.some(m => m.user_id === user.id))
+      setSearchResults(filtered)
+    }
+  }
+
+  const inviteMember = async (userId: string) => {
+    setInviting(true)
+    const { error } = await supabase
+      .from('board_members')
+      .insert({ board_id: boardId, user_id: userId, role: 'member' })
+    
+    if (!error) {
+      setSearchQuery('')
+      setSearchResults([])
+      await loadMembers()
+    }
+    setInviting(false)
+  }
+
+  const removeMember = async (memberId: string) => {
+    const { error } = await supabase
+      .from('board_members')
+      .delete()
+      .eq('id', memberId)
+    
+    if (!error) {
+      await loadMembers()
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium mb-2">Add Members</label>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search by email..."
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value)
+              searchUsers(e.target.value)
+            }}
+            className="w-full px-3 py-2 border rounded-lg text-sm"
+          />
+          {searchResults.length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-10 max-h-40 overflow-y-auto">
+              {searchResults.map((user) => (
+                <button
+                  key={user.id}
+                  onClick={() => inviteMember(user.id)}
+                  disabled={inviting}
+                  className="w-full text-left px-3 py-2 hover:bg-gray-100 border-b text-sm last:border-b-0 disabled:opacity-50"
+                >
+                  {user.email}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-2">Board Members</label>
+        <div className="space-y-2 max-h-48 overflow-y-auto">
+          {loading ? (
+            <p className="text-sm text-gray-500">Loading...</p>
+          ) : members.length === 0 ? (
+            <p className="text-sm text-gray-500">No members yet</p>
+          ) : (
+            members.map((member) => (
+              <div key={member.id} className="flex justify-between items-center p-2 bg-gray-50 rounded text-sm">
+                <span>{member.email}</span>
+                <button
+                  onClick={() => removeMember(member.id)}
+                  className="text-red-500 hover:text-red-700 text-xs font-medium"
+                >
+                  Remove
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
   )
 }
