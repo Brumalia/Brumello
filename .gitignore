@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# OpenClaw workspace files (private)
+/memory/
+/studio-meta/
+/studio-shared/
+AGENTS.md
+HEARTBEAT.md
+IDENTITY.md
+SOUL.md
+TOOLS.md
+USER.md
+PRESERVE.md
+*.env
+festival-of-snow-prd.md
+send-studio-email.js
+test-email.js
