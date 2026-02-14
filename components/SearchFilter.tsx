@@ -29,8 +29,8 @@ export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
   // Get all unique labels from cards
   const labelsFromCards = (): Array<{ id: string; name: string; color: string }> => {
     const labels = new Map<string, { id: string; name: string; color: string }>()
-    cards.forEach(card => {
-      card.card_labels?.forEach(cl => {
+    cards.forEach((card: any) => {
+      card.card_labels?.forEach((cl: any) => {
         labels.set(cl.labels.id, cl.labels)
       })
     })
@@ -49,7 +49,7 @@ export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
     // Search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(card => 
+      filtered = filtered.filter((card: any) => 
         card.title.toLowerCase().includes(query) ||
         (card.description && card.description.toLowerCase().includes(query))
       )
@@ -57,14 +57,14 @@ export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
 
     // Label filter
     if (filterLabel) {
-      filtered = filtered.filter(card =>
-        card.card_labels?.some(cl => cl.labels.id === filterLabel)
+      filtered = filtered.filter((card: any) =>
+        card.card_labels?.some((cl: any) => cl.labels.id === filterLabel)
       )
     }
 
     // Completed filter
     if (filterCompleted !== null) {
-      filtered = filtered.filter(card => card.completed === filterCompleted)
+      filtered = filtered.filter((card: any) => card.completed === filterCompleted)
     }
 
     onFilter(filtered)
