@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { createPortal } from 'react-dom'
 
 interface Board {
   id: string
@@ -50,7 +51,7 @@ export default function BoardSettingsButton({ board, currentUserId }: { board: B
         </svg>
       </button>
 
-      {isOpen && (
+      {isOpen && createPortal(
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
             <div className="flex justify-between items-center p-4 border-b">
@@ -89,7 +90,8 @@ export default function BoardSettingsButton({ board, currentUserId }: { board: B
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )
