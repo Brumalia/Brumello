@@ -1,11 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
-import Link from 'next/link'
 import SignOutButton from '@/components/SignOutButton'
 import CreateListButton from '@/components/CreateListButton'
 import BoardContent from '@/components/BoardContent'
 import BoardSettingsButton from '@/components/BoardSettingsButton'
 import NotificationBell from '@/components/NotificationBell'
+import BackButton from '@/components/BackButton'
 
 export default async function BoardPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -77,9 +77,7 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <Link href="/boards" className="text-white hover:text-gray-200">
-                ← Back to Boards
-              </Link>
+              <BackButton />
               <h1 className="text-2xl font-bold text-white">
                 {board.title}
               </h1>
