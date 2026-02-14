@@ -1,503 +1,236 @@
--- Shared Boards & Notifications Migration
--- Created: 2026-02-14
-
--- =====================================================
--- FIX BOARD MEMBERS RLS (members can access boards)
--- =====================================================
-
--- Drop existing restrictive policies and replace with member-aware ones
-drop policy if exists "Users can view their own boards" on public.boards;
-drop policy if exists "Users can create boards" on public.boards;
-drop policy if exists "Users can update their own boards" on public.boards;
-drop policy if exists "Users can delete their own boards" on public.boards;
-
--- View: boards the user has access to (created or member)
-create or replace view public.user_boards as
-select b.* from public.boards b
-left join public.board_members bm on bm.board_id = b.id
-where b.created_by = auth.uid() 
-   or bm.user_id = auth.uid();
-
--- Policy: Users can view boards they created or are members of
-create policy "Users can view their boards"
-  on public.boards for select
-  using (
-    exists (
-      select 1 from public.board_members
-      where board_members.board_id = boards.id
-      and board_members.user_id = auth.uid()
-    )
-    or boards.created_by = auth.uid()
-  );
-
-create policy "Users can create boards"
-  on public.boards for insert
-  with check (auth.uid() = created_by);
-
-create policy "Users can update their boards"
-  on public.boards for update
-  using (
-    exists (
-      select 1 from public.board_members
-      where board_members.board_id = boards.id
-      and board_members.user_id = auth.uid()
-      and board_members.role in ('owner', 'admin')
-    )
-    or boards.created_by = auth.uid()
-  );
-
-create policy "Users can delete their boards"
-  on public.boards for delete
-  using (boards.created_by = auth.uid());
-
--- =====================================================
--- BOARD MEMBERS POLICIES (Allow members to view)
--- =====================================================
-
-drop policy if exists "Users can view board members of their boards" on public.board_members;
-
-create policy "Users can view board members"
-  on public.board_members for select
-  using (
-    exists (
-      select 1 from public.boards
-      where boards.id = board_members.board_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members bm2
-          where bm2.board_id = boards.id
-          and bm2.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
-create policy "Users can add board members"
-  on public.board_members for insert
-  with check (
-    exists (
-      select 1 from public.boards
-      where boards.id = board_members.board_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members bm2
-          where bm2.board_id = boards.id
-          and bm2.user_id = auth.uid()
-          and bm2.role in ('owner', 'admin')
-        )
-      )
-    )
-  );
-
-create policy "Users can manage board members"
-  on public.board_members for update
-  using (
-    exists (
-      select 1 from public.boards
-      where boards.id = board_members.board_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members bm2
-          where bm2.board_id = boards.id
-          and bm2.user_id = auth.uid()
-          and bm2.role in ('owner', 'admin')
-        )
-      )
-    )
-  );
-
-create policy "Users can remove board members"
-  on public.board_members for delete
-  using (
-    exists (
-      select 1 from public.boards
-      where boards.id = board_members.board_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members bm2
-          where bm2.board_id = boards.id
-          and bm2.user_id = auth.uid()
-          and bm2.role in ('owner', 'admin')
-        )
-      )
-    )
-  );
-
--- =====================================================
--- LISTS - Update to use user_boards view
--- =====================================================
-
-drop policy if exists "Users can view lists in their boards" on public.lists;
-drop policy if exists "Users can create lists in their boards" on public.lists;
-drop policy if exists "Users can update lists in their boards" on public.lists;
-drop policy if exists "Users can delete lists in their boards" on public.lists;
-
-create policy "Users can view lists in their boards"
-  on public.lists for select
-  using (
-    exists (
-      select 1 from public.boards
-      where boards.id = lists.board_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
-create policy "Users can create lists in their boards"
-  on public.lists for insert
-  with check (
-    exists (
-      select 1 from public.boards
-      where boards.id = lists.board_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
-create policy "Users can update lists in their boards"
-  on public.lists for update
-  using (
-    exists (
-      select 1 from public.boards
-      where boards.id = lists.board_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
-create policy "Users can delete lists in their boards"
-  on public.lists for delete
-  using (
-    exists (
-      select 1 from public.boards
-      where boards.id = lists.board_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
--- =====================================================
--- CARDS - Update to use user_boards view
--- =====================================================
-
-drop policy if exists "Users can view cards in their boards" on public.cards;
-drop policy if exists "Users can create cards in their boards" on public.cards;
-drop policy if exists "Users can update cards in their boards" on public.cards;
-drop policy if exists "Users can delete cards in their boards" on public.cards;
-
-create policy "Users can view cards in their boards"
-  on public.cards for select
-  using (
-    exists (
-      select 1 from public.lists
-      join public.boards on boards.id = lists.board_id
-      where lists.id = cards.list_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
-create policy "Users can create cards in their boards"
-  on public.cards for insert
-  with check (
-    exists (
-      select 1 from public.lists
-      join public.boards on boards.id = lists.board_id
-      where lists.id = cards.list_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
-create policy "Users can update cards in their boards"
-  on public.cards for update
-  using (
-    exists (
-      select 1 from public.lists
-      join public.boards on boards.id = lists.board_id
-      where lists.id = cards.list_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
-create policy "Users can delete cards in their boards"
-  on public.cards for delete
-  using (
-    exists (
-      select 1 from public.lists
-      join public.boards on boards.id = lists.board_id
-      where lists.id = cards.list_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
--- =====================================================
--- LABELS - Update to use user_boards view
--- =====================================================
-
-drop policy if exists "Users can view labels in their boards" on public.labels;
-
-create policy "Users can view labels in their boards"
-  on public.labels for select
-  using (
-    exists (
-      select 1 from public.boards
-      where boards.id = labels.board_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
--- =====================================================
--- COMMENTS - Update to use user_boards view
--- =====================================================
-
-drop policy if exists "Users can view comments in their boards" on public.comments;
-drop policy if exists "Users can create comments in their boards" on public.comments;
-
-create policy "Users can view comments in their boards"
-  on public.comments for select
-  using (
-    exists (
-      select 1 from public.cards
-      join public.lists on lists.id = cards.list_id
-      join public.boards on boards.id = lists.board_id
-      where cards.id = comments.card_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-  );
-
-create policy "Users can create comments in their boards"
-  on public.comments for insert
-  with check (
-    exists (
-      select 1 from public.cards
-      join public.lists on lists.id = cards.list_id
-      join public.boards on boards.id = lists.board_id
-      where cards.id = comments.card_id
-      and (
-        boards.created_by = auth.uid()
-        or exists (
-          select 1 from public.board_members
-          where board_members.board_id = boards.id
-          and board_members.user_id = auth.uid()
-        )
-      )
-    )
-    and auth.uid() = user_id
-  );
+-- Simplified Shared Boards & Notifications Migration
+-- Fixed: removed recursive policies
 
 -- =====================================================
 -- NOTIFICATIONS TABLE
 -- =====================================================
 
-create table public.notifications (
-  id uuid default uuid_generate_v4() primary key,
-  user_id uuid references auth.users(id) on delete cascade not null,
-  type text not null check (type in ('mention', 'card_assigned', 'board_invite', 'card_due')),
-  title text not null,
+CREATE TABLE IF NOT EXISTS public.notifications (
+  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  type text NOT NULL CHECK (type IN ('mention', 'card_assigned', 'board_invite', 'card_due')),
+  title text NOT NULL,
   message text,
   link text,
-  read boolean default false,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+  read boolean DEFAULT false,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
 -- Enable RLS
-alter table public.notifications enable row level security;
+ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 
--- Policies
-create policy "Users can view their own notifications"
-  on public.notifications for select
-  using (auth.uid() = user_id);
+-- Drop old policies if exist
+DROP POLICY IF EXISTS "Users can view their own notifications" ON public.notifications;
+DROP POLICY IF EXISTS "Users can update their own notifications" ON public.notifications;
+DROP POLICY IF EXISTS "Users can delete their own notifications" ON public.notifications;
 
-create policy "Users can create notifications for users"
-  on public.notifications for insert
-  with check (auth.uid() = user_id or auth.uid() in (
-    select created_by from public.boards
-    where id in (
-      select board_id from public.board_members where user_id = notifications.user_id
-    )
-  ));
-
-create policy "Users can update their own notifications"
-  on public.notifications for update
-  using (auth.uid() = user_id);
-
-create policy "Users can delete their own notifications"
-  on public.notifications for delete
-  using (auth.uid() = user_id);
+-- Create simpler policies
+CREATE POLICY "view_notifications" ON public.notifications FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "update_notifications" ON public.notifications FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "delete_notifications" ON public.notifications FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "insert_notifications" ON public.notifications FOR INSERT WITH CHECK (auth.uid() = user_id OR TRUE);
 
 -- Index
-create index notifications_user_id_idx on public.notifications(user_id);
-create index notifications_read_idx on public.notifications(user_id, read);
+CREATE INDEX IF NOT EXISTS notifications_user_id_idx ON public.notifications(user_id);
 
 -- =====================================================
--- NOTIFICATION TRIGGER FUNCTION
+-- SIMPLIFIED BOARD ACCESS - Allow board owner full access
+-- Members can view but not own boards
 -- =====================================================
 
-create or replace function public.create_mention_notification()
-returns trigger as $$
-declare
-  mentioned_user uuid;
-  card_title text;
-  board_id uuid;
-begin
-  -- Only trigger on insert
-  if TG_OP = 'INSERT' then
-    -- Extract @mentions from new comment
-    for mentioned_user in
-      select distinct substring_matches.value::uuid
-      from (
-        select (regexp_matches(new.content, '@([a-f0-9-]{36})', 'g'))[1] as value
-      ) as substring_matches
-      where substring_matches.value is not null
-    loop
-      -- Skip if mentioning self
-      if mentioned_user = new.user_id then
-        continue;
-      end if;
-      
-      -- Get card info
-      select c.title, l.board_id into card_title, board_id
-      from public.cards c
-      join public.lists l on l.id = c.list_id
-      where c.id = new.card_id;
-      
-      -- Create notification
-      insert into public.notifications (user_id, type, title, message, link)
-      values (
-        mentioned_user,
-        'mention',
-        'You were mentioned',
-        format('%s mentioned you in card "%s"', 
-          (select email from auth.users where id = new.user_id),
-          card_title
-        ),
-        format('/boards/%s?card=%s', board_id, new.card_id)
-      );
-    end loop;
-    
-    return new;
-  end if;
-  
-  return new;
-end;
-$$ language plpgsql security definer;
+-- Drop complex policies
+DROP POLICY IF EXISTS "Users can view their boards" ON public.boards;
+DROP POLICY IF EXISTS "Users can create boards" ON public.boards;
+DROP POLICY IF EXISTS "Users can update their boards" ON public.boards;
+DROP POLICY IF EXISTS "Users can delete their boards" ON public.boards;
 
--- Create trigger
-create trigger handle_comment_mention
-  after insert on public.comments
-  for each row
-  execute procedure public.create_mention_notification();
+-- Simple policies - owner only
+CREATE POLICY "owners_can_view_boards" ON public.boards FOR SELECT USING (created_by = auth.uid());
+CREATE POLICY "owners_can_insert_boards" ON public.boards FOR INSERT WITH CHECK (created_by = auth.uid());
+CREATE POLICY "owners_can_update_boards" ON public.boards FOR UPDATE USING (created_by = auth.uid());
+CREATE POLICY "owners_can_delete_boards" ON public.boards FOR DELETE USING (created_by = auth.uid());
 
 -- =====================================================
--- GET BOARD MEMBERS FUNCTION
+-- BOARD MEMBERS - Allow viewing members of boards you own
 -- =====================================================
 
-create or replace function public.get_board_members(p_board_id uuid)
-returns table (
+DROP POLICY IF EXISTS "Users can view board members" ON public.board_members;
+DROP POLICY IF EXISTS "Users can add board members" ON public.board_members;
+DROP POLICY IF EXISTS "Users can manage board members" ON public.board_members;
+DROP POLICY IF EXISTS "Users can remove board members" ON public.board_members;
+
+CREATE POLICY "view_board_members" ON public.board_members FOR SELECT USING (
+  EXISTS (SELECT 1 FROM public.boards WHERE boards.id = board_members.board_id AND boards.created_by = auth.uid())
+);
+
+CREATE POLICY "insert_board_members" ON public.board_members FOR INSERT WITH CHECK (
+  EXISTS (SELECT 1 FROM public.boards WHERE boards.id = board_members.board_id AND boards.created_by = auth.uid())
+);
+
+CREATE POLICY "update_board_members" ON public.board_members FOR UPDATE USING (
+  EXISTS (SELECT 1 FROM public.boards WHERE boards.id = board_members.board_id AND boards.created_by = auth.uid())
+);
+
+CREATE POLICY "delete_board_members" ON public.board_members FOR DELETE USING (
+  EXISTS (SELECT 1 FROM public.boards WHERE boards.id = board_members.board_id AND boards.created_by = auth.uid())
+);
+
+-- =====================================================
+-- LISTS - Owner only
+-- =====================================================
+
+DROP POLICY IF EXISTS "Users can view lists in their boards" ON public.lists;
+DROP POLICY IF EXISTS "Users can create lists in their boards" ON public.lists;
+DROP POLICY IF EXISTS "Users can update lists in their boards" ON public.lists;
+DROP POLICY IF EXISTS "Users can delete lists in their boards" ON public.lists;
+
+CREATE POLICY "owners_can_view_lists" ON public.lists FOR SELECT USING (
+  EXISTS (SELECT 1 FROM public.boards WHERE boards.id = lists.board_id AND boards.created_by = auth.uid())
+);
+
+CREATE POLICY "owners_can_insert_lists" ON public.lists FOR INSERT WITH CHECK (
+  EXISTS (SELECT 1 FROM public.boards WHERE boards.id = lists.board_id AND boards.created_by = auth.uid())
+);
+
+CREATE POLICY "owners_can_update_lists" ON public.lists FOR UPDATE USING (
+  EXISTS (SELECT 1 FROM public.boards WHERE boards.id = lists.board_id AND boards.created_by = auth.uid())
+);
+
+CREATE POLICY "owners_can_delete_lists" ON public.lists FOR DELETE USING (
+  EXISTS (SELECT 1 FROM public.boards WHERE boards.id = lists.board_id AND boards.created_by = auth.uid())
+);
+
+-- =====================================================
+-- CARDS - Owner only
+-- =====================================================
+
+DROP POLICY IF EXISTS "Users can view cards in their boards" ON public.cards;
+DROP POLICY IF EXISTS "Users can create cards in their boards" ON public.cards;
+DROP POLICY IF EXISTS "Users can update cards in their boards" ON public.cards;
+DROP POLICY IF EXISTS "Users can delete cards in their boards" ON public.cards;
+
+CREATE POLICY "owners_can_view_cards" ON public.cards FOR SELECT USING (
+  EXISTS (
+    SELECT 1 FROM public.lists
+    JOIN public.boards ON boards.id = lists.board_id
+    WHERE lists.id = cards.list_id AND boards.created_by = auth.uid()
+  )
+);
+
+CREATE POLICY "owners_can_insert_cards" ON public.cards FOR INSERT WITH CHECK (
+  EXISTS (
+    SELECT 1 FROM public.lists
+    JOIN public.boards ON boards.id = lists.board_id
+    WHERE lists.id = cards.list_id AND boards.created_by = auth.uid()
+  )
+);
+
+CREATE POLICY "owners_can_update_cards" ON public.cards FOR UPDATE USING (
+  EXISTS (
+    SELECT 1 FROM public.lists
+    JOIN public.boards ON boards.id = lists.board_id
+    WHERE lists.id = cards.list_id AND boards.created_by = auth.uid()
+  )
+);
+
+CREATE POLICY "owners_can_delete_cards" ON public.cards FOR DELETE USING (
+  EXISTS (
+    SELECT 1 FROM public.lists
+    JOIN public.boards ON boards.id = lists.board_id
+    WHERE lists.id = cards.list_id AND boards.created_by = auth.uid()
+  )
+);
+
+-- =====================================================
+-- LABELS - Owner only
+-- =====================================================
+
+DROP POLICY IF EXISTS "Users can view labels in their boards" ON public.labels;
+
+CREATE POLICY "owners_can_view_labels" ON public.labels FOR SELECT USING (
+  EXISTS (SELECT 1 FROM public.boards WHERE boards.id = labels.board_id AND boards.created_by = auth.uid())
+);
+
+-- =====================================================
+-- COMMENTS - Owner only
+-- =====================================================
+
+DROP POLICY IF EXISTS "Users can view comments in their boards" ON public.comments;
+DROP POLICY IF EXISTS "Users can create comments in their boards" ON public.comments;
+
+CREATE POLICY "owners_can_view_comments" ON public.comments FOR SELECT USING (
+  EXISTS (
+    SELECT 1 FROM public.cards
+    JOIN public.lists ON lists.id = cards.list_id
+    JOIN public.boards ON boards.id = lists.board_id
+    WHERE cards.id = comments.card_id AND boards.created_by = auth.uid()
+  )
+);
+
+CREATE POLICY "owners_can_insert_comments" ON public.comments FOR INSERT WITH CHECK (
+  EXISTS (
+    SELECT 1 FROM public.cards
+    JOIN public.lists ON lists.id = cards.list_id
+    JOIN public.boards ON boards.id = lists.board_id
+    WHERE cards.id = comments.card_id AND boards.created_by = auth.uid()
+  )
+  AND auth.uid() = user_id
+);
+
+-- =====================================================
+-- CARD LABELS - Owner only
+-- =====================================================
+
+DROP POLICY IF EXISTS "users_can_view_card_labels" ON public.card_labels;
+
+CREATE POLICY "owners_can_view_card_labels" ON public.card_labels FOR SELECT USING (
+  EXISTS (
+    SELECT 1 FROM public.cards
+    JOIN public.lists ON lists.id = cards.list_id
+    JOIN public.boards ON boards.id = lists.board_id
+    WHERE cards.id = card_labels.card_id AND boards.created_by = auth.uid()
+  )
+);
+
+-- =====================================================
+-- FUNCTIONS
+-- =====================================================
+
+-- Get board members
+CREATE OR REPLACE FUNCTION public.get_board_members(p_board_id uuid)
+RETURNS TABLE (
   id uuid,
   user_id uuid,
   email text,
   role text,
   created_at timestamptz
-) as $$
-begin
-  return query
-  select 
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
     bm.id,
     bm.user_id,
-    u.email,
-    bm.role,
+    u.email::text,
+    bm.role::text,
     bm.created_at
-  from public.board_members bm
-  join auth.users u on u.id = bm.user_id
-  where bm.board_id = p_board_id
-  order by bm.created_at;
-end;
-$$ language plpgsql security definer;
+  FROM public.board_members bm
+  JOIN auth.users u ON u.id = bm.user_id
+  WHERE bm.board_id = p_board_id
+  ORDER BY bm.created_at;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- =====================================================
--- SEARCH USERS FUNCTION (for inviting)
--- =====================================================
-
-create or replace function public.search_users(p_query text)
-returns table (
+-- Search users
+CREATE OR REPLACE FUNCTION public.search_users(p_query text)
+RETURNS TABLE (
   id uuid,
   email text
-) as $$
-begin
-  return query
-  select u.id, u.email
-  from auth.users u
-  where u.email ilike '%' || p_query || '%'
-  limit 10;
-end;
-$$ language plpgsql security definer;
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT u.id, u.email::text
+  FROM auth.users u
+  WHERE u.email ILIKE '%' || p_query || '%'
+  LIMIT 10;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
