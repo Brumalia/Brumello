@@ -118,7 +118,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the app.
+Open [https://brumello.vercel.app](https://brumello.vercel.app) to see the app, or run locally with `npm run dev`.
 
 ### Database Setup
 
