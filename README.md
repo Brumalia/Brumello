@@ -8,14 +8,15 @@ A modern, powerful task management tool built with Next.js and Supabase. Designe
 
 Brumello is our own Trello-inspired project management tool, built by agents for agents (and humans too!). It's designed specifically to power the workflow of the Brumalia Agent Development Studio.
 
-## Current Status: **Phase 5 - Collaboration & Notifications**
+## Current Status: **Phase 5 Complete - Collaboration & Notifications ✅**
 
-Last Updated: 2026-02-13
+Last Updated: 2026-02-14
 
 ### ✅ What's Working Now
 
 **Authentication (Phase 1)**
 - ✅ User signup and login with email/password
+- ✅ Magic link authentication option
 - ✅ Protected routes and sessions
 - ✅ Sign out functionality
 - ✅ Supabase Auth integration
@@ -29,7 +30,7 @@ Last Updated: 2026-02-13
 - ✅ Add cards to lists
 - ✅ Real-time database updates
 
-**Edit & Delete (Phase 3 - High Priority)**
+**Edit & Delete (Phase 3)**
 - ✅ Edit card titles and descriptions (modal view)
 - ✅ Delete cards with confirmation
 - ✅ Edit list titles (inline editing)
@@ -45,39 +46,47 @@ Last Updated: 2026-02-13
 - ✅ Touch support for mobile devices
 - ✅ Auto-save positions to database
 
-**Database**
+**Collaboration (Phase 5) - NEW!**
+- ✅ Board sharing with members
+- ✅ Add/remove members from boards
+- ✅ Member roles (owner, admin, member)
+- ✅ Board settings with Members tab
+- ✅ Search users by email to invite
+
+**Notifications (Phase 5) - NEW!**
+- ✅ @mention users in card descriptions
+- ✅ @mention users in comments
+- ✅ Notification bell in header
+- ✅ Unread notification count badge
+- ✅ Notification dropdown with list
+- ✅ Mark as read / delete notifications
+- ✅ Auto-notification on mention
+
+**Additional Features**
+- ✅ Labels with colors (8 options)
+- ✅ Card background colors (9 options)
+- ✅ Due dates with date picker
+- ✅ Completion checkbox with strikethrough
+- ✅ Checklists with items and progress bars
+- ✅ Comments on cards
+- ✅ Search cards
+- ✅ Filter by label and status
+- ✅ Hide/show completed cards toggle
+- ✅ Auto-save on all card fields (500ms debounce)
+
+### Database
 - ✅ Complete PostgreSQL schema with RLS policies
-- ✅ Tables: boards, lists, cards, labels, comments, board_members
+- ✅ Tables: boards, lists, cards, labels, comments, board_members, notifications
 - ✅ Row-level security ensuring users only see their own data
 - ✅ Automatic timestamps and triggers
 
-### 🚧 Next Features
+### 🚧 Future Features
 
-**Phase 5: Polish & Enhancement**
-- ⏳ Due dates with calendar picker
-- ⏳ Labels/tags with colors
-- ⏳ Board settings (edit/delete boards)
-
-**Phase 4: Collaboration**
-- ⏳ Real-time updates (multiple users)
-- ⏳ Comments on cards
-- ⏳ File attachments
-- ⏳ User assignments
-- ⏳ Activity feed
-
-**Phase 5: Polish**
+- ⏳ Real-time updates (multiple users seeing changes live)
 - ⏳ Dark mode
-- ⏳ Keyboard shortcuts
-- ⏳ Command palette (Cmd+K)
-- ⏳ Mobile responsive improvements
-- ⏳ Performance optimization
-
-### Unique Features (Planned)
-
-- 🎯 Agent task integration with studio-meta
-- 🎯 GitHub sync for development tasks
-- 🎯 Automated workflows
-- 🎯 AI-powered suggestions
+- ⏳ File attachments
+- ⏳ Activity feed
+- ⏳ Mobile app
 
 ## Tech Stack
 
@@ -85,7 +94,7 @@ Last Updated: 2026-02-13
 - **Styling:** Tailwind CSS
 - **Database:** Supabase (PostgreSQL)
 - **Auth:** Supabase Auth
-- **Realtime:** Supabase Realtime (planned)
+- **Drag & Drop:** @dnd-kit
 - **Hosting:** Vercel
 - **Language:** TypeScript
 
@@ -124,7 +133,8 @@ Open [https://brumello.vercel.app](https://brumello.vercel.app) to see the app, 
 
 1. Create a new Supabase project
 2. Run the SQL schema from `supabase/schema.sql` in the Supabase SQL Editor
-3. Configure authentication providers (email is enabled by default)
+3. Run additional migrations from `supabase/shared-boards-notifications.sql` for collaboration features
+4. Configure authentication providers (email is enabled by default)
 
 ## Deployment
 
@@ -175,6 +185,18 @@ Brumello is configured for easy deployment on Vercel:
 - ✅ Touch/mobile support
 - ✅ **Phase 4 Complete** - Drag & drop working! 🎯
 
+### 2026-02-14
+- ✅ Board sharing - add members to boards
+- ✅ Member management (add/remove)
+- ✅ Member roles (owner, admin, member)
+- ✅ Board settings with Members tab
+- ✅ Notification system
+- ✅ @mention in comments
+- ✅ @mention in descriptions
+- ✅ Notification bell with unread count
+- ✅ Mark as read / delete notifications
+- ✅ **Phase 5 Complete** - Collaboration & Notifications! 🎉
+
 ## Project Structure
 
 ```
@@ -190,9 +212,17 @@ Brumello/
 │   ├── dashboard/         # User dashboard
 │   └── page.tsx           # Landing page
 ├── components/
+│   ├── BoardContent.tsx      # Main board with drag & drop
+│   ├── BoardSettingsButton.tsx # Board settings modal
+│   ├── CardModal.tsx          # Card detail modal
+│   ├── ChecklistSelector.tsx # Checklist component
+│   ├── CommentSelector.tsx    # Comments with @mentions
 │   ├── CreateBoardButton.tsx
 │   ├── CreateListButton.tsx
 │   ├── CreateCardButton.tsx
+│   ├── DraggableCard.tsx     # Draggable card component
+│   ├── LabelSelector.tsx      # Label picker
+│   ├── NotificationBell.tsx   # Notification dropdown
 │   └── SignOutButton.tsx
 ├── lib/
 │   └── supabase/
@@ -200,33 +230,16 @@ Brumello/
 │       └── server.ts      # Server-side Supabase
 ├── supabase/
 │   ├── schema.sql         # Database schema
+│   ├── shared-boards-notifications.sql # Collaboration features
 │   └── README.md          # Database setup guide
+├── types/
+│   └── index.ts           # TypeScript types
 └── package.json
 ```
 
 ## Contributing
 
 This is a project of the Brumalia Agent Development Studio. Agents collaborate to build features based on tasks in the studio-meta repository.
-
-## Roadmap
-
-**Short-term (Next 2 weeks)**
-- Edit/delete functionality for cards and lists
-- Drag & drop interface
-- Card details modal
-- Due dates
-
-**Medium-term (Next month)**
-- Real-time collaboration
-- Comments system
-- Labels and filtering
-- Dark mode
-
-**Long-term**
-- Mobile app (React Native)
-- Integration with Agent Development Studio
-- Automated task creation from GitHub issues
-- AI-powered task suggestions
 
 ## License
 
