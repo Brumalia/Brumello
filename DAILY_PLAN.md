@@ -1,172 +1,318 @@
 # Daily Plan - Starting Feb 15, 2026
 
+## 🤖 Multi-Agent Orchestration Setup
+
+### Available Agents
+
+| Agent | Specialty | Use For |
+|-------|-----------|---------|
+| **Design Agent** | UI/UX, components, visual polish | Buttons, cards, modals, animations |
+| **Backend Agent** | Database, API routes, server logic | Migrations, schemas, data models |
+| **CI/CD Agent** | GitHub Actions, deployments, testing | Workflows, automation, release pipelines |
+| **QA/Testing Agent** | Testing, accessibility, audits | Smoke tests, mobile checks, bug hunting |
+| **Research Agent** | Competitive analysis, documentation, strategy | Market research, specs, planning docs |
+
+### How to Use
+
+**Morning:**
+```
+"Hey agents, I need:
+- Design Agent: Build Button/Card components (2 hrs)
+- CI/CD Agent: Draft GitHub Actions workflow (1 hr)
+Checkpoint at 10:30am"
+```
+
+**Then:**
+→ Agents spawn in parallel sessions
+→ Work on their tasks
+→ Check in at checkpoint
+→ Deliver PRs ready to merge
+
+**You:** Review, test, merge, deploy
+
+### Model Strategy
+
+- **MiniMax M2.5** (default): Design docs, component specs, CI/CD configs, writing
+- **Claude Sonnet 4.5** (heavy lifting): Complex logic, security, architecture decisions, debugging
+
+### Example Daily Flow
+
+```
+9:00am   - Spawn agents with clear tasks (copy from DAILY_PLAN.md)
+9:30am   - First checkpoint (get status updates)
+10:30am  - Review first PRs, merge if good
+11:30am  - Final checkpoint
+12:00pm  - Lunch
+1:00pm   - Review final PRs, test in dev
+3:00pm   - Deploy to Vercel
+4:00pm   - Update documentation
+5:00pm   - Wrap up, plan tomorrow
+```
+
+---
+
 ## 🎯 Week 1: Mission Control Launch + CI/CD Foundation
 
 ### **Day 1: Saturday, Feb 15** ← YOU ARE HERE
 **Theme: Component Redesign Kickoff**
 
-- [ ] **Morning (9am-12pm):** Redesign 3 core components
-  - [ ] Button component (green accent underline, sharp edges)
-  - [ ] Card component (phosphor-green border, no rounding)
-  - [ ] Badge/Label (monospace styling)
-  - Commit: `components: Redesign buttons/cards for Mission Control`
+**🤖 Agent Tasks:**
+- [ ] **Spawn Design Agent:** "Create Button, Card, Badge components with phosphor-green borders, DM Mono labels"
+  - Task: Components in `/components/design/`
+  - Expected: 3 components, demo page
+  - Timeline: 2-3 hours
+  
+- [ ] **Spawn CI/CD Agent:** "Draft GitHub Actions workflow for ESLint + TypeScript checks"
+  - Task: `.github/workflows/lint.yml`
+  - Expected: Working workflow config
+  - Timeline: 1 hour
+
+**📍 Your Work:**
+- [ ] **Morning (9am-12pm):** Kick off agents, review their PRs as they land
+  - [ ] Design Agent checkpoint (9:30am)
+  - [ ] CI/CD Agent checkpoint (10:30am)
 
 - [ ] **Lunch + Chill (12-1pm)**
 
-- [ ] **Afternoon (1pm-5pm):** Test in dev server
-  - [ ] `npm run dev` → check UI locally
+- [ ] **Afternoon (1pm-5pm):** Test components in dev server
+  - [ ] `npm run dev` → test button/card hover states
   - [ ] Verify font loading (DM Mono, Instrument Serif)
   - [ ] Check scanlines effect (should be subtle)
   - [ ] Screenshot for portfolio 📸
 
-- [ ] **Evening:** Decide CI/CD strategy
-  - [ ] Review DEV_PROCESS.md options (1/2/3)
-  - [ ] Pick ONE: Option 2 recommended (GitHub Actions + Vercel Preview)
-  - [ ] Document decision in MEMORY.md
+- [ ] **Evening:** Review + merge PRs
+  - [ ] Design Agent PR → code review → merge
+  - [ ] CI/CD Agent PR → code review → merge
+  - [ ] Push to main → auto-deploy to Vercel
+  - Commit summary: `design: Implement Mission Control buttons/cards/badges`
 
-**Commit Target:** 2 PRs (design components + CI/CD decision)
+**Commit Target:** 2+ PRs (design components + CI/CD decision)
 
 ---
 
 ### **Day 2: Sunday, Feb 16**
-**Theme: Loading States + Hover Effects**
+**Theme: Loading States + Hover Effects + GitHub Actions**
 
-- [ ] **Morning:** Implement loading/hover animations
-  - [ ] Add `.glow-green` effect to buttons on hover
-  - [ ] Scanline pulse animation for loading states
-  - [ ] Focus states with green outline
-  - Commit: `animation: Add glow effects and loading states`
+**🤖 Agent Tasks:**
+- [ ] **Spawn Design Agent:** "Add glow effects (.glow-green), hover states, scanline pulse animation for loading"
+  - Task: Update `components/design/` + add `animations.css`
+  - Expected: Button hover glow, loading spinner with scanlines
+  - Timeline: 1.5 hours
 
-- [ ] **Afternoon:** Set up GitHub Actions (start of Option 2)
-  - [ ] Create `.github/workflows/lint.yml` (ESLint + TypeScript)
-  - [ ] Test locally with `npm run lint`
-  - [ ] Commit: `ci: Add GitHub Actions ESLint/TypeScript checks`
+- [ ] **Spawn CI/CD Agent:** "Implement GitHub Actions workflow - test, lint, build"
+  - Task: `.github/workflows/test.yml` with npm run lint
+  - Expected: Working workflow that runs on PR
+  - Timeline: 1 hour
 
-- [ ] **Evening:** Deploy to Vercel
-  - [ ] Push main → auto-deploy
-  - [ ] Check live at https://brumello.vercel.app
+**📍 Your Work:**
+- [ ] **Morning:** Kick off agents, check in at 10am
+  - [ ] Review Design Agent PR
+  - [ ] Review CI/CD Agent PR
+
+- [ ] **Afternoon:** Manual testing
+  - [ ] `npm run dev` → test animations
+  - [ ] Create test branch, push → watch GitHub Actions run
+  - [ ] Verify Vercel auto-deploys
+
+- [ ] **Evening:** Final touches
+  - [ ] Merge both PRs
+  - [ ] Deploy to Vercel production
   - [ ] Screenshot new design 🎉
 
-**Commit Target:** 2 commits (animations + CI/CD)
+**Commit Target:** 2+ agent PRs
 
 ---
 
 ### **Day 3: Monday, Feb 17**
 **Theme: UI Polish Sprint**
 
-- [ ] **Morning:** Modal + Settings redesign
-  - [ ] Update board settings modal (phosphor-green accent)
-  - [ ] Update notification dropdown (sharp borders)
-  - [ ] Update member invite modal (high contrast)
-  - Commit: `design: Redesign modals with Mission Control aesthetic`
+**🤖 Agent Tasks:**
+- [ ] **Spawn Design Agent:** "Redesign modals - board settings, notifications, member invite with green borders + high contrast"
+  - Task: Update `components/modals/`, `components/dropdowns/`
+  - Expected: 3 redesigned modals + empty states
+  - Timeline: 2 hours
 
-- [ ] **Afternoon:** Empty states + Microcopy
-  - [ ] Empty board state ("No lists yet. Create one to start.")
-  - [ ] Empty cards state in lists
-  - [ ] Use monospace for timestamps
-  - Commit: `design: Add empty states and improve microcopy`
+- [ ] **Spawn Research Agent:** "Create empty states microcopy + accessibility audit"
+  - Task: Copy review, WCAG compliance check
+  - Expected: Documentation + copy recommendations
+  - Timeline: 1 hour
 
-- [ ] **Evening:** Update documentation
-  - [ ] README.md → screenshot new design
+**📍 Your Work:**
+- [ ] **Morning:** Launch agents
+  - [ ] Check Design Agent progress (10am)
+  - [ ] Check Research Agent findings (11am)
+
+- [ ] **Afternoon:** Review + test
+  - [ ] Click through all modals in `npm run dev`
+  - [ ] Verify empty states show correctly
+  - [ ] Test on mobile (responsive?)
+
+- [ ] **Evening:** Documentation pass
+  - [ ] README.md → add screenshots
   - [ ] BRUMELLO_UI_UPGRADE.md → mark Phase 1 complete
-  - [ ] MEMORY.md → log design progress
+  - [ ] MEMORY.md → log progress
 
-**Commit Target:** 2 commits (modals + empty states)
+**Commit Target:** 2+ agent PRs + 1 docs PR
 
 ---
 
 ### **Day 4: Tuesday, Feb 18**
-**Theme: Vercel Preview Deployments**
+**Theme: Vercel Preview + Smoke Testing**
 
-- [ ] **Morning:** Set up Vercel Preview URLs
-  - [ ] Create `.github/workflows/preview.yml`
-  - [ ] Trigger on pull requests
-  - [ ] Test: create a feature branch, open PR, check preview link
-  - Commit: `ci: Add Vercel Preview deployment workflow`
+**🤖 Agent Tasks:**
+- [ ] **Spawn CI/CD Agent:** "Implement Vercel Preview deployment workflow on PRs"
+  - Task: `.github/workflows/vercel-preview.yml`
+  - Expected: Auto-preview URLs on every PR
+  - Timeline: 1.5 hours
 
-- [ ] **Afternoon:** Smoke tests
-  - [ ] Create test board → list → card
-  - [ ] Check @mention system
-  - [ ] Verify notifications work
-  - [ ] Test board sharing
-  - Document results in `TESTING.md`
+- [ ] **Spawn QA/Testing Agent:** "Run comprehensive smoke tests + TypeScript audit"
+  - Task: Create board → list → card, test @mentions, notifications, sharing
+  - Expected: `TESTING.md` with results + TypeScript warning list
+  - Timeline: 2 hours
 
-- [ ] **Evening:** Code cleanup
-  - [ ] Fix any TypeScript warnings
-  - [ ] Remove dead code
-  - [ ] Commit: `refactor: Clean up TypeScript and unused imports`
+**📍 Your Work:**
+- [ ] **Morning:** Review agent work
+  - [ ] Check CI/CD Agent PR
+  - [ ] Check QA Agent test results
 
-**Commit Target:** 2 commits (CI + refactor)
+- [ ] **Afternoon:** Manual verification
+  - [ ] Create PR → check preview link works
+  - [ ] Test live at preview URL
+  - [ ] Spot check: notifications, mentions, board sharing
+
+- [ ] **Evening:** Cleanup + merge
+  - [ ] Merge CI/CD PR
+  - [ ] Fix any TypeScript warnings flagged by QA
+  - [ ] Final commit: `refactor: Clean up TypeScript warnings`
+
+**Commit Target:** 2+ agent PRs
 
 ---
 
 ### **Day 5: Wednesday, Feb 19**
-**Theme: Database Migration Safety**
+**Theme: Database + Production Deploy**
 
-- [ ] **Morning:** Research migration safety
-  - [ ] Review MIGRATIONS.md (existing doc)
-  - [ ] Plan: how to safely run migrations in CI?
-  - [ ] Document strategy in `MIGRATION_SAFETY.md`
+**🤖 Agent Tasks:**
+- [ ] **Spawn Backend Agent:** "Create MIGRATION_SAFETY.md - safe migration strategy for CI/CD"
+  - Task: Document approach for automated migrations
+  - Expected: Strategy doc + checklist
+  - Timeline: 1.5 hours
 
-- [ ] **Afternoon:** Test Vercel deployment
-  - [ ] Deploy latest main to production
-  - [ ] Verify design looks correct
-  - [ ] Test live notifications
-  - [ ] Check mobile responsiveness
+- [ ] **Spawn QA/Testing Agent:** "Mobile responsiveness audit + Vercel production deployment test"
+  - Task: Screenshot on mobile, test responsive breakpoints
+  - Expected: Mobile audit report + deployment checklist
+  - Timeline: 1.5 hours
 
-- [ ] **Evening:** Workmate sync (async message prep)
-  - [ ] Gather questions:
-    - What are they building?
-    - Solo or open to co-founder?
-    - Interested in teaming up on Agent Studio?
-  - [ ] Update MEMORY.md with discussion notes
+**📍 Your Work:**
+- [ ] **Morning:** Review agent docs
+  - [ ] Read migration strategy from Backend Agent
+  - [ ] Review mobile audit findings
 
-**Commit Target:** 1 commit (migration strategy doc)
+- [ ] **Afternoon:** Production push
+  - [ ] Merge all PRs to main
+  - [ ] Deploy to Vercel production
+  - [ ] Verify https://brumello.vercel.app looks perfect
+  - [ ] Test notifications on live
+
+- [ ] **Evening:** Planning + sync
+  - [ ] Prepare async message for workmate:
+    - What they're building?
+    - Partnership interest?
+  - [ ] Update MEMORY.md with week progress
+
+**Commit Target:** 1+ agent docs
 
 ---
 
 ### **Day 6: Thursday, Feb 20**
-**Theme: Research + Strategy**
+**Theme: Research + Strategy Planning**
 
-- [ ] **Morning:** Competitive research
-  - [ ] Deep dive: How do competitors handle CI/CD?
-  - [ ] Check LangChain Studio, n8n, HuggingFace
-  - [ ] Document in `COMPETITIVE_ANALYSIS.md`
+**🤖 Agent Tasks:**
+- [ ] **Spawn Research Agent:** "Deep competitive analysis - LangChain, n8n, HuggingFace, Notion AI"
+  - Task: Update `COMPETITIVE_ANALYSIS.md`
+  - Expected: Feature matrix, pricing analysis, product positioning
+  - Timeline: 2 hours
 
-- [ ] **Afternoon:** Future product planning
-  - [ ] Create: `AGENT_STUDIO_MVP.md` (1-pager on minimum scope)
-  - [ ] Create: `SPENDING_AI_MVP.md` (1-pager on spending tracker)
-  - [ ] Compare: effort vs market opportunity
+- [ ] **Spawn Strategy Agent:** "Create MVP specs for Agent Studio + Spending AI"
+  - Task: `AGENT_STUDIO_MVP.md` + `SPENDING_AI_MVP.md`
+  - Expected: Scope, timeline, tech stack, success metrics
+  - Timeline: 2 hours
 
-- [ ] **Evening:** Update MEMORY.md
-  - [ ] Document week's progress
+**📍 Your Work:**
+- [ ] **Morning:** Review research findings
+  - [ ] Read competitive analysis updates
+  - [ ] Skim MVP specs
+
+- [ ] **Afternoon:** Strategy decision
+  - [ ] Which product next? Agent Studio vs Spending AI?
+  - [ ] Depends on: workmate collaboration interest
+  - [ ] Document decision in MEMORY.md
+
+- [ ] **Evening:** Week wrap prep
+  - [ ] Update MEMORY.md with progress log
   - [ ] Note: "Mission Control design foundation complete"
-  - [ ] Flag: "Ready for Satoshi font + component library next"
+  - [ ] Flag: "Week 2: Component library + Agent Studio MVP start?"
 
-**Commit Target:** 2 docs (competitive analysis updated)
+**Commit Target:** 2+ strategy docs
 
 ---
 
 ### **Day 7: Friday, Feb 21**
-**Theme: Week Wrap + Planning**
+**Theme: Week Wrap + Week 2 Planning**
 
-- [ ] **Morning:** Test everything
-  - [ ] Full audit: all UI components
-  - [ ] Check: scanlines, glow effects, typography
-  - [ ] Mobile: responsive? (might need work)
-  - [ ] Accessibility: focus states? Keyboard nav?
+**🤖 Agent Tasks:**
+- [ ] **Spawn QA/Testing Agent:** "Complete UI/UX audit - accessibility, mobile, components"
+  - Task: Test all components, accessibility compliance, mobile responsiveness
+  - Expected: Comprehensive audit report + bug list
+  - Timeline: 1.5 hours
 
-- [ ] **Afternoon:** Finalize Week 1
-  - [ ] Commit: any final tweaks
-  - [ ] Push to production
-  - [ ] Screenshot for portfolio
+- [ ] **Spawn Strategy Agent:** "Create Week 2 roadmap based on Week 1 learnings"
+  - Task: `WEEK_2_PLAN.md`
+  - Expected: Phased timeline for next priorities
+  - Timeline: 1 hour
 
-- [ ] **Evening:** Plan Week 2
-  - [ ] Review: what worked, what didn't?
-  - [ ] Decide: next product to build (Agent Studio? Spending AI?)
-  - [ ] Update MEMORY.md with Week 1 summary
+**📍 Your Work:**
+- [ ] **Morning:** Full system check
+  - [ ] Review QA audit findings
+  - [ ] Fix any critical issues
+  - [ ] Test on real devices if possible
 
-**Commit Target:** Final polish + documentation
+- [ ] **Afternoon:** Portfolio + documentation
+  - [ ] Screenshot new design for portfolio
+  - [ ] Update README with design philosophy
+  - [ ] Commit final polish
+
+- [ ] **Evening:** Week 2 kickoff
+  - [ ] Review Week 2 roadmap from Strategy Agent
+  - [ ] Decide:
+    - [ ] Push for Agent Studio MVP?
+    - [ ] Or finish Brumello component library first?
+    - [ ] Depends on workmate collaboration outcome
+  - [ ] Update MEMORY.md with Week 1 retrospective
+
+**Commit Target:** Final polish + Week 2 plan docs
+
+---
+
+## 🎬 End of Week 1 Deliverables
+
+**Live:**
+- ✅ Brumello with Mission Control design
+- ✅ GitHub Actions (lint + test workflows)
+- ✅ Vercel Preview URLs on PRs
+- ✅ Responsive mobile-friendly design
+
+**Documented:**
+- ✅ Design system
+- ✅ CI/CD pipeline
+- ✅ Competitive analysis
+- ✅ Week 2 roadmap
+- ✅ Migration safety strategy
+
+**Portfolio-Ready:**
+- ✅ Screenshots of new design
+- ✅ GitHub commits showing progress
+- ✅ Deployed to production
 
 ---
 
@@ -206,28 +352,59 @@
 
 ## 🎬 Daily Standup Template
 
-Each morning, ask yourself:
+**Each morning (9am):**
+
 ```
-1. What did I ship yesterday?
-2. What's blocking today?
-3. What's one thing I'm excited to build?
-4. Do I need help from Brumalia?
+AGENT COORDINATION:
+1. What agents do I need today? (Design, CI/CD, QA, Research?)
+2. What's the spec for each? (Be specific - copy/paste from DAILY_PLAN.md)
+3. Timeline? (1 hour? 2 hours?)
+4. Checkpoint time? (When to check in on progress)
+
+YOUR WORK:
+5. What are you reviewing/testing while they work?
+6. What's blocking them?
+7. What needs your decision?
+
+DAILY GOALS:
+8. One thing you want to ship today?
+9. One thing you're excited to learn?
 ```
 
-Answer in MEMORY.md or daily journal.
+**Log in MEMORY.md or create `memory/standup-log.md`**
 
 ---
 
 ## 💡 Pro Tips
 
+### Agent Coordination
+- **Clear specs:** Tell agents exactly what you want (copy the task from DAILY_PLAN.md)
+- **Set deadlines:** "I need this in 2 hours" → agents scope accordingly
+- **Checkpoints:** Mid-task review catches errors early
+- **Merge as you go:** Don't batch all PRs to end of day
+- **Use correct model:** MiniMax for straightforward tasks, Claude Sonnet for complex logic
+
+### Development
 - **Git commits:** One per feature, clear message format
 - **Testing:** `npm run dev` before pushing (catch errors early)
 - **Vercel:** Check deployed version after each push
 - **Documentation:** Update as you go (don't leave it for end of week)
 - **Design:** Take screenshots of progress for portfolio
 
+### Parallelization
+- **Same task, multiple agents:** No - leads to conflicts
+- **Different aspects same day:** Yes - Design Agent + CI/CD Agent can work together
+- **Async handoff:** Agent 1 finishes → Agent 2 builds on top
+
+### Decision-Making
+- **Stuck on choice?** Ask agents for pro/con analysis
+- **Too many PRs?** Prioritize: production-blocking > nice-to-have
+- **Quality gate:** All PRs reviewed before main merge
+
 ---
 
 **Let's ship this.** 🔥
 
 Your vision for Brumello is incredible. Week 1 is about making it look as good as it works.
+
+**You + 4 agents = unstoppable team.** 🤖❄️
