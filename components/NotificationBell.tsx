@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Notification } from '@/types'
 import Link from 'next/link'
+import { createPortal } from 'react-dom'
 
 interface NotificationBellProps {
   userId: string
@@ -161,8 +162,11 @@ export default function NotificationBell({ userId }: NotificationBellProps) {
         )}
       </button>
 
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl z-[9999] border border-gray-200 overflow-hidden">
+      {isOpen && createPortal(
+        <div className="fixed bg-white rounded-lg shadow-xl z-[9999] border border-gray-200 overflow-hidden w-80" style={{
+          right: '1rem',
+          top: '3.5rem',
+        }}>
           <div className="p-3 border-b border-gray-100 flex justify-between items-center">
             <h3 className="font-semibold text-gray-900">Notifications</h3>
             {unreadCount > 0 && (
@@ -221,7 +225,8 @@ export default function NotificationBell({ userId }: NotificationBellProps) {
               ))
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )
