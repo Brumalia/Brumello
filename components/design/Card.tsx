@@ -14,11 +14,11 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className = '', elevated = false, children, ...props }, ref) => {
     const baseStyles =
-      'border-2 border-brand-green bg-brand-surface p-4 transition-all duration-200';
+      'border-2 border-brand-green bg-brand-surface p-4 transition-all duration-200 border-glow-hover';
 
     const elevatedStyles = elevated
-      ? 'hover:glow-green shadow-lg'
-      : 'hover:border-brand-green-dim';
+      ? 'shadow-lg hover:shadow-2xl'
+      : '';
 
     return (
       <div

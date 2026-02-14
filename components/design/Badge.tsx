@@ -14,13 +14,13 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ variant = 'default', className = '', children, ...props }, ref) => {
     const baseStyles =
-      'font-mono text-xs font-medium px-2 py-1 inline-block transition-colors';
+      'font-mono text-xs font-medium px-2 py-1 inline-block transition-colors duration-200';
 
     const variants = {
       default:
-        'bg-brand-border text-foreground border border-brand-green/30 hover:border-brand-green/60',
+        'bg-brand-border text-foreground border border-brand-green/30 hover:border-brand-green/60 hover:text-glow',
       success:
-        'bg-green-900/30 text-green-300 border border-green-500/50 hover:border-green-400',
+        'bg-green-900/30 text-green-300 border border-green-500/50 hover:border-green-400 success-state',
       warning:
         'bg-yellow-900/30 text-yellow-300 border border-yellow-500/50 hover:border-yellow-400',
       error:

@@ -1,0 +1,396 @@
+/* ============================================
+   MISSION CONTROL ANIMATIONS
+   Phosphor-green, scanlines, crisp transitions
+   ============================================ */
+
+/* ==============================
+   UTILITY: Glow Effect
+   ============================== */
+@keyframes glow-pulse {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3), inset 0 0 10px rgba(0, 255, 65, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.5), inset 0 0 20px rgba(0, 255, 65, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3), inset 0 0 10px rgba(0, 255, 65, 0.1);
+  }
+}
+
+.glow-green {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.glow-green-hover:hover {
+  animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+/* ==============================
+   BUTTON ANIMATIONS
+   ============================== */
+@keyframes button-press {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.button-active {
+  animation: button-press 0.2s ease-out;
+}
+
+@keyframes border-highlight {
+  0% {
+    border-color: #00ff41;
+    opacity: 1;
+  }
+  100% {
+    border-color: #00cc33;
+    opacity: 0.7;
+  }
+}
+
+button:hover {
+  transition: all 0.2s ease-out;
+}
+
+button:active {
+  animation: button-press 0.15s ease-out;
+}
+
+/* ==============================
+   SCANLINE ANIMATIONS
+   ============================== */
+@keyframes scanline-sweep {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scanline-pulse {
+  animation: scanline-sweep 3s linear infinite;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 65, 0.1) 0px,
+    rgba(0, 255, 65, 0.1) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* ==============================
+   LOADING SPINNER
+   ============================== */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-fade {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(0, 255, 65, 0.2);
+  border-top: 2px solid #00ff41;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner-pulse {
+  animation: spin 0.8s linear infinite, pulse-fade 2s ease-in-out infinite;
+}
+
+/* ==============================
+   CARD/MODAL ANIMATIONS
+   ============================== */
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-enter {
+  animation: slide-in-up 0.3s ease-out;
+}
+
+.modal-exit {
+  animation: slide-in-up 0.3s ease-out reverse;
+}
+
+.dropdown-enter {
+  animation: slide-in-down 0.2s ease-out;
+}
+
+.card-enter {
+  animation: fade-in 0.4s ease-out;
+}
+
+/* ==============================
+   BORDER ANIMATIONS
+   ============================== */
+@keyframes border-glow {
+  0% {
+    box-shadow: 0 0 0 2px #00ff41, inset 0 0 10px rgba(0, 255, 65, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 15px #00ff41, inset 0 0 20px rgba(0, 255, 65, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 2px #00ff41, inset 0 0 10px rgba(0, 255, 65, 0.05);
+  }
+}
+
+.border-glow:hover {
+  animation: border-glow 1.5s ease-in-out infinite;
+}
+
+/* ==============================
+   TEXT/LABEL ANIMATIONS
+   ============================== */
+@keyframes text-highlight {
+  0% {
+    color: #ededed;
+    text-shadow: 0 0 0px rgba(0, 255, 65, 0);
+  }
+  50% {
+    color: #00ff41;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+  }
+  100% {
+    color: #ededed;
+    text-shadow: 0 0 0px rgba(0, 255, 65, 0);
+  }
+}
+
+.text-glow:hover {
+  animation: text-highlight 0.6s ease-in-out;
+}
+
+/* ==============================
+   TRANSITIONS (Global)
+   ============================== */
+* {
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Disable transitions on prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==============================
+   STATUS ANIMATIONS
+   ============================== */
+@keyframes success-pulse {
+  0% {
+    background-color: rgba(34, 197, 94, 0.1);
+  }
+  50% {
+    background-color: rgba(34, 197, 94, 0.2);
+  }
+  100% {
+    background-color: rgba(34, 197, 94, 0.1);
+  }
+}
+
+@keyframes error-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+.success-state {
+  animation: success-pulse 1.5s ease-in-out;
+}
+
+.error-state {
+  animation: error-shake 0.4s ease-out;
+}
+
+/* ==============================
+   HOVER STATE EFFECTS
+   ============================== */
+button,
+a,
+[role='button'] {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle lift on hover */
+@keyframes lift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-2px);
+  }
+}
+
+button:hover,
+a:hover,
+[role='button']:hover {
+  animation: lift 0.2s ease-out forwards;
+}
+
+/* ==============================
+   LOADING BAR
+   ============================== */
+@keyframes progress-bar {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+.progress-bar {
+  height: 2px;
+  background: linear-gradient(90deg, #00ff41, #00cc33);
+  animation: progress-bar 2s ease-in-out infinite;
+}
+
+/* ==============================
+   INPUT/FORM ANIMATIONS
+   ============================== */
+@keyframes input-focus-glow {
+  0% {
+    box-shadow: inset 0 0 0 rgba(0, 255, 65, 0);
+  }
+  100% {
+    box-shadow: inset 0 2px 8px rgba(0, 255, 65, 0.1), 0 0 8px rgba(0, 255, 65, 0.3);
+  }
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  animation: input-focus-glow 0.3s ease-out forwards;
+}
+
+/* ==============================
+   BADGE ANIMATIONS
+   ============================== */
+@keyframes badge-flip {
+  from {
+    transform: scaleX(-1) rotateY(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1) rotateY(0);
+    opacity: 1;
+  }
+}
+
+.badge-new {
+  animation: badge-flip 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==============================
+   UTILITY CLASSES
+   ============================== */
+.animate-pulse {
+  animation: pulse-fade 2s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-in-up 0.3s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-in-down 0.3s ease-out;
+}
+
+/* ==============================
+   DARK MODE ENHANCED
+   ============================== */
+@media (prefers-color-scheme: dark) {
+  /* Enhance glow in dark mode */
+  .glow-green {
+    filter: brightness(1.2);
+  }
+
+  /* Better scanline visibility */
+  .scanline-pulse {
+    opacity: 0.8;
+  }
+}

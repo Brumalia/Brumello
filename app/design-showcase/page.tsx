@@ -1,6 +1,7 @@
 import { Button } from '@/components/design/Button';
 import { Card, CardHeader, CardContent } from '@/components/design/Card';
 import { Badge } from '@/components/design/Badge';
+import { Spinner } from '@/components/design/Spinner';
 
 export default function DesignShowcase() {
   return (
@@ -232,8 +233,106 @@ export default function DesignShowcase() {
         </Card>
       </section>
 
+      {/* Spinners & Loading States */}
+      <section className="max-w-6xl mx-auto mb-16">
+        <h2 className="font-mono text-brand-green text-lg mb-6">LOADING STATES</h2>
+        <Card>
+          <CardHeader>
+            <h3 className="font-mono text-white">Spinner Variants</h3>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div>
+                <p className="text-xs text-gray-500 font-mono mb-4">
+                  Small Spinner (Default Animation)
+                </p>
+                <Spinner size="sm" />
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 font-mono mb-4">
+                  Medium Spinner
+                </p>
+                <Spinner size="md" />
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 font-mono mb-4">
+                  Large Spinner with Pulse
+                </p>
+                <Spinner size="lg" pulse />
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 font-mono mb-4">
+                  Progress Bar (simulated)
+                </p>
+                <div className="progress-bar h-1 w-full bg-brand-green" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Animations & Transitions */}
+      <section className="max-w-6xl mx-auto mb-16">
+        <h2 className="font-mono text-brand-green text-lg mb-6">ANIMATIONS</h2>
+        <Card>
+          <CardHeader>
+            <h3 className="font-mono text-white">Interactive Effects</h3>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs text-gray-500 font-mono mb-3">
+                  Hover Effects (try hovering on buttons/cards)
+                </p>
+                <div className="flex gap-2 flex-wrap">
+                  <Button variant="primary">Hover me (glow)</Button>
+                  <Button variant="secondary">Hover me (glow)</Button>
+                  <Button variant="ghost">Hover me (glow)</Button>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 font-mono mb-3">
+                  Card Hover (subtle glow effect)
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <Card elevated>
+                    <CardContent>Hover for glow</CardContent>
+                  </Card>
+                  <Card elevated>
+                    <CardContent>Smooth animation</CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 font-mono mb-3">
+                  Badge Animations
+                </p>
+                <div className="flex gap-2 flex-wrap">
+                  <Badge variant="default">Hover me</Badge>
+                  <Badge variant="success">Success</Badge>
+                  <Badge variant="warning">Warning</Badge>
+                  <Badge variant="error">Error</Badge>
+                  <Badge variant="info">Info</Badge>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 font-mono mb-3">
+                  All animations respect prefers-reduced-motion for accessibility
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
       {/* Features */}
-      <section className="max-w-6xl mx-auto">
+      <section className="max-w-6xl mx-auto mb-16">
         <h2 className="font-mono text-brand-green text-lg mb-6">FEATURES</h2>
         <Card>
           <CardHeader>

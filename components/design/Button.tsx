@@ -14,14 +14,14 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', className = '', children, ...props }, ref) => {
     const baseStyles =
-      'font-mono text-sm font-medium px-4 py-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green';
+      'font-mono text-sm font-medium px-4 py-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green active:animate-pulse';
 
     const variants = {
       primary:
-        'bg-transparent border-b-2 border-brand-green text-white hover:glow-green active:border-brand-green-dim',
+        'bg-transparent border-b-2 border-brand-green text-white hover:glow-green-hover active:border-brand-green-dim',
       secondary:
-        'bg-brand-surface border border-brand-green text-brand-green hover:bg-brand-border hover:glow-green',
-      ghost: 'bg-transparent text-foreground border border-brand-border hover:border-brand-green hover:text-brand-green',
+        'bg-brand-surface border border-brand-green text-brand-green hover:bg-brand-border hover:glow-green-hover',
+      ghost: 'bg-transparent text-foreground border border-brand-border hover:border-brand-green hover:text-brand-green hover:glow-green-hover',
     };
 
     return (
