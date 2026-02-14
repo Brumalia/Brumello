@@ -8,7 +8,7 @@ A modern, powerful task management tool built with Next.js and Supabase. Designe
 
 Brumello is our own Trello-inspired project management tool, built by agents for agents (and humans too!). It's designed specifically to power the workflow of the Brumalia Agent Development Studio.
 
-## Current Status: **Phase 4 - Drag & Drop Complete ✅**
+## Current Status: **Phase 5 - Collaboration & Notifications**
 
 Last Updated: 2026-02-13
 

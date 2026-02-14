@@ -5,6 +5,7 @@ import SignOutButton from '@/components/SignOutButton'
 import CreateListButton from '@/components/CreateListButton'
 import BoardContent from '@/components/BoardContent'
 import BoardSettingsButton from '@/components/BoardSettingsButton'
+import NotificationBell from '@/components/NotificationBell'
 
 export default async function BoardPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -16,15 +17,27 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
     redirect('/auth/login')
   }
 
-  // Fetch the board
+  // Fetch the board - check if user is owner OR member
   const { data: board, error } = await supabase
     .from('boards')
     .select('*')
     .eq('id', id)
-    .eq('created_by', user.id)
     .single()
 
   if (error || !board) {
+    notFound()
+  }
+
+  // Check access: owner or member
+  const isOwner = board.created_by === user.id
+  const { data: membership } = await supabase
+    .from('board_members')
+    .select('*')
+    .eq('board_id', id)
+    .eq('user_id', user.id)
+    .single()
+
+  if (!isOwner && !membership) {
     notFound()
   }
 
@@ -73,7 +86,8 @@ export default async function BoardPage({ params }: { params: Promise<{ id: stri
             </div>
             <div className="flex items-center gap-4">
               <span className="text-sm text-white">{user.email}</span>
-              <BoardSettingsButton board={board} />
+              <NotificationBell userId={user.id} />
+              <BoardSettingsButton board={board} currentUserId={user.id} />
               <SignOutButton />
             </div>
           </div>

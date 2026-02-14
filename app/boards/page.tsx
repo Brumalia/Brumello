@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import CreateBoardButton from '@/components/CreateBoardButton'
+import NotificationBell from '@/components/NotificationBell'
 
 export default async function BoardsPage() {
   const supabase = await createClient()
@@ -12,12 +13,28 @@ export default async function BoardsPage() {
     redirect('/auth/login')
   }
 
-  // Fetch user's boards
-  const { data: boards, error } = await supabase
+  // Fetch user's boards (created by them)
+  const { data: ownedBoards } = await supabase
     .from('boards')
     .select('*')
     .eq('created_by', user.id)
     .order('created_at', { ascending: false })
+
+  // Fetch boards where user is a member
+  const { data: memberBoards } = await supabase
+    .from('board_members')
+    .select('board_id, boards(id, title, description, background_color, created_by)')
+    .eq('user_id', user.id)
+
+  // Combine and deduplicate
+  const memberBoardData = (memberBoards || [])
+    .map(m => ({ ...m.boards, member: true }))
+    .filter((b: any) => b && b.id && b.created_by !== user.id)
+
+  const allBoards = [
+    ...(ownedBoards || []).map(b => ({ ...b, owned: true })),
+    ...memberBoardData
+  ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -31,6 +48,7 @@ export default async function BoardsPage() {
           </Link>
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-600">{user.email}</span>
+            <NotificationBell userId={user.id} />
             <Link 
               href="/dashboard"
               className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
@@ -48,13 +66,7 @@ export default async function BoardsPage() {
           <CreateBoardButton />
         </div>
 
-        {error && (
-          <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6">
-            Error loading boards: {error.message}
-          </div>
-        )}
-
-        {boards && boards.length === 0 ? (
+        {allBoards.length === 0 ? (
           <div className="bg-white rounded-lg shadow-lg p-12 text-center">
             <div className="text-6xl mb-4">📋</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">No boards yet</h3>
@@ -63,17 +75,22 @@ export default async function BoardsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {boards?.map((board) => (
+            {allBoards.map((board: any) => (
               <Link
                 key={board.id}
                 href={`/boards/${board.id}`}
-                className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer"
+                className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer relative"
                 style={{ backgroundColor: board.background_color || '#0079bf' }}
               >
                 <div className="text-white">
                   <h3 className="text-xl font-bold mb-2">{board.title}</h3>
                   {board.description && (
                     <p className="text-sm opacity-90 line-clamp-2">{board.description}</p>
+                  )}
+                  {board.member && (
+                    <span className="absolute top-2 right-2 bg-white bg-opacity-20 text-xs px-2 py-1 rounded">
+                      Shared
+                    </span>
                   )}
                 </div>
               </Link>

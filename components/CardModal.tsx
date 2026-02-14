@@ -278,6 +278,7 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
           <div className="mb-6">
             <CommentSelector
               cardId={card.id}
+              boardId={boardId}
               onUpdate={() => {}}
             />
           </div>
