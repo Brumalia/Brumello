@@ -1,26 +1,164 @@
 @import "tailwindcss";
 
+/* Import Mission Control Fonts */
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap");
+
+/* Satoshi Font fallback: using system fonts. 
+   To install Satoshi: download from https://github.com/Dmmmmmmm/Satoshi
+   and add to public/fonts/, then uncomment the @font-face below */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0e27;
+  --foreground: #ededed;
+  --brand-green: #00ff41;
+  --brand-green-dim: #00cc33;
+  --brand-cyan: #00d4ff;
+  --brand-amber: #ffa500;
+  --brand-surface: #11152d;
+  --brand-border: #1a1f3a;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--background);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Satoshi", system-ui, -apple-system, sans-serif;
+  position: relative;
+}
+
+/* Scanlines Effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 65, 0.05) 0px,
+    rgba(0, 255, 65, 0.05) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Optional Grid Overlay (commenting out for now, can enable) */
+/* body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(26, 31, 58, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 31, 58, 0.2) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: -1;
+} */
+
+/* Typography Hierarchy */
+
+/* H1: Board Name - Instrument Serif Bold */
+h1 {
+  font-family: "Instrument Serif", serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--foreground);
+  border-bottom: 2px solid var(--brand-green);
+  padding-bottom: 0.5rem;
+}
+
+/* H2: List Title - DM Mono Medium */
+h2 {
+  font-family: "DM Mono", monospace;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--brand-green);
+  letter-spacing: 0.5px;
+}
+
+/* H3: Card Title - Satoshi Regular */
+h3 {
+  font-family: "Satoshi", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--foreground);
+}
+
+/* Body Text */
+p {
+  font-family: "Satoshi", sans-serif;
+  font-size: 0.875rem;
+  color: #aaaaaa;
+  line-height: 1.5;
+}
+
+/* Monospace Labels (timestamps, IDs) */
+.mono-label,
+code {
+  font-family: "DM Mono", monospace;
+  font-size: 0.6875rem;
+  color: #666666;
+  letter-spacing: 0.5px;
+}
+
+/* Utility Classes for Scanlines */
+@layer utilities {
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(0, 255, 65, 0.05) 0px,
+      rgba(0, 255, 65, 0.05) 2px,
+      transparent 2px,
+      transparent 4px
+    );
+  }
+
+  .grid-overlay {
+    background-image:
+      linear-gradient(rgba(26, 31, 58, 0.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 31, 58, 0.2) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Brand Accent Glow */
+  .glow-green {
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+  }
+
+  /* Sharp Border (no rounded) */
+  .border-sharp {
+    border-radius: 0;
+  }
+
+  /* High Contrast Text */
+  .high-contrast {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+}
+
+/* Focus States */
+:focus {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-green);
+  outline-offset: 2px;
 }
