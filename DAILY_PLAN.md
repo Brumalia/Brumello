@@ -35,25 +35,25 @@ Checkpoint at 10:30am"
 - **MiniMax M2.5** (default): Design docs, component specs, CI/CD configs, writing
 - **Claude Sonnet 4.5** (heavy lifting): Complex logic, security, architecture decisions, debugging
 
-### Example Daily Flow
+### Example Daily Flow (GMT)
 
 ```
-9:00am   - Spawn agents with clear tasks (copy from DAILY_PLAN.md)
-9:30am   - First checkpoint (get status updates)
-10:30am  - Review first PRs, merge if good
-11:30am  - Final checkpoint
-12:00pm  - Lunch
-1:00pm   - Review final PRs, test in dev
-3:00pm   - Deploy to Vercel
-4:00pm   - Update documentation
-5:00pm   - Wrap up, plan tomorrow
+9:00am GMT   - Spawn agents with clear tasks (copy from DAILY_PLAN.md)
+9:30am GMT   - First checkpoint (get status updates)
+10:30am GMT  - Review first PRs, merge if good
+11:30am GMT  - Final checkpoint
+12:00pm GMT  - Lunch
+1:00pm GMT   - Review final PRs, test in dev
+3:00pm GMT   - Deploy to Vercel
+4:00pm GMT   - Update documentation
+5:00pm GMT   - Wrap up, plan tomorrow
 ```
 
 ---
 
 ## 🎯 Week 1: Mission Control Launch + CI/CD Foundation
 
-### **Day 1: Saturday, Feb 15** ← YOU ARE HERE
+### **Day 1: Sunday, Feb 15** ← YOU START HERE TOMORROW MORNING
 **Theme: Component Redesign Kickoff**
 
 **🤖 Agent Tasks:**
@@ -68,19 +68,19 @@ Checkpoint at 10:30am"
   - Timeline: 1 hour
 
 **📍 Your Work:**
-- [ ] **Morning (9am-12pm):** Kick off agents, review their PRs as they land
-  - [ ] Design Agent checkpoint (9:30am)
-  - [ ] CI/CD Agent checkpoint (10:30am)
+- [ ] **Morning (9am-12pm GMT):** Kick off agents, review their PRs as they land
+  - [ ] Design Agent checkpoint (9:30am GMT)
+  - [ ] CI/CD Agent checkpoint (10:30am GMT)
 
 - [ ] **Lunch + Chill (12-1pm)**
 
-- [ ] **Afternoon (1pm-5pm):** Test components in dev server
+- [ ] **Afternoon (1pm-5pm GMT):** Test components in dev server
   - [ ] `npm run dev` → test button/card hover states
   - [ ] Verify font loading (DM Mono, Instrument Serif)
   - [ ] Check scanlines effect (should be subtle)
   - [ ] Screenshot for portfolio 📸
 
-- [ ] **Evening:** Review + merge PRs
+- [ ] **Evening (5pm-9pm GMT):** Review + merge PRs
   - [ ] Design Agent PR → code review → merge
   - [ ] CI/CD Agent PR → code review → merge
   - [ ] Push to main → auto-deploy to Vercel
@@ -90,7 +90,7 @@ Checkpoint at 10:30am"
 
 ---
 
-### **Day 2: Sunday, Feb 16**
+### **Day 2: Monday, Feb 17**
 **Theme: Loading States + Hover Effects + GitHub Actions**
 
 **🤖 Agent Tasks:**
@@ -105,16 +105,16 @@ Checkpoint at 10:30am"
   - Timeline: 1 hour
 
 **📍 Your Work:**
-- [ ] **Morning:** Kick off agents, check in at 10am
+- [ ] **Morning (9am GMT):** Kick off agents, check in at 10am GMT
   - [ ] Review Design Agent PR
   - [ ] Review CI/CD Agent PR
 
-- [ ] **Afternoon:** Manual testing
+- [ ] **Afternoon (1pm GMT):** Manual testing
   - [ ] `npm run dev` → test animations
   - [ ] Create test branch, push → watch GitHub Actions run
   - [ ] Verify Vercel auto-deploys
 
-- [ ] **Evening:** Final touches
+- [ ] **Evening (5pm GMT):** Final touches
   - [ ] Merge both PRs
   - [ ] Deploy to Vercel production
   - [ ] Screenshot new design 🎉
@@ -123,7 +123,7 @@ Checkpoint at 10:30am"
 
 ---
 
-### **Day 3: Monday, Feb 17**
+### **Day 3: Tuesday, Feb 18**
 **Theme: UI Polish Sprint**
 
 **🤖 Agent Tasks:**
@@ -138,16 +138,16 @@ Checkpoint at 10:30am"
   - Timeline: 1 hour
 
 **📍 Your Work:**
-- [ ] **Morning:** Launch agents
-  - [ ] Check Design Agent progress (10am)
-  - [ ] Check Research Agent findings (11am)
+- [ ] **Morning (9am GMT):** Launch agents
+  - [ ] Check Design Agent progress (10am GMT)
+  - [ ] Check Research Agent findings (11am GMT)
 
-- [ ] **Afternoon:** Review + test
+- [ ] **Afternoon (1pm GMT):** Review + test
   - [ ] Click through all modals in `npm run dev`
   - [ ] Verify empty states show correctly
   - [ ] Test on mobile (responsive?)
 
-- [ ] **Evening:** Documentation pass
+- [ ] **Evening (5pm GMT):** Documentation pass
   - [ ] README.md → add screenshots
   - [ ] BRUMELLO_UI_UPGRADE.md → mark Phase 1 complete
   - [ ] MEMORY.md → log progress
@@ -156,7 +156,7 @@ Checkpoint at 10:30am"
 
 ---
 
-### **Day 4: Tuesday, Feb 18**
+### **Day 4: Wednesday, Feb 19**
 **Theme: Vercel Preview + Smoke Testing**
 
 **🤖 Agent Tasks:**
@@ -171,16 +171,16 @@ Checkpoint at 10:30am"
   - Timeline: 2 hours
 
 **📍 Your Work:**
-- [ ] **Morning:** Review agent work
+- [ ] **Morning (9am GMT):** Review agent work
   - [ ] Check CI/CD Agent PR
   - [ ] Check QA Agent test results
 
-- [ ] **Afternoon:** Manual verification
+- [ ] **Afternoon (1pm GMT):** Manual verification
   - [ ] Create PR → check preview link works
   - [ ] Test live at preview URL
   - [ ] Spot check: notifications, mentions, board sharing
 
-- [ ] **Evening:** Cleanup + merge
+- [ ] **Evening (5pm GMT):** Cleanup + merge
   - [ ] Merge CI/CD PR
   - [ ] Fix any TypeScript warnings flagged by QA
   - [ ] Final commit: `refactor: Clean up TypeScript warnings`
@@ -189,7 +189,7 @@ Checkpoint at 10:30am"
 
 ---
 
-### **Day 5: Wednesday, Feb 19**
+### **Day 5: Thursday, Feb 20**
 **Theme: Database + Production Deploy**
 
 **🤖 Agent Tasks:**
@@ -204,17 +204,17 @@ Checkpoint at 10:30am"
   - Timeline: 1.5 hours
 
 **📍 Your Work:**
-- [ ] **Morning:** Review agent docs
+- [ ] **Morning (9am GMT):** Review agent docs
   - [ ] Read migration strategy from Backend Agent
   - [ ] Review mobile audit findings
 
-- [ ] **Afternoon:** Production push
+- [ ] **Afternoon (1pm GMT):** Production push
   - [ ] Merge all PRs to main
   - [ ] Deploy to Vercel production
   - [ ] Verify https://brumello.vercel.app looks perfect
   - [ ] Test notifications on live
 
-- [ ] **Evening:** Planning + sync
+- [ ] **Evening (5pm GMT):** Planning + sync
   - [ ] Prepare async message for workmate:
     - What they're building?
     - Partnership interest?
@@ -224,7 +224,7 @@ Checkpoint at 10:30am"
 
 ---
 
-### **Day 6: Thursday, Feb 20**
+### **Day 6: Friday, Feb 21**
 **Theme: Research + Strategy Planning**
 
 **🤖 Agent Tasks:**
@@ -239,16 +239,16 @@ Checkpoint at 10:30am"
   - Timeline: 2 hours
 
 **📍 Your Work:**
-- [ ] **Morning:** Review research findings
+- [ ] **Morning (9am GMT):** Review research findings
   - [ ] Read competitive analysis updates
   - [ ] Skim MVP specs
 
-- [ ] **Afternoon:** Strategy decision
+- [ ] **Afternoon (1pm GMT):** Strategy decision
   - [ ] Which product next? Agent Studio vs Spending AI?
   - [ ] Depends on: workmate collaboration interest
   - [ ] Document decision in MEMORY.md
 
-- [ ] **Evening:** Week wrap prep
+- [ ] **Evening (5pm GMT):** Week wrap prep
   - [ ] Update MEMORY.md with progress log
   - [ ] Note: "Mission Control design foundation complete"
   - [ ] Flag: "Week 2: Component library + Agent Studio MVP start?"
@@ -257,7 +257,7 @@ Checkpoint at 10:30am"
 
 ---
 
-### **Day 7: Friday, Feb 21**
+### **Day 7: Saturday, Feb 22**
 **Theme: Week Wrap + Week 2 Planning**
 
 **🤖 Agent Tasks:**
@@ -272,17 +272,17 @@ Checkpoint at 10:30am"
   - Timeline: 1 hour
 
 **📍 Your Work:**
-- [ ] **Morning:** Full system check
+- [ ] **Morning (9am GMT):** Full system check
   - [ ] Review QA audit findings
   - [ ] Fix any critical issues
   - [ ] Test on real devices if possible
 
-- [ ] **Afternoon:** Portfolio + documentation
+- [ ] **Afternoon (1pm GMT):** Portfolio + documentation
   - [ ] Screenshot new design for portfolio
   - [ ] Update README with design philosophy
   - [ ] Commit final polish
 
-- [ ] **Evening:** Week 2 kickoff
+- [ ] **Evening (5pm GMT):** Week 2 kickoff
   - [ ] Review Week 2 roadmap from Strategy Agent
   - [ ] Decide:
     - [ ] Push for Agent Studio MVP?
@@ -316,7 +316,7 @@ Checkpoint at 10:30am"
 
 ---
 
-## 📊 Week 1 Success Metrics
+## 📊 Week 1 Success Metrics (Feb 15-22, 2026 GMT)
 
 ✅ **Design:**
 - [ ] Mission Control foundation live on all pages
@@ -336,7 +336,7 @@ Checkpoint at 10:30am"
 
 ---
 
-## 🚀 Week 2 Preview (Feb 24-28)
+## 🚀 Week 2 Preview (Feb 23-29, 2026 GMT)
 
 **If design goes smooth:**
 - Mobile responsiveness overhaul
@@ -352,7 +352,7 @@ Checkpoint at 10:30am"
 
 ## 🎬 Daily Standup Template
 
-**Each morning (9am):**
+**Each morning (9am GMT):**
 
 ```
 AGENT COORDINATION:
@@ -372,6 +372,8 @@ DAILY GOALS:
 ```
 
 **Log in MEMORY.md or create `memory/standup-log.md`**
+
+**All times in GMT (Europe/London timezone)**
 
 ---
 

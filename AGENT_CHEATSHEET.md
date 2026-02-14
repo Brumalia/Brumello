@@ -4,14 +4,14 @@
 
 ---
 
-## 🎬 Morning Ritual (9am)
+## 🎬 Morning Ritual (9am GMT)
 
 ```
 1. Open DAILY_PLAN.md
-2. Find today's section
+2. Find today's section (with GMT times)
 3. Copy agent tasks verbatim
 4. Send to agents
-5. Set checkpoint times
+5. Set checkpoint times (all in GMT)
 6. Get coffee ☕
 ```
 
@@ -90,17 +90,17 @@ Timeline: 2 hours
 
 ---
 
-## 📋 Daily Flow
+## 📋 Daily Flow (GMT)
 
 ```
-9:00   Spawn agents
-9:30   First checkpoint
-11:00  Review PRs
-12:00  Lunch
-1:00   Test/review
-3:00   Deploy
-4:00   Docs
-5:00   Wrap up
+9:00 GMT   Spawn agents
+9:30 GMT   First checkpoint
+10:30 GMT  Review PRs
+12:00 GMT  Lunch
+1:00 GMT   Test/review
+3:00 GMT   Deploy
+4:00 GMT   Docs
+5:00 GMT   Wrap up
 ```
 
 ---
@@ -158,33 +158,33 @@ Timeline: 2 hours
 
 ---
 
-## 📊 This Week's Agents
+## 📊 This Week's Agents (Feb 15-22, GMT)
 
-### Day 1 (Sat 15)
+### Day 1 (Sun 15)
 - Design Agent: Buttons, Cards, Badges
 - CI/CD Agent: GitHub Actions lint workflow
 
-### Day 2 (Sun 16)
+### Day 2 (Mon 17)
 - Design Agent: Animations, glow effects
 - CI/CD Agent: GitHub Actions test workflow
 
-### Day 3 (Mon 17)
+### Day 3 (Tue 18)
 - Design Agent: Modals, empty states
 - Research Agent: Accessibility + copy review
 
-### Day 4 (Tue 18)
+### Day 4 (Wed 19)
 - CI/CD Agent: Vercel Preview workflow
 - QA Agent: Smoke testing + TypeScript audit
 
-### Day 5 (Wed 19)
+### Day 5 (Thu 20)
 - Backend Agent: Migration safety strategy
 - QA Agent: Mobile responsiveness audit
 
-### Day 6 (Thu 20)
+### Day 6 (Fri 21)
 - Research Agent: Competitive analysis update
 - Strategy Agent: MVP specs (Agent Studio + Spending AI)
 
-### Day 7 (Fri 21)
+### Day 7 (Sat 22)
 - QA Agent: Full UI/UX audit
 - Strategy Agent: Week 2 roadmap
 

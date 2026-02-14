@@ -33,7 +33,7 @@
 
 ---
 
-## 📋 Saturday Morning Checklist (Feb 15, 9am)
+## 📋 Sunday Morning Checklist (Feb 15, 9am GMT)
 
 Before you start, verify:
 
@@ -49,9 +49,9 @@ Before you start, verify:
 
 ---
 
-## 🎯 Day 1 Game Plan (Feb 15)
+## 🎯 Day 1 Game Plan (Sunday, Feb 15, 2026 GMT)
 
-### 9:00am - Launch Meeting (You + Agents)
+### 9:00am GMT - Launch Meeting (You + Agents)
 
 ```
 TO: Design Agent
@@ -64,59 +64,59 @@ TO: CI/CD Agent
 Reference DEV_PROCESS.md Option 2. Deliver by 11am. Checkpoint at 10am."
 ```
 
-### 9:30am - First Checkpoint
+### 9:30am GMT - First Checkpoint
 - Get status from both agents
 - Answer any questions
 - Clarify specs if needed
 
-### 11:00am - Review First PRs
+### 10:30am GMT - Review First PRs
 - CI/CD Agent should be done
 - Review GitHub Actions workflow
 - Test locally
 - Merge if good
 
-### 12:00pm - Review Second PR
+### 12:00pm GMT - Review Second PR
 - Design Agent should be done
 - Check components in dev server
 - Verify fonts load
 - Verify green borders + hover effects
 - Merge if good
 
-### 1:00pm - Deploy
+### 1:00pm GMT - Deploy
 - Push to main
 - Vercel auto-deploys
 - Check https://brumello.vercel.app
 - Verify design looks right
 
-### 2:00pm - Documentation
+### 2:00pm GMT - Documentation
 - Screenshot new design
 - Update README if needed
 - Log progress in MEMORY.md
 
-### 5:00pm - Wrap Up
+### 5:00pm GMT - Wrap Up
 - Review what shipped
 - Plan tomorrow
 - Rest - you've earned it
 
 ---
 
-## 📊 Week 1 Timeline
+## 📊 Week 1 Timeline (Feb 15-22, 2026 GMT)
 
-| Day | Theme | Agents | Output |
-|-----|-------|--------|--------|
-| Sat 15 | Components | Design + CI/CD | Buttons, cards, workflows |
-| Sun 16 | Animations | Design + CI/CD | Glow effects, GitHub Actions |
-| Mon 17 | Modals | Design + Research | Modal redesigns, copy review |
-| Tue 18 | Deployment | CI/CD + QA | Vercel Preview, smoke tests |
-| Wed 19 | Database | Backend + QA | Migration strategy, mobile audit |
-| Thu 20 | Research | Research + Strategy | Competitive analysis, MVP specs |
-| Fri 21 | Polish | QA + Strategy | UI audit, Week 2 roadmap |
+| Day | Date | Theme | Agents | Output |
+|-----|------|-------|--------|--------|
+| Sun | Feb 15 | Components | Design + CI/CD | Buttons, cards, workflows |
+| Mon | Feb 17 | Animations | Design + CI/CD | Glow effects, GitHub Actions |
+| Tue | Feb 18 | Modals | Design + Research | Modal redesigns, copy review |
+| Wed | Feb 19 | Deployment | CI/CD + QA | Vercel Preview, smoke tests |
+| Thu | Feb 20 | Database | Backend + QA | Migration strategy, mobile audit |
+| Fri | Feb 21 | Research | Research + Strategy | Competitive analysis, MVP specs |
+| Sat | Feb 22 | Polish | QA + Strategy | UI audit, Week 2 roadmap |
 
 ---
 
 ## 🚀 Success Metrics
 
-### By EOD Friday (Feb 21):
+### By EOD Saturday (Feb 22, 2026 GMT):
 - [ ] Brumello with Mission Control design live
 - [ ] GitHub Actions workflows running
 - [ ] Vercel Preview URLs working
@@ -249,8 +249,8 @@ If you find bugs:
 ## 🎬 Let's Go!
 
 **Status:** All systems go for launch ✅
-**Date:** Saturday, Feb 15, 2026, 9:00am GMT
-**Goal:** Brumello Mission Control design live by Friday
+**Date:** Sunday, Feb 15, 2026, 9:00am GMT
+**Goal:** Brumello Mission Control design live by Saturday, Feb 22
 
 **You're ready. Agents are ready. Let's build something incredible.** 🔥❄️
 
