@@ -53,7 +53,7 @@ export default function BoardSettingsButton({ board, currentUserId }: { board: B
 
       {isOpen && createPortal(
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center p-4 border-b">
               <h2 className="text-lg font-bold">Board Settings</h2>
               <button onClick={() => setIsOpen(false)} className="text-2xl text-gray-500 hover:text-gray-700">&times;</button>
@@ -62,7 +62,7 @@ export default function BoardSettingsButton({ board, currentUserId }: { board: B
               <button onClick={() => setTab('settings')} className={`flex-1 py-3 text-sm font-medium ${tab === 'settings' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'}`}>Settings</button>
               <button onClick={() => setTab('members')} className={`flex-1 py-3 text-sm font-medium ${tab === 'members' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'}`}>Members</button>
             </div>
-            <div className="p-4">
+            <div className="p-4 max-h-[calc(90vh-140px)] overflow-y-auto">
               {tab === 'settings' ? (
                 <div className="space-y-4">
                   <div>
