@@ -5,55 +5,54 @@ import { Spinner } from '@/components/design/Spinner';
 
 export default function DesignShowcase() {
   return (
-    <div className="min-h-screen bg-brand-bg text-foreground p-8">
+    <div className="min-h-screen bg-bg-primary text-foreground p-8">
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-12">
         <h1 className="font-serif text-4xl font-bold mb-2 border-b-2 border-brand-green pb-4">
-          MISSION CONTROL DESIGN SYSTEM
+          Mission Control Design System
         </h1>
-        <p className="text-gray-400 font-mono text-sm">
-          Phosphor-green accents, sharp edges, no AI-slop. Built on Tailwind +
-          DM Mono + Instrument Serif.
+        <p className="text-text-secondary font-sans text-sm">
+          Softened mission control aesthetic. Premium dev tool vibes with Geist Sans + Geist Mono + Instrument Serif.
         </p>
       </div>
 
       {/* Buttons Section */}
       <section className="max-w-6xl mx-auto mb-16">
-        <h2 className="font-mono text-brand-green text-lg mb-6">BUTTONS</h2>
+        <h2 className="font-sans text-brand-green text-lg font-medium mb-6">Buttons</h2>
         <Card>
           <CardHeader>
-            <h3 className="font-mono text-white">Button Variants</h3>
+            <h3 className="font-sans text-white font-medium">Button Variants</h3>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {/* Primary */}
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-2">
-                  Primary (Green Bottom Border)
+                <p className="text-xs text-text-muted font-sans mb-2">
+                  Primary (Green fill, lifts on hover)
                 </p>
-                <Button variant="primary">+ CREATE BOARD</Button>
+                <Button variant="primary">Create Board</Button>
               </div>
 
               {/* Secondary */}
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-2">
-                  Secondary (Green Border)
+                <p className="text-xs text-text-muted font-sans mb-2">
+                  Secondary (Border, subtle lift)
                 </p>
-                <Button variant="secondary">EDIT SETTINGS</Button>
+                <Button variant="secondary">Edit Settings</Button>
               </div>
 
               {/* Ghost */}
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-2">
-                  Ghost (Minimal)
+                <p className="text-xs text-text-muted font-sans mb-2">
+                  Ghost (Minimal, hover highlight)
                 </p>
-                <Button variant="ghost">CANCEL</Button>
+                <Button variant="ghost">Cancel</Button>
               </div>
 
               {/* Hover states */}
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-2">
-                  Try hovering on any button above (glow effect)
+                <p className="text-xs text-text-muted font-sans mb-2">
+                  Try hovering on any button above (smooth lift + glow)
                 </p>
               </div>
             </div>
@@ -63,18 +62,17 @@ export default function DesignShowcase() {
 
       {/* Cards Section */}
       <section className="max-w-6xl mx-auto mb-16">
-        <h2 className="font-mono text-brand-green text-lg mb-6">CARDS</h2>
+        <h2 className="font-sans text-brand-green text-lg font-medium mb-6">Cards</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Card elevated>
             <CardHeader>
-              <h3 className="font-serif text-lg text-white">Card Title</h3>
+              <h3 className="font-sans text-lg text-white font-medium">Card Title</h3>
             </CardHeader>
             <CardContent>
               <p className="mb-3">
-                This is a standard card with a phosphor-green border and sharp
-                edges. Hover to see the glow effect.
+                Softened 6px corners, layered shadows for depth. Hover to see the subtle lift and glow.
               </p>
-              <p className="text-xs text-gray-500 font-mono">
+              <p className="text-xs text-text-muted font-mono">
                 Created: 2026-02-14 20:30 GMT
               </p>
             </CardContent>
@@ -82,10 +80,10 @@ export default function DesignShowcase() {
 
           <Card>
             <CardHeader>
-              <h3 className="font-serif text-lg text-white">Compact Card</h3>
+              <h3 className="font-sans text-lg text-white font-medium">Compact Card</h3>
             </CardHeader>
             <CardContent>
-              <p>Cards work great for organizing content. No rounded corners.</p>
+              <p>Cards use opacity-based borders and layered backgrounds for a premium feel.</p>
             </CardContent>
           </Card>
         </div>
@@ -93,23 +91,22 @@ export default function DesignShowcase() {
 
       {/* Badges Section */}
       <section className="max-w-6xl mx-auto mb-16">
-        <h2 className="font-mono text-brand-green text-lg mb-6">BADGES</h2>
+        <h2 className="font-sans text-brand-green text-lg font-medium mb-6">Badges</h2>
         <Card>
           <CardHeader>
-            <h3 className="font-mono text-white">Badge Variants</h3>
+            <h3 className="font-sans text-white font-medium">Badge Variants</h3>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2">
-                <Badge variant="default">PENDING</Badge>
-                <Badge variant="success">ACTIVE</Badge>
-                <Badge variant="warning">REVIEW</Badge>
-                <Badge variant="error">BLOCKED</Badge>
-                <Badge variant="info">INFO</Badge>
+                <Badge variant="default">pending</Badge>
+                <Badge variant="success">active</Badge>
+                <Badge variant="warning">review</Badge>
+                <Badge variant="error">blocked</Badge>
+                <Badge variant="info">info</Badge>
               </div>
-              <p className="text-xs text-gray-500 font-mono mt-4">
-                Monospaced, semantic colors. Perfect for status labels and
-                timestamps.
+              <p className="text-xs text-text-muted font-sans mt-4">
+                Geist Mono for data-like content, 4px corners, softened color fills with transparency.
               </p>
             </div>
           </CardContent>
@@ -118,47 +115,46 @@ export default function DesignShowcase() {
 
       {/* Typography Section */}
       <section className="max-w-6xl mx-auto mb-16">
-        <h2 className="font-mono text-brand-green text-lg mb-6">TYPOGRAPHY</h2>
+        <h2 className="font-sans text-brand-green text-lg font-medium mb-6">Typography</h2>
         <Card>
           <CardHeader>
-            <h3 className="font-mono text-white">Font Stack</h3>
+            <h3 className="font-sans text-white font-medium">Font Stack</h3>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-1">
-                  H1: Instrument Serif (headlines)
+                <p className="text-xs text-text-muted font-sans mb-1">
+                  Display: Instrument Serif (headlines, large numbers)
                 </p>
                 <h1 className="font-serif text-2xl text-white">
-                  Heading Level 1
+                  Premium Mission Control
                 </h1>
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-1">
-                  H2: DM Mono (list titles)
+                <p className="text-xs text-text-muted font-sans mb-1">
+                  Primary: Geist Sans (UI, navigation, content)
                 </p>
-                <h2 className="font-mono text-lg text-brand-green">
-                  HEADING LEVEL 2
+                <h2 className="font-sans text-lg text-brand-green font-medium">
+                  Clean, Modern Interface Text
                 </h2>
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-1">
-                  Body: Satoshi (content)
+                <p className="text-xs text-text-muted font-sans mb-1">
+                  Body: Geist Sans (readable at all sizes)
                 </p>
                 <p className="font-sans text-foreground">
-                  Regular body text using Satoshi sans-serif. Clear, readable,
-                  and works well at small sizes.
+                  Regular body text using Geist Sans. Modern, clean, and signals premium dev tool quality.
                 </p>
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-1">
-                  Code/Labels: DM Mono (timestamps, IDs)
+                <p className="text-xs text-text-muted font-sans mb-1">
+                  Data: Geist Mono (timestamps, IDs, costs, badges)
                 </p>
-                <p className="font-mono text-xs text-gray-500">
-                  CREATED_AT: 2026-02-14T20:30:00Z | ID: bd7a8c9e
+                <p className="font-mono text-xs text-text-muted">
+                  created_at: 2026-02-14T20:30:00Z | id: bd7a8c9e | cost: £0.95/hr
                 </p>
               </div>
             </div>
@@ -168,51 +164,60 @@ export default function DesignShowcase() {
 
       {/* Color Palette */}
       <section className="max-w-6xl mx-auto mb-16">
-        <h2 className="font-mono text-brand-green text-lg mb-6">COLORS</h2>
+        <h2 className="font-sans text-brand-green text-lg font-medium mb-6">Colors</h2>
         <Card>
           <CardHeader>
-            <h3 className="font-mono text-white">Brand Palette</h3>
+            <h3 className="font-sans text-white font-medium">Brand Palette</h3>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div>
-                <div className="w-full h-12 bg-brand-bg border-2 border-brand-border mb-2"></div>
-                <p className="font-mono text-xs text-gray-500">
-                  brand-bg
+                <div className="w-full h-12 bg-bg-primary border border-border-bright rounded mb-2"></div>
+                <p className="font-mono text-xs text-text-muted">
+                  bg-primary
                   <br />
-                  #0a0e27
+                  #0c0d12
                 </p>
               </div>
 
               <div>
-                <div className="w-full h-12 bg-brand-surface border-2 border-brand-border mb-2"></div>
-                <p className="font-mono text-xs text-gray-500">
-                  brand-surface
+                <div className="w-full h-12 bg-bg-surface border border-border-bright rounded mb-2"></div>
+                <p className="font-mono text-xs text-text-muted">
+                  bg-surface
                   <br />
-                  #11152d
+                  #13141a
                 </p>
               </div>
 
               <div>
-                <div className="w-full h-12 bg-brand-green border-2 border-brand-green mb-2"></div>
+                <div className="w-full h-12 bg-bg-card border border-border-bright rounded mb-2"></div>
+                <p className="font-mono text-xs text-text-muted">
+                  bg-card
+                  <br />
+                  #191a22
+                </p>
+              </div>
+
+              <div>
+                <div className="w-full h-12 bg-brand-green border border-brand-green rounded mb-2"></div>
                 <p className="font-mono text-xs text-brand-green">
                   brand-green
                   <br />
-                  #00ff41
+                  #00e85c
                 </p>
               </div>
 
               <div>
-                <div className="w-full h-12 bg-brand-green-dim border-2 border-brand-green mb-2"></div>
+                <div className="w-full h-12 bg-brand-green-dim border border-brand-green-dim rounded mb-2"></div>
                 <p className="font-mono text-xs text-brand-green">
                   brand-green-dim
                   <br />
-                  #00cc33
+                  #00c44e
                 </p>
               </div>
 
               <div>
-                <div className="w-full h-12 bg-brand-cyan border-2 border-brand-cyan mb-2"></div>
+                <div className="w-full h-12 bg-brand-cyan border border-brand-cyan rounded mb-2"></div>
                 <p className="font-mono text-xs text-brand-cyan">
                   brand-cyan
                   <br />
@@ -221,11 +226,29 @@ export default function DesignShowcase() {
               </div>
 
               <div>
-                <div className="w-full h-12 bg-brand-amber border-2 border-brand-amber mb-2"></div>
+                <div className="w-full h-12 bg-brand-amber border border-brand-amber rounded mb-2"></div>
                 <p className="font-mono text-xs text-brand-amber">
                   brand-amber
                   <br />
-                  #ffa500
+                  #f5a623
+                </p>
+              </div>
+
+              <div>
+                <div className="w-full h-12 bg-brand-red border border-brand-red rounded mb-2"></div>
+                <p className="font-mono text-xs text-brand-red">
+                  brand-red
+                  <br />
+                  #ef4444
+                </p>
+              </div>
+
+              <div>
+                <div className="w-full h-12 bg-brand-blue border border-brand-blue rounded mb-2"></div>
+                <p className="font-mono text-xs text-brand-blue">
+                  brand-blue
+                  <br />
+                  #6366f1
                 </p>
               </div>
             </div>
@@ -235,39 +258,39 @@ export default function DesignShowcase() {
 
       {/* Spinners & Loading States */}
       <section className="max-w-6xl mx-auto mb-16">
-        <h2 className="font-mono text-brand-green text-lg mb-6">LOADING STATES</h2>
+        <h2 className="font-sans text-brand-green text-lg font-medium mb-6">Loading States</h2>
         <Card>
           <CardHeader>
-            <h3 className="font-mono text-white">Spinner Variants</h3>
+            <h3 className="font-sans text-white font-medium">Spinner Variants</h3>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-4">
+                <p className="text-xs text-text-muted font-sans mb-4">
                   Small Spinner (Default Animation)
                 </p>
                 <Spinner size="sm" />
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-4">
+                <p className="text-xs text-text-muted font-sans mb-4">
                   Medium Spinner
                 </p>
                 <Spinner size="md" />
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-4">
+                <p className="text-xs text-text-muted font-sans mb-4">
                   Large Spinner with Pulse
                 </p>
                 <Spinner size="lg" pulse />
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-4">
+                <p className="text-xs text-text-muted font-sans mb-4">
                   Progress Bar (simulated)
                 </p>
-                <div className="progress-bar h-1 w-full bg-brand-green" />
+                <div className="progress-bar h-1 w-full bg-brand-green rounded-full" />
               </div>
             </div>
           </CardContent>
@@ -276,31 +299,31 @@ export default function DesignShowcase() {
 
       {/* Animations & Transitions */}
       <section className="max-w-6xl mx-auto mb-16">
-        <h2 className="font-mono text-brand-green text-lg mb-6">ANIMATIONS</h2>
+        <h2 className="font-sans text-brand-green text-lg font-medium mb-6">Animations</h2>
         <Card>
           <CardHeader>
-            <h3 className="font-mono text-white">Interactive Effects</h3>
+            <h3 className="font-sans text-white font-medium">Interactive Effects</h3>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-3">
-                  Hover Effects (try hovering on buttons/cards)
+                <p className="text-xs text-text-muted font-sans mb-3">
+                  Hover Effects (smooth lift + glow on buttons/cards)
                 </p>
                 <div className="flex gap-2 flex-wrap">
-                  <Button variant="primary">Hover me (glow)</Button>
-                  <Button variant="secondary">Hover me (glow)</Button>
-                  <Button variant="ghost">Hover me (glow)</Button>
+                  <Button variant="primary">Hover for lift</Button>
+                  <Button variant="secondary">Smooth transitions</Button>
+                  <Button variant="ghost">Subtle highlight</Button>
                 </div>
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-3">
-                  Card Hover (subtle glow effect)
+                <p className="text-xs text-text-muted font-sans mb-3">
+                  Card Hover (lift + subtle glow)
                 </p>
                 <div className="grid grid-cols-2 gap-2">
                   <Card elevated>
-                    <CardContent>Hover for glow</CardContent>
+                    <CardContent>Hover for lift</CardContent>
                   </Card>
                   <Card elevated>
                     <CardContent>Smooth animation</CardContent>
@@ -309,21 +332,21 @@ export default function DesignShowcase() {
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-3">
-                  Badge Animations
+                <p className="text-xs text-text-muted font-sans mb-3">
+                  Badge Styling
                 </p>
                 <div className="flex gap-2 flex-wrap">
-                  <Badge variant="default">Hover me</Badge>
-                  <Badge variant="success">Success</Badge>
-                  <Badge variant="warning">Warning</Badge>
-                  <Badge variant="error">Error</Badge>
-                  <Badge variant="info">Info</Badge>
+                  <Badge variant="default">default</Badge>
+                  <Badge variant="success">success</Badge>
+                  <Badge variant="warning">warning</Badge>
+                  <Badge variant="error">error</Badge>
+                  <Badge variant="info">info</Badge>
                 </div>
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 font-mono mb-3">
-                  All animations respect prefers-reduced-motion for accessibility
+                <p className="text-xs text-text-muted font-sans mb-3">
+                  All animations use smooth cubic-bezier easing and respect prefers-reduced-motion
                 </p>
               </div>
             </div>
@@ -333,38 +356,44 @@ export default function DesignShowcase() {
 
       {/* Features */}
       <section className="max-w-6xl mx-auto mb-16">
-        <h2 className="font-mono text-brand-green text-lg mb-6">FEATURES</h2>
+        <h2 className="font-sans text-brand-green text-lg font-medium mb-6">Features</h2>
         <Card>
           <CardHeader>
-            <h3 className="font-mono text-white">What Makes This Special</h3>
+            <h3 className="font-sans text-white font-medium">What Makes This Special</h3>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="flex items-start gap-2">
                 <Badge variant="success">✓</Badge>
-                <p>Phosphor-green accents on dark background (high contrast)</p>
+                <p>Softened mission control aesthetic — premium dev tool vibes (Linear × Arc × Bloomberg)</p>
               </div>
               <div className="flex items-start gap-2">
                 <Badge variant="success">✓</Badge>
-                <p>Sharp 90° edges (no rounded corners, no AI-slop)</p>
+                <p>Warmer dark backgrounds (#0c0d12 base) with layered depth</p>
               </div>
               <div className="flex items-start gap-2">
                 <Badge variant="success">✓</Badge>
-                <p>Typography hierarchy: Serif + Mono + Sans</p>
+                <p>Softened green (#00e85c) — less nuclear, more premium</p>
               </div>
               <div className="flex items-start gap-2">
                 <Badge variant="success">✓</Badge>
-                <p>Subtle scanlines effect (visual depth)</p>
+                <p>Content corners softened (4-8px) while structure stays sharp (0px)</p>
               </div>
               <div className="flex items-start gap-2">
                 <Badge variant="success">✓</Badge>
-                <p>
-                  Hover states with glow effect (shows interactivity clearly)
-                </p>
+                <p>Geist Sans primary, Geist Mono for data, Instrument Serif for display</p>
               </div>
               <div className="flex items-start gap-2">
                 <Badge variant="success">✓</Badge>
-                <p>Functional, not decorative (Mission Control vibes)</p>
+                <p>Smooth hover transitions with lift + glow instead of hard state changes</p>
+              </div>
+              <div className="flex items-start gap-2">
+                <Badge variant="success">✓</Badge>
+                <p>Opacity-based borders for subtle layering and depth</p>
+              </div>
+              <div className="flex items-start gap-2">
+                <Badge variant="success">✓</Badge>
+                <p>Mission control authority preserved, but now it feels designed</p>
               </div>
             </div>
           </CardContent>
@@ -372,9 +401,9 @@ export default function DesignShowcase() {
       </section>
 
       {/* Footer */}
-      <div className="max-w-6xl mx-auto mt-16 pt-8 border-t border-brand-border">
-        <p className="font-mono text-xs text-gray-500">
-          Design System v1.0 • Feb 14, 2026 • Live Build
+      <div className="max-w-6xl mx-auto mt-16 pt-8 border-t border-border-default">
+        <p className="font-mono text-xs text-text-muted">
+          Design System v2.0 • Feb 15, 2026 • Softened Mission Control • Live Build
         </p>
       </div>
     </div>
