@@ -69,33 +69,118 @@ export default function CreateBoardButton() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+        style={{
+          padding: '10px 20px',
+          backgroundColor: '#34d399',
+          color: '#0b1215',
+          border: 'none',
+          borderRadius: '8px',
+          fontSize: '14px',
+          fontWeight: 600,
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+          fontFamily: 'var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = '#2bc586'
+          e.currentTarget.style.transform = 'translateY(-1px)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = '#34d399'
+          e.currentTarget.style.transform = 'translateY(0)'
+        }}
       >
         + Create Board
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">Create Board</h3>
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: 'rgba(0,0,0,0.7)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 50,
+          padding: '16px',
+          fontFamily: 'var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+        }}>
+          <div style={{
+            backgroundColor: '#142024',
+            borderRadius: '14px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+            maxWidth: '500px',
+            width: '100%',
+            padding: '32px',
+            border: '1px solid rgba(255,255,255,0.07)'
+          }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '24px'
+            }}>
+              <h3 style={{
+                fontSize: '24px',
+                fontWeight: 600,
+                color: '#f0f5f1',
+                margin: 0
+              }}>
+                Create Board
+              </h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#8a9b91',
+                  fontSize: '28px',
+                  cursor: 'pointer',
+                  padding: '0',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '6px',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#e2e8e4'
+                  e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#8a9b91'
+                  e.currentTarget.style.backgroundColor = 'transparent'
+                }}
               >
                 ×
               </button>
             </div>
 
-            <form onSubmit={handleCreate} className="space-y-4">
+            <form onSubmit={handleCreate} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
               {error && (
-                <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
+                <div style={{
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  color: '#fca5a5',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  border: '1px solid rgba(239, 68, 68, 0.2)'
+                }}>
                   {error}
                 </div>
               )}
 
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="title" style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  color: '#e2e8e4',
+                  marginBottom: '8px'
+                }}>
                   Board Title *
                 </label>
                 <input
@@ -104,13 +189,39 @@ export default function CreateBoardButton() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="e.g., Website Redesign"
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    backgroundColor: '#101a1e',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    color: '#e2e8e4',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
+                    fontFamily: 'inherit',
+                    boxSizing: 'border-box'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#34d399'
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(52, 211, 153, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
                 />
               </div>
 
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="description" style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  color: '#e2e8e4',
+                  marginBottom: '8px'
+                }}>
                   Description (optional)
                 </label>
                 <textarea
@@ -118,44 +229,140 @@ export default function CreateBoardButton() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="What's this board about?"
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    backgroundColor: '#101a1e',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    color: '#e2e8e4',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
+                    fontFamily: 'inherit',
+                    resize: 'vertical',
+                    boxSizing: 'border-box'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#34d399'
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(52, 211, 153, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  color: '#e2e8e4',
+                  marginBottom: '12px'
+                }}>
                   Background Color
                 </label>
-                <div className="grid grid-cols-4 gap-2">
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(4, 1fr)',
+                  gap: '10px'
+                }}>
                   {BOARD_COLORS.map((color) => (
                     <button
                       key={color}
                       type="button"
                       onClick={() => setBackgroundColor(color)}
-                      className={`h-12 rounded-lg transition-all ${
-                        backgroundColor === color
-                          ? 'ring-4 ring-blue-500 ring-offset-2'
-                          : 'hover:opacity-80'
-                      }`}
-                      style={{ backgroundColor: color }}
+                      style={{
+                        height: '56px',
+                        borderRadius: '8px',
+                        border: backgroundColor === color 
+                          ? '3px solid #34d399' 
+                          : '2px solid rgba(255,255,255,0.1)',
+                        backgroundColor: color,
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        outline: 'none',
+                        boxShadow: backgroundColor === color 
+                          ? '0 0 0 4px rgba(52, 211, 153, 0.15)' 
+                          : 'none'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (backgroundColor !== color) {
+                          e.currentTarget.style.opacity = '0.85'
+                          e.currentTarget.style.transform = 'scale(1.05)'
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.opacity = '1'
+                        e.currentTarget.style.transform = 'scale(1)'
+                      }}
                     />
                   ))}
                 </div>
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div style={{
+                display: 'flex',
+                gap: '12px',
+                paddingTop: '8px'
+              }}>
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  style={{
+                    flex: 1,
+                    padding: '10px 20px',
+                    backgroundColor: 'transparent',
+                    color: '#8a9b91',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    fontFamily: 'inherit'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+                    e.currentTarget.style.color = '#e2e8e4'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                    e.currentTarget.style.color = '#8a9b91'
+                  }}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading || !title.trim()}
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  style={{
+                    flex: 1,
+                    padding: '10px 20px',
+                    backgroundColor: loading || !title.trim() ? '#2a6d59' : '#34d399',
+                    color: '#0b1215',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    cursor: loading || !title.trim() ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.2s ease',
+                    fontFamily: 'inherit',
+                    opacity: loading || !title.trim() ? 0.5 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!loading && title.trim()) {
+                      e.currentTarget.style.backgroundColor = '#2bc586'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!loading && title.trim()) {
+                      e.currentTarget.style.backgroundColor = '#34d399'
+                    }
+                  }}
                 >
                   {loading ? 'Creating...' : 'Create Board'}
                 </button>

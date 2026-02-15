@@ -43,21 +43,67 @@ export default async function BoardsPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div style={{ 
+      minHeight: '100vh', 
+      backgroundColor: '#0b1215',
+      fontFamily: 'var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    }}>
       {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <Link href="/dashboard">
-            <h1 className="text-2xl font-bold text-gray-900 hover:text-blue-600 cursor-pointer transition-colors">
-              Brumello <span className="text-blue-600">❄️</span>
-            </h1>
+      <header style={{
+        backgroundColor: '#101a1e',
+        borderBottom: '1px solid rgba(255,255,255,0.04)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 10
+      }}>
+        <div style={{
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: '0 24px',
+          height: '56px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <Link 
+            href="/dashboard"
+            style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#f0f5f1',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'color 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#34d399'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#f0f5f1'}
+          >
+            Brumello <span style={{ fontSize: '16px' }}>❄️</span>
           </Link>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">{user.email}</span>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px'
+          }}>
+            <span style={{
+              fontSize: '14px',
+              color: '#8a9b91'
+            }}>
+              {user.email}
+            </span>
             <NotificationBell userId={user.id} />
             <Link 
               href="/dashboard"
-              className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900"
+              style={{
+                fontSize: '14px',
+                color: '#8a9b91',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#e2e8e4'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#8a9b91'}
             >
               Dashboard
             </Link>
@@ -66,35 +112,129 @@ export default async function BoardsPage() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">Your Boards</h2>
+      <main style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '48px 24px'
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '32px'
+        }}>
+          <h2 style={{
+            fontSize: '32px',
+            fontWeight: 600,
+            color: '#f0f5f1',
+            margin: 0
+          }}>
+            Your Boards
+          </h2>
           <CreateBoardButton />
         </div>
 
         {allBoards.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-lg p-12 text-center">
-            <div className="text-6xl mb-4">📋</div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">No boards yet</h3>
-            <p className="text-gray-600 mb-6">Create your first board to get started!</p>
+          <div style={{
+            backgroundColor: '#142024',
+            borderRadius: '14px',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
+            padding: '64px 48px',
+            textAlign: 'center',
+            maxWidth: '600px',
+            margin: '0 auto'
+          }}>
+            <div style={{
+              fontSize: '64px',
+              marginBottom: '24px'
+            }}>
+              📋
+            </div>
+            <h3 style={{
+              fontSize: '24px',
+              fontWeight: 600,
+              color: '#f0f5f1',
+              margin: '0 0 12px 0'
+            }}>
+              No boards yet
+            </h3>
+            <p style={{
+              fontSize: '15px',
+              color: '#8a9b91',
+              margin: '0 0 32px 0'
+            }}>
+              Create your first board to get started!
+            </p>
             <CreateBoardButton />
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '16px'
+          }}>
             {allBoards.map((board: any) => (
               <Link
                 key={board.id}
                 href={`/boards/${board.id}`}
-                className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer relative"
-                style={{ backgroundColor: board.background_color || '#0079bf' }}
+                style={{
+                  backgroundColor: board.background_color || '#142024',
+                  borderRadius: '14px',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
+                  padding: '24px',
+                  textDecoration: 'none',
+                  position: 'relative',
+                  transition: 'all 0.2s ease',
+                  cursor: 'pointer',
+                  display: 'block',
+                  minHeight: '140px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.3)'
+                }}
               >
-                <div className="text-white">
-                  <h3 className="text-xl font-bold mb-2">{board.title}</h3>
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  <h3 style={{
+                    fontSize: '18px',
+                    fontWeight: 600,
+                    color: '#ffffff',
+                    margin: '0 0 8px 0',
+                    lineHeight: 1.3
+                  }}>
+                    {board.title}
+                  </h3>
                   {board.description && (
-                    <p className="text-sm opacity-90 line-clamp-2">{board.description}</p>
+                    <p style={{
+                      fontSize: '14px',
+                      color: 'rgba(255,255,255,0.85)',
+                      margin: 0,
+                      lineHeight: 1.4,
+                      overflow: 'hidden',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical'
+                    }}>
+                      {board.description}
+                    </p>
                   )}
                   {board.member && (
-                    <span className="absolute top-2 right-2 bg-white bg-opacity-20 text-xs px-2 py-1 rounded">
+                    <span style={{
+                      position: 'absolute',
+                      top: '-4px',
+                      right: '-4px',
+                      backgroundColor: 'rgba(255,255,255,0.2)',
+                      backdropFilter: 'blur(8px)',
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      color: '#ffffff',
+                      padding: '4px 10px',
+                      borderRadius: '6px'
+                    }}>
                       Shared
                     </span>
                   )}
