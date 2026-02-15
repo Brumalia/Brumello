@@ -1,8 +1,9 @@
 'use client'
+export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 export default function SignupPage() {
@@ -12,7 +13,17 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createClient() as any
+
+  const inviteToken = searchParams.get('invite')
+  const inviteEmail = searchParams.get('email')
+
+  useEffect(() => {
+    if (inviteEmail) {
+      setEmail(decodeURIComponent(inviteEmail))
+    }
+  }, [inviteEmail])
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -30,11 +41,20 @@ export default function SignupPage() {
     } else {
       setSuccess(true)
       setLoading(false)
-      // Redirect to dashboard after signup
-      setTimeout(() => {
-        router.push('/dashboard')
-        router.refresh()
-      }, 1500)
+      
+      // If there's an invite token, accept the invite after signup
+      if (inviteToken) {
+        // Wait a bit for auth to settle, then redirect to accept invite
+        setTimeout(() => {
+          window.location.href = `/api/invite/accept?token=${inviteToken}`
+        }, 1500)
+      } else {
+        // Redirect to dashboard after signup
+        setTimeout(() => {
+          router.push('/dashboard')
+          router.refresh()
+        }, 1500)
+      }
     }
   }
 
@@ -87,7 +107,9 @@ export default function SignupPage() {
             fontFamily: 'var(--font-geist-sans)',
           }}>
             <p style={{ fontWeight: '600', margin: 0 }}>Account created successfully!</p>
-            <p style={{ fontSize: '14px', marginTop: '4px', margin: 0 }}>Redirecting to dashboard...</p>
+            <p style={{ fontSize: '14px', marginTop: '4px', margin: 0 }}>
+              {inviteToken ? 'Accepting invite...' : 'Redirecting to dashboard...'}
+            </p>
           </div>
         ) : (
           <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>

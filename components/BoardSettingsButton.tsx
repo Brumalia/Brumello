@@ -262,7 +262,10 @@ function MembersTab({ boardId }: { boardId: string }) {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const [searching, setSearching] = useState(false)
   const [inviting, setInviting] = useState(false)
+  const [inviteSuccess, setInviteSuccess] = useState(false)
+  const [inviteError, setInviteError] = useState<string | null>(null)
   const supabase = createClient() as any
 
   // Load members on mount
@@ -280,16 +283,20 @@ function MembersTab({ boardId }: { boardId: string }) {
   }
 
   const searchUsers = async (query: string) => {
-    if (query.length < 2) {
+    if (query.length < 3) {
       setSearchResults([])
       return
     }
+    setSearching(true)
     const { data, error } = await supabase.rpc('search_users', { p_query: query })
     if (!error && data) {
       // Filter out already-added members
       const filtered = data.filter((user: any) => !members.some(m => m.user_id === user.id))
       setSearchResults(filtered)
+    } else {
+      setSearchResults([])
     }
+    setSearching(false)
   }
 
   const inviteMember = async (userId: string) => {
@@ -303,6 +310,61 @@ function MembersTab({ boardId }: { boardId: string }) {
       setSearchResults([])
       await loadMembers()
     }
+    setInviting(false)
+  }
+
+  const sendInvite = async (email: string) => {
+    setInviting(true)
+    setInviteError(null)
+    setInviteSuccess(false)
+
+    try {
+      // 1. Get current user
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      // 2. Get board name
+      const { data: board } = await supabase.from('boards').select('title').eq('id', boardId).single()
+      
+      // 3. Insert into board_invites
+      const { data: invite, error } = await supabase
+        .from('board_invites')
+        .insert({ board_id: boardId, invited_email: email, invited_by: user.id })
+        .select()
+        .single()
+      
+      if (error) {
+        setInviteError('Failed to create invite')
+        setInviting(false)
+        return
+      }
+      
+      // 4. Send invite email via fetch to /api/invite/send
+      const response = await fetch('/api/invite/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email, 
+          boardName: board.title,
+          inviterEmail: user.email,
+          token: invite.token 
+        })
+      })
+
+      if (!response.ok) {
+        setInviteError('Failed to send invite email')
+        setInviting(false)
+        return
+      }
+      
+      // 5. Show success state
+      setInviteSuccess(true)
+      setSearchQuery('')
+      setSearchResults([])
+      setTimeout(() => setInviteSuccess(false), 3000)
+    } catch (err) {
+      setInviteError('An error occurred')
+    }
+    
     setInviting(false)
   }
 
@@ -396,7 +458,85 @@ function MembersTab({ boardId }: { boardId: string }) {
               ))}
             </div>
           )}
+          {searchQuery.length >= 3 && searchResults.length === 0 && !searching && (
+            <div 
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                marginTop: '4px',
+                backgroundColor: '#142024',
+                border: '1px solid rgba(255,255,255,0.07)',
+                borderRadius: '10px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+                zIndex: 10,
+                padding: '12px'
+              }}
+            >
+              <p style={{ fontSize: '14px', color: '#8a9b91', margin: '0 0 8px 0' }}>
+                No account found for this email
+              </p>
+              <button
+                onClick={() => sendInvite(searchQuery)}
+                disabled={inviting}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  backgroundColor: 'transparent',
+                  color: '#34d399',
+                  border: '1px solid #34d399',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  cursor: inviting ? 'not-allowed' : 'pointer',
+                  opacity: inviting ? 0.5 : 1,
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  if (!inviting) {
+                    e.currentTarget.style.backgroundColor = 'rgba(52, 211, 153, 0.1)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent'
+                }}
+              >
+                {inviting ? 'Sending invite...' : 'Send invite'}
+              </button>
+            </div>
+          )}
         </div>
+        {inviteSuccess && (
+          <div 
+            style={{
+              marginTop: '8px',
+              padding: '8px 12px',
+              backgroundColor: 'rgba(52, 211, 153, 0.1)',
+              color: '#34d399',
+              borderRadius: '8px',
+              fontSize: '14px',
+              border: '1px solid rgba(52, 211, 153, 0.2)'
+            }}
+          >
+            Invite sent successfully!
+          </div>
+        )}
+        {inviteError && (
+          <div 
+            style={{
+              marginTop: '8px',
+              padding: '8px 12px',
+              backgroundColor: 'rgba(239, 68, 68, 0.1)',
+              color: '#ef4444',
+              borderRadius: '8px',
+              fontSize: '14px',
+              border: '1px solid rgba(239, 68, 68, 0.2)'
+            }}
+          >
+            {inviteError}
+          </div>
+        )}
       </div>
 
       <div>
