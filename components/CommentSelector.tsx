@@ -194,18 +194,31 @@ export default function CommentSelector({ cardId, boardId, onUpdate }: CommentSe
   )
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-sm font-semibold text-gray-700">Comments</h3>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: '#f0f5f1', fontFamily: 'Geist Sans, sans-serif' }}>Comments</h3>
 
       {/* Add Comment */}
-      <div className="relative">
+      <div style={{ position: 'relative' }}>
         <textarea
           ref={textareaRef}
           value={newComment}
           onChange={handleInputChange}
           placeholder="Write a comment... (@ to mention)"
           rows={2}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          style={{
+            width: '100%',
+            padding: '0.75rem',
+            backgroundColor: '#101a1e',
+            color: '#c8d5cc',
+            border: '1px solid rgba(255,255,255,0.04)',
+            borderRadius: '10px',
+            fontSize: '0.875rem',
+            resize: 'none',
+            outline: 'none',
+            fontFamily: 'Geist Sans, sans-serif'
+          }}
+          onFocus={(e) => e.currentTarget.style.outline = '1px solid #34d399'}
+          onBlur={(e) => e.currentTarget.style.outline = 'none'}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey && !showMentions) {
               e.preventDefault()
@@ -219,18 +232,55 @@ export default function CommentSelector({ cardId, boardId, onUpdate }: CommentSe
         
         {/* Mention Dropdown */}
         {showMentions && filteredMembers.length > 0 && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-40 overflow-y-auto">
+          <div style={{
+            position: 'absolute',
+            zIndex: 10,
+            width: '100%',
+            marginTop: '0.25rem',
+            backgroundColor: '#142024',
+            border: '1px solid rgba(52,211,153,0.15)',
+            borderRadius: '10px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+            maxHeight: '10rem',
+            overflowY: 'auto'
+          }}>
             {filteredMembers.map((member) => (
               <button
                 key={member.user_id}
                 onClick={() => insertMention(member)}
-                className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100 flex items-center gap-2"
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  textAlign: 'left',
+                  fontSize: '0.875rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: '#c8d5cc',
+                  fontFamily: 'Geist Sans, sans-serif'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#101a1e'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
               >
-                <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">
+                <div style={{
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                  backgroundColor: '#10b981',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#f0f5f1',
+                  fontSize: '0.75rem',
+                  fontWeight: 600
+                }}>
                   {member.email.charAt(0).toUpperCase()}
                 </div>
                 <span>{member.email}</span>
-                <span className="text-xs text-gray-400 capitalize">({member.role})</span>
+                <span style={{ fontSize: '0.75rem', color: '#8a9b91', textTransform: 'capitalize' }}>({member.role})</span>
               </button>
             ))}
           </div>
@@ -240,37 +290,96 @@ export default function CommentSelector({ cardId, boardId, onUpdate }: CommentSe
       <button
         onClick={addComment}
         disabled={loading || !newComment.trim()}
-        className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 disabled:opacity-50"
+        style={{
+          padding: '0.5rem 1rem',
+          backgroundColor: loading || !newComment.trim() ? 'rgba(16,185,129,0.5)' : '#10b981',
+          color: '#f0f5f1',
+          borderRadius: '10px',
+          fontSize: '0.875rem',
+          fontWeight: 600,
+          border: 'none',
+          cursor: loading || !newComment.trim() ? 'not-allowed' : 'pointer',
+          fontFamily: 'Geist Sans, sans-serif'
+        }}
+        onMouseEnter={(e) => {
+          if (!loading && newComment.trim()) {
+            e.currentTarget.style.backgroundColor = '#34d399'
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!loading && newComment.trim()) {
+            e.currentTarget.style.backgroundColor = '#10b981'
+          }
+        }}
       >
         {loading ? 'Sending...' : 'Send'}
       </button>
 
       {/* Comments List */}
       {comments.length === 0 ? (
-        <p className="text-sm text-gray-500 italic">No comments yet</p>
+        <p style={{ fontSize: '0.875rem', color: '#8a9b91', fontStyle: 'italic', fontFamily: 'Geist Sans, sans-serif' }}>No comments yet</p>
       ) : (
-        <div className="space-y-3">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {comments.map((comment) => (
-            <div key={comment.id} className="flex gap-3 group">
-              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                <span className="text-xs font-medium text-blue-600">
+            <div 
+              key={comment.id} 
+              style={{ 
+                display: 'flex', 
+                gap: '0.75rem',
+                backgroundColor: '#142024',
+                padding: '1rem',
+                borderRadius: '14px',
+                border: '1px solid rgba(255,255,255,0.04)',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.3)'
+              }}
+            >
+              <div style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                backgroundColor: '#101a1e',
+                border: '1px solid rgba(52,211,153,0.15)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#34d399', fontFamily: 'Geist Sans, sans-serif' }}>
                   {comment.users?.email?.charAt(0).toUpperCase() || 'U'}
                 </span>
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-900">
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                  <span style={{ fontSize: '0.875rem', fontWeight: 500, color: '#f0f5f1', fontFamily: 'Geist Sans, sans-serif' }}>
                     {comment.users?.email?.split('@')[0] || 'User'}
                   </span>
-                  <span className="text-xs text-gray-500">{formatDate(comment.created_at)}</span>
+                  <span style={{ fontSize: '0.75rem', color: '#8a9b91', fontFamily: 'Geist Mono, monospace' }}>{formatDate(comment.created_at)}</span>
                   <button
                     onClick={() => deleteComment(comment.id)}
-                    className="opacity-0 group-hover:opacity-100 text-xs text-red-600 hover:text-red-700"
+                    style={{
+                      fontSize: '0.75rem',
+                      color: '#f87171',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      opacity: 0,
+                      transition: 'opacity 0.2s',
+                      fontFamily: 'Geist Sans, sans-serif'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.opacity = '1'
+                      e.currentTarget.style.color = '#f87171'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#f87171'
+                    }}
+                    onFocus={(e) => e.currentTarget.style.opacity = '1'}
+                    onBlur={(e) => e.currentTarget.style.opacity = '0'}
                   >
                     Delete
                   </button>
                 </div>
-                <p className="text-sm text-gray-700 whitespace-pre-wrap">{comment.content}</p>
+                <p style={{ fontSize: '0.875rem', color: '#c8d5cc', whiteSpace: 'pre-wrap', fontFamily: 'Geist Sans, sans-serif' }}>{comment.content}</p>
               </div>
             </div>
           ))}

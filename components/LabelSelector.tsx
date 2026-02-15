@@ -129,12 +129,12 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
   }
 
   return (
-    <div className="space-y-3">
-      <h3 className="text-sm font-semibold text-gray-700">Labels</h3>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <h3 style={{ fontSize: '14px', fontWeight: 600, color: '#f0f5f1' }}>Labels</h3>
 
       {/* Selected Label (only one) */}
       {selectedLabels.length > 0 && (
-        <div className="flex flex-wrap gap-2">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {selectedLabels.map((label) => (
             <LabelBadge
               key={label.id}
@@ -147,11 +147,11 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
       )}
 
       {/* Available Labels */}
-      <div className="space-y-2">
-        <div className="text-xs text-gray-500">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <div style={{ fontSize: '12px', color: '#8a9b91' }}>
           {selectedLabels.length > 0 ? 'Change label:' : 'Select label:'}
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {boardLabels.map((label) => (
             <button
               key={label.id}
@@ -160,10 +160,24 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
                   ? removeLabelFromCard(label.id)
                   : addLabelToCard(label.id)
               }
-              className={`px-3 py-1 rounded text-sm font-medium text-white transition-opacity ${
-                isSelected(label.id) ? 'opacity-100' : 'opacity-70 hover:opacity-100'
-              }`}
-              style={{ backgroundColor: label.color }}
+              style={{
+                padding: '4px 12px',
+                borderRadius: '10px',
+                fontSize: '14px',
+                fontWeight: 500,
+                color: '#ffffff',
+                backgroundColor: label.color,
+                border: 'none',
+                cursor: 'pointer',
+                opacity: isSelected(label.id) ? 1 : 0.7,
+                transition: 'opacity 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '1'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = isSelected(label.id) ? '1' : '0.7'
+              }}
             >
               {label.name}
               {isSelected(label.id) && ' ✓'}
@@ -176,42 +190,126 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
       {!showCreateForm ? (
         <button
           onClick={() => setShowCreateForm(true)}
-          className="text-sm text-blue-600 hover:text-blue-700"
+          style={{
+            fontSize: '14px',
+            color: '#10b981',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            textAlign: 'left',
+            padding: 0,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = '#34d399'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = '#10b981'
+          }}
         >
           + Create new label
         </button>
       ) : (
-        <div className="border border-gray-200 rounded-lg p-3 space-y-3">
+        <div
+          style={{
+            border: '1px solid rgba(255,255,255,0.04)',
+            borderRadius: '10px',
+            padding: '12px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            backgroundColor: '#101a1e',
+          }}
+        >
           <input
             type="text"
             value={newLabelName}
             onChange={(e) => setNewLabelName(e.target.value)}
             placeholder="Label name"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+            style={{
+              width: '100%',
+              padding: '8px 12px',
+              border: '1px solid rgba(255,255,255,0.04)',
+              borderRadius: '10px',
+              fontSize: '14px',
+              backgroundColor: '#101a1e',
+              color: '#c8d5cc',
+              outline: 'none',
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.border = '1px solid rgba(52,211,153,0.15)'
+              e.currentTarget.style.boxShadow = '0 0 0 2px rgba(16,185,129,0.1)'
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.border = '1px solid rgba(255,255,255,0.04)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
             autoFocus
           />
 
-          <div className="grid grid-cols-4 gap-2">
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: '8px',
+            }}
+          >
             {DEFAULT_COLORS.map((colorOption) => (
               <button
                 key={colorOption.color}
                 onClick={() => setNewLabelColor(colorOption.color)}
-                className={`h-8 rounded transition-all ${
-                  newLabelColor === colorOption.color
-                    ? 'ring-2 ring-offset-2 ring-gray-900'
-                    : 'hover:scale-110'
-                }`}
-                style={{ backgroundColor: colorOption.color }}
+                style={{
+                  height: '32px',
+                  borderRadius: '6px',
+                  backgroundColor: colorOption.color,
+                  border: newLabelColor === colorOption.color
+                    ? '2px solid #10b981'
+                    : 'none',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s',
+                  outline: newLabelColor === colorOption.color
+                    ? '2px solid rgba(16,185,129,0.2)'
+                    : 'none',
+                  outlineOffset: '2px',
+                }}
                 title={colorOption.name}
+                onMouseEnter={(e) => {
+                  if (newLabelColor !== colorOption.color) {
+                    e.currentTarget.style.transform = 'scale(1.1)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)'
+                }}
               />
             ))}
           </div>
 
-          <div className="flex gap-2">
+          <div style={{ display: 'flex', gap: '8px' }}>
             <button
               onClick={createLabel}
               disabled={loading || !newLabelName.trim()}
-              className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 disabled:opacity-50"
+              style={{
+                flex: 1,
+                padding: '8px 12px',
+                backgroundColor: loading || !newLabelName.trim() ? '#0d7a5c' : '#10b981',
+                color: '#ffffff',
+                borderRadius: '10px',
+                fontSize: '14px',
+                fontWeight: 600,
+                border: 'none',
+                cursor: loading || !newLabelName.trim() ? 'not-allowed' : 'pointer',
+                opacity: loading || !newLabelName.trim() ? 0.5 : 1,
+              }}
+              onMouseEnter={(e) => {
+                if (!loading && newLabelName.trim()) {
+                  e.currentTarget.style.backgroundColor = '#34d399'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!loading && newLabelName.trim()) {
+                  e.currentTarget.style.backgroundColor = '#10b981'
+                }
+              }}
             >
               {loading ? 'Creating...' : 'Create'}
             </button>
@@ -220,7 +318,21 @@ export default function LabelSelector({ cardId, boardId, selectedLabels, onUpdat
                 setShowCreateForm(false)
                 setNewLabelName('')
               }}
-              className="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm hover:bg-gray-300"
+              style={{
+                padding: '8px 12px',
+                backgroundColor: '#142024',
+                color: '#c8d5cc',
+                borderRadius: '10px',
+                fontSize: '14px',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#1a2a2f'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#142024'
+              }}
             >
               Cancel
             </button>

@@ -10,10 +10,17 @@ interface LabelBadgeProps {
 export default function LabelBadge({ name, color, onRemove, compact = false }: LabelBadgeProps) {
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded ${
-        compact ? 'px-2 py-0.5 text-xs' : 'px-3 py-1 text-sm'
-      } font-medium text-white`}
-      style={{ backgroundColor: color }}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '4px',
+        borderRadius: '6px',
+        padding: compact ? '2px 8px' : '4px 12px',
+        fontSize: compact ? '12px' : '14px',
+        fontWeight: 500,
+        color: '#ffffff',
+        backgroundColor: color,
+      }}
     >
       {name}
       {onRemove && (
@@ -22,7 +29,23 @@ export default function LabelBadge({ name, color, onRemove, compact = false }: L
             e.stopPropagation()
             onRemove()
           }}
-          className="hover:bg-black hover:bg-opacity-20 rounded-full p-0.5"
+          style={{
+            background: 'transparent',
+            border: 'none',
+            borderRadius: '50%',
+            padding: '2px',
+            cursor: 'pointer',
+            color: '#ffffff',
+            fontSize: '16px',
+            lineHeight: 1,
+            transition: 'background-color 0.2s',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.2)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent'
+          }}
         >
           ×
         </button>

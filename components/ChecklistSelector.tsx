@@ -150,30 +150,63 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-gray-700">Checklists</h3>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: '#f0f5f1', fontFamily: 'Geist Sans, sans-serif' }}>Checklists</h3>
         {!showAddChecklist ? (
           <button
             onClick={() => setShowAddChecklist(true)}
-            className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+            style={{
+              fontSize: '0.875rem',
+              color: '#34d399',
+              fontWeight: 500,
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontFamily: 'Geist Sans, sans-serif'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#10b981'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#34d399'}
           >
             + Add checklist
           </button>
         ) : (
-          <div className="flex gap-2">
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
             <input
               type="text"
               value={newChecklistName}
               onChange={(e) => setNewChecklistName(e.target.value)}
               placeholder="Checklist name..."
-              className="px-2 py-1 text-sm border border-gray-300 rounded"
+              style={{
+                padding: '0.5rem',
+                fontSize: '0.875rem',
+                backgroundColor: '#101a1e',
+                color: '#c8d5cc',
+                border: '1px solid rgba(255,255,255,0.04)',
+                borderRadius: '10px',
+                outline: 'none',
+                fontFamily: 'Geist Sans, sans-serif'
+              }}
+              onFocus={(e) => e.currentTarget.style.outline = '1px solid #34d399'}
+              onBlur={(e) => e.currentTarget.style.outline = 'none'}
               autoFocus
               onKeyDown={(e) => e.key === 'Enter' && addChecklist()}
             />
             <button
               onClick={addChecklist}
-              className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+              style={{
+                padding: '0.5rem 1rem',
+                fontSize: '0.875rem',
+                backgroundColor: '#10b981',
+                color: '#f0f5f1',
+                border: 'none',
+                borderRadius: '10px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontFamily: 'Geist Sans, sans-serif'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#34d399'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#10b981'}
             >
               Add
             </button>
@@ -182,7 +215,17 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
                 setShowAddChecklist(false)
                 setNewChecklistName('')
               }}
-              className="px-2 py-1 text-sm text-gray-600 hover:text-gray-800"
+              style={{
+                padding: '0.5rem',
+                fontSize: '0.875rem',
+                color: '#8a9b91',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontFamily: 'Geist Sans, sans-serif'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#c8d5cc'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#8a9b91'}
             >
               ×
             </button>
@@ -191,59 +234,120 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
       </div>
 
       {checklists.length === 0 && !showAddChecklist ? (
-        <p className="text-sm text-gray-500 italic">No checklists yet</p>
+        <p style={{ fontSize: '0.875rem', color: '#8a9b91', fontStyle: 'italic', fontFamily: 'Geist Sans, sans-serif' }}>No checklists yet</p>
       ) : (
         checklists.map((checklist) => (
-          <div key={checklist.id} className="border border-gray-200 rounded-lg p-3">
+          <div key={checklist.id} style={{ 
+            backgroundColor: '#142024', 
+            border: '1px solid rgba(255,255,255,0.04)', 
+            borderRadius: '14px', 
+            padding: '1rem',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.3)'
+          }}>
             {/* Checklist Header */}
-            <div className="flex items-center justify-between mb-2">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
               <input
                 type="text"
                 value={checklist.title}
                 onChange={(e) => updateChecklistTitle(checklist.id, e.target.value)}
-                className="font-medium text-gray-900 bg-transparent border-b border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none px-1 -ml-1"
+                style={{
+                  fontWeight: 500,
+                  color: '#f0f5f1',
+                  backgroundColor: 'transparent',
+                  borderBottom: '1px solid transparent',
+                  outline: 'none',
+                  padding: '0.25rem',
+                  marginLeft: '-0.25rem',
+                  fontFamily: 'Geist Sans, sans-serif'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.borderBottom = '1px solid rgba(255,255,255,0.04)'}
+                onMouseLeave={(e) => e.currentTarget.style.borderBottom = '1px solid transparent'}
+                onFocus={(e) => e.currentTarget.style.borderBottom = '1px solid #34d399'}
+                onBlur={(e) => e.currentTarget.style.borderBottom = '1px solid transparent'}
               />
               <button
                 onClick={() => deleteChecklist(checklist.id)}
-                className="text-xs text-red-600 hover:text-red-700"
+                style={{
+                  fontSize: '0.75rem',
+                  color: '#f87171',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'Geist Sans, sans-serif'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
               >
                 Delete
               </button>
             </div>
 
             {/* Progress Bar */}
-            <div className="mb-3">
-              <div className="flex justify-between text-xs text-gray-500 mb-1">
+            <div style={{ marginBottom: '0.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#8a9b91', marginBottom: '0.25rem', fontFamily: 'Geist Mono, monospace' }}>
                 <span>{checklist.items.filter(i => i.completed).length}/{checklist.items.length}</span>
                 <span>{getProgress(checklist.items)}%</span>
               </div>
-              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div style={{ height: '8px', backgroundColor: '#101a1e', borderRadius: '10px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.04)' }}>
                 <div
-                  className="h-full bg-green-500 transition-all"
-                  style={{ width: `${getProgress(checklist.items)}%` }}
+                  style={{ 
+                    height: '100%', 
+                    backgroundColor: '#10b981', 
+                    width: `${getProgress(checklist.items)}%`,
+                    transition: 'width 0.3s ease'
+                  }}
                 />
               </div>
             </div>
 
             {/* Items */}
-            <div className="space-y-1">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
               {checklist.items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center gap-2 group"
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
                   <input
                     type="checkbox"
                     checked={item.completed}
                     onChange={() => toggleItem(item.id, item.completed)}
-                    className="w-4 h-4 text-blue-600 rounded"
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      accentColor: '#10b981',
+                      cursor: 'pointer'
+                    }}
                   />
-                  <span className={`flex-1 text-sm ${item.completed ? 'line-through text-gray-400' : 'text-gray-700'}`}>
+                  <span style={{ 
+                    flex: 1, 
+                    fontSize: '0.875rem', 
+                    color: item.completed ? '#8a9b91' : '#c8d5cc',
+                    textDecoration: item.completed ? 'line-through' : 'none',
+                    fontFamily: 'Geist Sans, sans-serif'
+                  }}>
                     {item.text}
                   </span>
                   <button
                     onClick={() => deleteItem(item.id)}
-                    className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 text-xs"
+                    style={{
+                      color: '#8a9b91',
+                      background: 'none',
+                      border: 'none',
+                      fontSize: '0.75rem',
+                      cursor: 'pointer',
+                      opacity: 0,
+                      transition: 'opacity 0.2s',
+                      fontFamily: 'Geist Sans, sans-serif'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#f87171'
+                      e.currentTarget.style.opacity = '1'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#8a9b91'
+                    }}
+                    onFocus={(e) => e.currentTarget.style.opacity = '1'}
+                    onBlur={(e) => e.currentTarget.style.opacity = '0'}
                   >
                     ×
                   </button>
@@ -253,19 +357,43 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
 
             {/* Add Item */}
             {showAddItem === checklist.id ? (
-              <div className="mt-2 flex gap-2">
+              <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
                 <input
                   type="text"
                   value={newItemText}
                   onChange={(e) => setNewItemText(e.target.value)}
                   placeholder="Add an item..."
-                  className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
+                  style={{
+                    flex: 1,
+                    padding: '0.5rem',
+                    fontSize: '0.875rem',
+                    backgroundColor: '#101a1e',
+                    color: '#c8d5cc',
+                    border: '1px solid rgba(255,255,255,0.04)',
+                    borderRadius: '10px',
+                    outline: 'none',
+                    fontFamily: 'Geist Sans, sans-serif'
+                  }}
+                  onFocus={(e) => e.currentTarget.style.outline = '1px solid #34d399'}
+                  onBlur={(e) => e.currentTarget.style.outline = 'none'}
                   autoFocus
                   onKeyDown={(e) => e.key === 'Enter' && addItem(checklist.id)}
                 />
                 <button
                   onClick={() => addItem(checklist.id)}
-                  className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+                  style={{
+                    padding: '0.5rem 1rem',
+                    fontSize: '0.875rem',
+                    backgroundColor: '#10b981',
+                    color: '#f0f5f1',
+                    border: 'none',
+                    borderRadius: '10px',
+                    cursor: 'pointer',
+                    fontWeight: 600,
+                    fontFamily: 'Geist Sans, sans-serif'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#34d399'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#10b981'}
                 >
                   Add
                 </button>
@@ -274,7 +402,17 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
                     setShowAddItem(null)
                     setNewItemText('')
                   }}
-                  className="px-2 py-1 text-sm text-gray-600 hover:text-gray-800"
+                  style={{
+                    padding: '0.5rem',
+                    fontSize: '0.875rem',
+                    color: '#8a9b91',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontFamily: 'Geist Sans, sans-serif'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#c8d5cc'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#8a9b91'}
                 >
                   ×
                 </button>
@@ -282,7 +420,17 @@ export default function ChecklistSelector({ cardId, onUpdate }: ChecklistSelecto
             ) : (
               <button
                 onClick={() => setShowAddItem(checklist.id)}
-                className="mt-2 text-sm text-gray-500 hover:text-gray-700"
+                style={{
+                  marginTop: '0.5rem',
+                  fontSize: '0.875rem',
+                  color: '#8a9b91',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'Geist Sans, sans-serif'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#c8d5cc'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#8a9b91'}
               >
                 + Add an item
               </button>
