@@ -9,19 +9,19 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 /**
  * Mission Control Button Component
- * Phosphor-green accents, sharp edges, DM Mono font
+ * Geist Sans, softened green, 6px corners
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', className = '', children, ...props }, ref) => {
     const baseStyles =
-      'font-mono text-sm font-medium px-4 py-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-green active:animate-pulse';
+      'font-sans text-sm font-semibold px-5 py-2.5 rounded-md transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-border-focus tracking-tight';
 
     const variants = {
       primary:
-        'bg-transparent border-b-2 border-brand-green text-white hover:glow-green-hover active:border-brand-green-dim',
+        'bg-brand-green text-bg-primary hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0_0_24px_rgba(0,232,92,0.2)] active:translate-y-0',
       secondary:
-        'bg-brand-surface border border-brand-green text-brand-green hover:bg-brand-border hover:glow-green-hover',
-      ghost: 'bg-transparent text-foreground border border-brand-border hover:border-brand-green hover:text-brand-green hover:glow-green-hover',
+        'bg-transparent border border-border-bright text-text-secondary hover:border-brand-green hover:text-text-primary hover:-translate-y-0.5',
+      ghost: 'bg-transparent text-text-muted hover:text-text-primary hover:bg-bg-hover',
     };
 
     return (

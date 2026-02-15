@@ -9,23 +9,23 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 /**
  * Mission Control Badge Component
- * Monospaced, semantic color variants
+ * Geist Mono for data-like content, softened colors, 4px corners
  */
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ variant = 'default', className = '', children, ...props }, ref) => {
     const baseStyles =
-      'font-mono text-xs font-medium px-2 py-1 inline-block transition-colors duration-200';
+      'font-mono text-xs font-medium px-2 py-0.5 inline-block rounded transition-colors duration-200 tracking-wide';
 
     const variants = {
       default:
-        'bg-brand-border text-foreground border border-brand-green/30 hover:border-brand-green/60 hover:text-glow',
+        'bg-bg-card text-text-secondary border border-border-bright',
       success:
-        'bg-green-900/30 text-green-300 border border-green-500/50 hover:border-green-400 success-state',
+        'bg-brand-green/10 text-brand-green border border-brand-green/20',
       warning:
-        'bg-yellow-900/30 text-yellow-300 border border-yellow-500/50 hover:border-yellow-400',
+        'bg-brand-amber/10 text-brand-amber border border-brand-amber/20',
       error:
-        'bg-red-900/30 text-red-300 border border-red-500/50 hover:border-red-400',
-      info: 'bg-cyan-900/30 text-cyan-300 border border-cyan-500/50 hover:border-cyan-400',
+        'bg-brand-red/10 text-brand-red border border-brand-red/20',
+      info: 'bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20',
     };
 
     return (
