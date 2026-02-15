@@ -75,7 +75,7 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
         boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
         position: 'relative',
         overflow: 'hidden',
-        border: '1px solid rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.08)',
         transition: 'all 0.2s ease'
       }}
       {...attributes}
