@@ -1,6 +1,8 @@
 // File: app/design-system-test/page.tsx
 // DROP THIS FILE IN DIRECTLY. Do not modify. Do not "improve". Do not add generic content.
 
+'use client';
+
 export default function DesignSystemTest() {
   return (
     <div style={{ background: '#0b1215', minHeight: '100vh', color: '#e2e8e4' }}>
