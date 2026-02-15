@@ -48,7 +48,7 @@ const HealthDot: React.FC<{ status: HealthStatus }> = ({ status }) => {
   const colors = {
     healthy: 'bg-brand-green',
     warning: 'bg-brand-amber',
-    critical: 'bg-red-500',
+    critical: 'bg-brand-red',
     offline: 'bg-gray-500',
   };
 
@@ -61,7 +61,7 @@ const HealthDot: React.FC<{ status: HealthStatus }> = ({ status }) => {
 
   return (
     <span
-      className={`h-2.5 w-2.5 rounded-full ${colors[status]} ${pulse[status]} shadow-[0_0_8px_currentColor]`}
+      className={`h-1.5 w-1.5 rounded-full ${colors[status]} ${pulse[status]} shadow-[0_0_6px_currentColor]`}
       title={`System: ${status}`}
     />
   );
@@ -85,7 +85,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
 }) => {
   return (
     <div
-      className="fixed top-0 left-0 right-0 h-12 bg-brand-bg border-b border-brand-border z-50 flex items-center px-4 gap-6 cursor-pointer hover:border-brand-green/50 transition-colors duration-200 group"
+      className="fixed top-0 left-0 right-0 h-10 bg-bg-primary shadow-[0_1px_4px_rgba(0,0,0,0.3)] z-50 flex items-center px-4 gap-10 cursor-pointer hover:bg-bg-surface transition-all duration-200 group"
       onClick={onOpenDetails}
       role="button"
       tabIndex={0}
@@ -93,47 +93,39 @@ export const StatusBar: React.FC<StatusBarProps> = ({
     >
       {/* Logo / Brand */}
       <div className="flex items-center gap-2">
-        <span className="font-mono text-xs text-brand-green tracking-wider">⬡ BRUMELLO</span>
-        <span className="font-mono text-xs text-brand-border">//</span>
-        <span className="font-mono text-xs text-gray-500 tracking-wider">MISSION_CTRL</span>
+        <span className="font-mono text-xs text-brand-green">⬡ Brumello</span>
       </div>
 
-      {/* Divider */}
-      <div className="h-4 w-px bg-brand-border" />
+      {/* Status Signals - merged into natural phrases */}
+      <div className="flex items-center gap-10 font-mono text-xs text-text-secondary">
+        {/* System Health */}
+        <div className="flex items-center gap-2">
+          <HealthDot status={healthStatus} />
+          <span>System {healthStatus}</span>
+        </div>
 
-      {/* Status Signals */}
-      <div className="flex items-center gap-6">
         {/* Active Agents */}
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs text-gray-500">AGENTS</span>
-          <span className="font-mono text-sm text-white">{activeAgents}</span>
+          <span>{activeAgents} agent{activeAgents !== 1 ? 's' : ''} active</span>
         </div>
 
-        {/* Queue Depth */}
+        {/* Queue */}
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs text-gray-500">QUEUE</span>
-          <span className="font-mono text-sm text-white">{queueDepth}</span>
+          <span>{queueDepth} in queue</span>
         </div>
 
-        {/* Cost/hr */}
+        {/* Cost */}
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs text-gray-500">COST/HR</span>
-          <span className="font-mono text-sm text-brand-green">£{costPerHour.toFixed(2)}</span>
+          <span className="text-brand-green">£{costPerHour.toFixed(2)}/hr</span>
         </div>
       </div>
 
       {/* Spacer */}
       <div className="flex-1" />
 
-      {/* Health Indicator */}
-      <div className="flex items-center gap-2 group-hover:gap-3 transition-all duration-200">
-        <HealthDot status={healthStatus} />
-        <span className="font-mono text-xs text-gray-500 uppercase">{healthStatus}</span>
-      </div>
-
       {/* Click hint */}
-      <div className="font-mono text-xs text-gray-600 group-hover:text-brand-green transition-colors duration-200">
-        [CLICK]
+      <div className="font-mono text-xs text-text-muted group-hover:text-brand-green transition-colors duration-200">
+        click for details
       </div>
     </div>
   );
@@ -166,18 +158,18 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
       />
 
       {/* Panel */}
-      <div className="fixed top-14 right-4 w-80 bg-brand-surface border border-brand-border z-50 shadow-2xl">
+      <div className="fixed top-12 right-4 w-80 bg-bg-card border border-border-default rounded-xl z-50 shadow-[0_4px_16px_rgba(0,0,0,0.4),0_2px_4px_rgba(0,0,0,0.3)] animate-[slideDown_250ms_cubic-bezier(0.16,1,0.3,1)]">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-brand-border">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border-default">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs text-brand-green tracking-wider">SYSTEM_STATUS</span>
+            <span className="font-sans text-sm font-medium text-text-primary">System Status</span>
             <div className="h-1 w-1 rounded-full bg-brand-green animate-pulse" />
           </div>
           <button
             onClick={onClose}
-            className="font-mono text-xs text-gray-500 hover:text-brand-green transition-colors"
+            className="font-mono text-xs text-text-muted hover:text-brand-green transition-colors"
           >
-            [ESC]
+            esc
           </button>
         </div>
 
@@ -186,13 +178,13 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
           {/* Health Status */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="font-mono text-xs text-gray-500">SYSTEM_HEALTH</span>
+              <span className="font-sans text-xs text-text-muted">System Health</span>
               <div className="flex items-center gap-2">
                 <HealthDot status={healthStatus} />
-                <span className="font-mono text-sm text-white uppercase">{healthStatus}</span>
+                <span className="font-mono text-sm text-text-primary capitalize">{healthStatus}</span>
               </div>
             </div>
-            <div className="h-1 bg-brand-border">
+            <div className="h-1 bg-bg-hover rounded-full overflow-hidden">
               <div
                 className={`h-full transition-all duration-500 ${
                   healthStatus === 'healthy'
@@ -200,7 +192,7 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
                     : healthStatus === 'warning'
                       ? 'bg-brand-amber w-2/3'
                       : healthStatus === 'critical'
-                        ? 'bg-red-500 w-1/3'
+                        ? 'bg-brand-red w-1/3'
                         : 'bg-gray-500 w-0'
                 }`}
               />
@@ -209,18 +201,18 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
 
           {/* Stats Grid */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-brand-bg p-3 border border-brand-border">
-              <div className="font-mono text-xs text-gray-500 mb-1">ACTIVE_AGENTS</div>
-              <div className="font-mono text-xl text-white">{activeAgents}</div>
+            <div className="bg-bg-surface p-3 rounded-lg border border-border-default">
+              <div className="font-sans text-xs text-text-muted mb-1">Active Agents</div>
+              <div className="font-serif text-xl text-text-primary">{activeAgents}</div>
             </div>
-            <div className="bg-brand-bg p-3 border border-brand-border">
-              <div className="font-mono text-xs text-gray-500 mb-1">QUEUE_DEPTH</div>
-              <div className="font-mono text-xl text-white">{queueDepth}</div>
+            <div className="bg-bg-surface p-3 rounded-lg border border-border-default">
+              <div className="font-sans text-xs text-text-muted mb-1">Queue Depth</div>
+              <div className="font-serif text-xl text-text-primary">{queueDepth}</div>
             </div>
-            <div className="bg-brand-bg p-3 border border-brand-border col-span-2">
-              <div className="font-mono text-xs text-gray-500 mb-1">CURRENT_COST</div>
-              <div className="font-mono text-2xl text-brand-green">£{costPerHour.toFixed(2)}</div>
-              <div className="font-mono text-xs text-gray-600 mt-1">per hour</div>
+            <div className="bg-bg-surface p-3 rounded-lg border border-border-default col-span-2">
+              <div className="font-sans text-xs text-text-muted mb-1">Current Cost</div>
+              <div className="font-serif text-2xl text-brand-green">£{costPerHour.toFixed(2)}</div>
+              <div className="font-mono text-xs text-text-muted mt-1">per hour</div>
             </div>
           </div>
 
