@@ -1,5 +1,5 @@
 import React from 'react';
-import StatusPanel from '@/components/design/StatusPanel';
+import { StatusBar, StatusPanel } from '@/components/design';
 
 export default function DesignShell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
