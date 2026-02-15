@@ -9,19 +9,18 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 /**
  * Premium Mission Control Card Component
- * - 24px padding (generous spacing)
- * - 14px border-radius (rounded-lg)
- * - Subtle shadow on rest, glow on hover
- * - 250ms transition
+ * - Padding: 24px
+ * - Border-radius: lg (14px)
+ * - Shadow-sm at rest, shadow-md + lift on hover
+ * - Transitions: 250ms ease
+ * - Interactive states: rest/hover/active/dragging
  */
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className = '', elevated = false, children, ...props }, ref) => {
     const baseStyles =
-      'border border-border-default bg-bg-card rounded-lg p-6 transition-all duration-[250ms] ease-in-out hover:-translate-y-0.5 hover:border-border-bright hover:shadow-glow hover:bg-bg-card-hover';
+      'border border-default bg-card rounded-lg p-6 transition-all duration-[250ms] ease-in-out hover:-translate-y-0.5 hover:border-bright hover:shadow-md hover:bg-card-hover';
 
-    const elevatedStyles = elevated
-      ? 'shadow-md'
-      : 'shadow-sm';
+    const elevatedStyles = elevated ? 'shadow-md' : 'shadow-sm';
 
     return (
       <div
@@ -36,44 +35,6 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
 );
 
 Card.displayName = 'Card';
-
-/**
- * Card Header - Typography hierarchy
- */
-interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-}
-
-export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
-  ({ className = '', children, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={`border-b border-border-subtle pb-4 mb-4 ${className}`}
-      {...props}
-    >
-      {children}
-    </div>
-  )
-);
-
-CardHeader.displayName = 'CardHeader';
-
-/**
- * Card Content
- */
-interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-}
-
-export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
-  ({ className = '', children, ...props }, ref) => (
-    <div ref={ref} className={`text-sm text-text-secondary space-y-4 ${className}`} {...props}>
-      {children}
-    </div>
-  )
-);
-
-CardContent.displayName = 'CardContent';
 
 /**
  * Card Label - Small title at top
@@ -109,7 +70,7 @@ export const CardValue = React.forwardRef<HTMLDivElement, CardValueProps>(
   ({ className = '', children, ...props }, ref) => (
     <div
       ref={ref}
-      className={`font-serif text-4xl font-normal text-text-heading mb-4 ${className}`}
+      className={`font-display text-4xl font-normal text-text-heading mb-4 ${className}`}
       {...props}
     >
       {children}
@@ -164,13 +125,33 @@ export const MetricCard = React.forwardRef<HTMLDivElement, MetricCardProps>(
     <Card ref={ref} className={className} elevated={elevated}>
       <CardLabel>{label}</CardLabel>
       <CardValue>{value}</CardValue>
-      {children && (
-        <div className="space-y-2">
-          {children}
-        </div>
-      )}
+      {children && <div className="space-y-2">{children}</div>}
     </Card>
   )
 );
 
 MetricCard.displayName = 'MetricCard';
+
+/**
+ * Task Card - Kanban style card
+ * 16px padding, compact design for task lists
+ */
+interface TaskCardProps extends React.HTMLAttributes<HTMLDivElement> {
+  title: string;
+  children?: React.ReactNode;
+}
+
+export const TaskCard = React.forwardRef<HTMLDivElement, TaskCardProps>(
+  ({ title, children, className = '', ...props }, ref) => (
+    <div
+      ref={ref}
+      className={`bg-card border border-default rounded-lg p-4 hover:border-bright hover:bg-card-hover transition-all duration-[250ms] ${className}`}
+      {...props}
+    >
+      <div className="font-sans text-sm font-medium text-text-primary mb-2">{title}</div>
+      {children && <div className="space-y-2">{children}</div>}
+    </div>
+  )
+);
+
+TaskCard.displayName = 'TaskCard';

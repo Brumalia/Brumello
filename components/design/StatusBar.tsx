@@ -19,10 +19,6 @@ export interface StatusBarProps {
   costPerHour?: number;
   /** Health status of the system */
   healthStatus?: HealthStatus;
-  /** Whether the panel is externally controlled */
-  isPanelOpen?: boolean;
-  /** Callback to close panel from parent */
-  onClosePanel?: () => void;
 }
 
 export interface StatusPanelProps {
@@ -41,7 +37,7 @@ export interface StatusPanelProps {
 }
 
 // ============================================================================
-// Health Dot Component
+// Health Dot Component with softPulse animation
 // ============================================================================
 
 const HealthDot: React.FC<{ status: HealthStatus }> = ({ status }) => {
@@ -52,16 +48,12 @@ const HealthDot: React.FC<{ status: HealthStatus }> = ({ status }) => {
     offline: 'bg-status-idle',
   };
 
-  const pulse = {
-    healthy: 'animate-pulse',
-    warning: 'animate-pulse',
-    critical: 'animate-pulse',
-    offline: '',
-  };
+  const shouldPulse = status !== 'offline';
 
   return (
     <span
-      className={`h-1.5 w-1.5 rounded-full ${colors[status]} ${pulse[status]} shadow-[0_0_6px_currentColor]`}
+      className={`h-1.5 w-1.5 rounded-full ${colors[status]} ${shouldPulse ? 'animate-[softPulse_2s_ease-in-out_infinite]' : ''}`}
+      style={{ animationName: shouldPulse ? 'softPulse' : undefined }}
       title={`System: ${status}`}
     />
   );
@@ -73,8 +65,13 @@ const HealthDot: React.FC<{ status: HealthStatus }> = ({ status }) => {
 
 /**
  * Mission Control Status Bar
- * Fixed top bar showing active agents, queue depth, cost/hr, and health
- * Click to open detailed status panel
+ * - Fixed top bar
+ * - Height: 40px
+ * - Background: surface
+ * - Border-bottom: border-subtle
+ * - Status indicators: 5px dots with softPulse animation
+ * - Geist 12px, text-muted default / text-secondary for values
+ * - Gap: 36px between items
  */
 export const StatusBar: React.FC<StatusBarProps> = ({
   onOpenDetails,
@@ -85,7 +82,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
 }) => {
   return (
     <div
-      className="fixed top-0 left-0 right-0 h-10 bg-bg-surface border-b border-border-subtle shadow-sm z-50 flex items-center px-4 gap-8 cursor-pointer hover:bg-bg-card transition-all duration-200 group"
+      className="fixed top-0 left-0 right-0 h-10 bg-surface border-b border-subtle shadow-sm z-50 flex items-center px-4 gap-9 cursor-pointer hover:bg-card transition-all duration-200 group"
       onClick={onOpenDetails}
       role="button"
       tabIndex={0}
@@ -93,30 +90,30 @@ export const StatusBar: React.FC<StatusBarProps> = ({
     >
       {/* Logo / Brand */}
       <div className="flex items-center gap-2">
-        <span className="font-sans text-xs font-medium text-brand-green">⬡ Brumello</span>
+        <span className="font-sans text-xs font-medium text-green-400">⬡ Brumello</span>
       </div>
 
-      {/* Status Signals - Geist Sans 12px, text-muted, generous gaps (32px) */}
-      <div className="flex items-center gap-8 font-sans text-xs text-text-muted">
+      {/* Status Signals - Geist Sans 12px, text-muted, gaps 36px */}
+      <div className="flex items-center gap-9 font-sans text-xs text-text-muted">
         {/* System Health */}
         <div className="flex items-center gap-2">
           <HealthDot status={healthStatus} />
-          <span>System {healthStatus}</span>
+          <span className="text-text-secondary capitalize">{healthStatus}</span>
         </div>
 
         {/* Active Agents */}
         <div className="flex items-center gap-2">
-          <span>{activeAgents} agent{activeAgents !== 1 ? 's' : ''} active</span>
+          <span>{activeAgents} <span className="text-text-secondary">agents</span></span>
         </div>
 
         {/* Queue */}
         <div className="flex items-center gap-2">
-          <span>{queueDepth} in queue</span>
+          <span>{queueDepth} <span className="text-text-secondary">queued</span></span>
         </div>
 
         {/* Cost */}
         <div className="flex items-center gap-2">
-          <span className="text-brand-green">£{costPerHour.toFixed(2)}/hr</span>
+          <span className="text-green-400">£{costPerHour.toFixed(2)}/hr</span>
         </div>
       </div>
 
@@ -124,8 +121,8 @@ export const StatusBar: React.FC<StatusBarProps> = ({
       <div className="flex-1" />
 
       {/* Click hint */}
-      <div className="font-sans text-xs text-text-muted group-hover:text-brand-green transition-colors duration-200">
-        click for details
+      <div className="font-sans text-xs text-text-muted group-hover:text-green-400 transition-colors duration-200">
+        details
       </div>
     </div>
   );
@@ -157,17 +154,17 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
         onClick={onClose}
       />
 
-      {/* Panel - rounded-xl (18px), shadow-lg, inset margin 8px 16px */}
-      <div className="fixed top-[8px] right-[16px] w-80 bg-bg-card border border-border-default rounded-xl z-50 shadow-lg animate-[slideDown_250ms_cubic-bezier(0.16,1,0.3,1)]">
+      {/* Panel - rounded-xl (18px), shadow-lg */}
+      <div className="fixed top-2 right-4 w-80 bg-card border border-default rounded-xl z-50 shadow-lg animate-[slideDown_250ms_cubic-bezier(0.16,1,0.3,1)]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border-subtle">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-subtle">
           <div className="flex items-center gap-2">
             <span className="font-sans text-sm font-medium text-text-primary">System Status</span>
-            <div className="h-1 w-1 rounded-full bg-brand-green animate-pulse" />
+            <HealthDot status={healthStatus} />
           </div>
           <button
             onClick={onClose}
-            className="font-sans text-xs text-text-muted hover:text-brand-green transition-colors"
+            className="font-sans text-xs text-text-muted hover:text-green-400 transition-colors"
           >
             esc
           </button>
@@ -178,13 +175,10 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
           {/* Health Status */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="font-sans text-xs text-text-muted">System Health</span>
-              <div className="flex items-center gap-2">
-                <HealthDot status={healthStatus} />
-                <span className="font-mono text-sm text-text-primary capitalize">{healthStatus}</span>
-              </div>
+              <span className="font-sans text-xs text-text-muted">Health</span>
+              <span className="font-mono text-sm text-text-secondary capitalize">{healthStatus}</span>
             </div>
-            <div className="h-1 bg-bg-card-hover rounded-full overflow-hidden">
+            <div className="h-1 bg-card-hover rounded-full overflow-hidden">
               <div
                 className={`h-full transition-all duration-500 ${
                   healthStatus === 'healthy'
@@ -199,44 +193,42 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
             </div>
           </div>
 
-          {/* Stats Grid - 16px gaps between cards */}
+          {/* Stats Grid */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-bg-surface p-4 rounded-lg border border-border-subtle">
-              <div className="font-sans text-xs text-text-muted mb-2">Active Agents</div>
-              <div className="font-serif text-2xl text-text-heading">{activeAgents}</div>
+            <div className="bg-surface p-4 rounded-lg border border-subtle">
+              <div className="font-sans text-xs text-text-muted mb-2">Agents</div>
+              <div className="font-display text-2xl text-text-heading">{activeAgents}</div>
             </div>
-            <div className="bg-bg-surface p-4 rounded-lg border border-border-subtle">
-              <div className="font-sans text-xs text-text-muted mb-2">Queue Depth</div>
-              <div className="font-serif text-2xl text-text-heading">{queueDepth}</div>
+            <div className="bg-surface p-4 rounded-lg border border-subtle">
+              <div className="font-sans text-xs text-text-muted mb-2">Queue</div>
+              <div className="font-display text-2xl text-text-heading">{queueDepth}</div>
             </div>
-            <div className="bg-bg-surface p-4 rounded-lg border border-border-subtle col-span-2">
-              <div className="font-sans text-xs text-text-muted mb-2">Current Cost</div>
-              <div className="font-serif text-3xl text-brand-green">£{costPerHour.toFixed(2)}</div>
+            <div className="bg-surface p-4 rounded-lg border border-subtle col-span-2">
+              <div className="font-sans text-xs text-text-muted mb-2">Cost</div>
+              <div className="font-display text-3xl text-green-400">£{costPerHour.toFixed(2)}</div>
               <div className="font-sans text-xs text-text-muted mt-2">per hour</div>
             </div>
           </div>
 
-          {/* Live Placeholders (to be wired) */}
-          <div className="pt-4 border-t border-border-subtle space-y-2">
-            <div className="font-sans text-xs text-text-muted uppercase tracking-wider mb-2">
-              Live Feeds
+          {/* Live Feeds */}
+          <div className="pt-4 border-t border-subtle space-y-2">
+            <div className="font-sans text-xs text-text-muted mb-2">Live Feeds</div>
+            <div className="font-mono text-xs text-text-muted">
+              › <span className="text-green-400">agent_logs</span>: streaming
             </div>
             <div className="font-mono text-xs text-text-muted">
-              › <span className="text-brand-green">agent_logs</span>: streaming...
+              › <span className="text-green-400">queue_events</span>: pending
             </div>
             <div className="font-mono text-xs text-text-muted">
-              › <span className="text-brand-green">queue_events</span>: pending
-            </div>
-            <div className="font-mono text-xs text-text-muted">
-              › <span className="text-brand-green">cost_tracker</span>: active
+              › <span className="text-green-400">cost_tracker</span>: active
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3 border-t border-border-subtle bg-bg-surface/50">
+        <div className="px-6 py-3 border-t border-subtle bg-surface/50 rounded-b-xl">
           <div className="font-sans text-xs text-text-muted">
-            Last updated: <span className="text-brand-green">{new Date().toLocaleTimeString()}</span>
+            Updated: <span className="text-green-400">{new Date().toLocaleTimeString()}</span>
           </div>
         </div>
       </div>
@@ -248,12 +240,7 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
 // Combined StatusBar with Modal (Default Export)
 // ============================================================================
 
-/**
- * StatusBar with integrated modal panel
- * Use this for simple drop-in usage
- */
-export const StatusBarWithPanel: React.FC<Omit<StatusBarProps, 'isPanelOpen' | 'onClosePanel'>> = ({
-  onOpenDetails,
+export const StatusBarWithPanel: React.FC<Omit<StatusBarProps, 'onOpenDetails'>> = ({
   activeAgents = 0,
   queueDepth = 0,
   costPerHour = 0,
@@ -261,19 +248,10 @@ export const StatusBarWithPanel: React.FC<Omit<StatusBarProps, 'isPanelOpen' | '
 }) => {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  const handleOpen = () => {
-    setIsPanelOpen(true);
-    onOpenDetails?.();
-  };
-
-  const handleClose = () => {
-    setIsPanelOpen(false);
-  };
-
   return (
     <>
       <StatusBar
-        onOpenDetails={handleOpen}
+        onOpenDetails={() => setIsPanelOpen(true)}
         activeAgents={activeAgents}
         queueDepth={queueDepth}
         costPerHour={costPerHour}
@@ -281,7 +259,7 @@ export const StatusBarWithPanel: React.FC<Omit<StatusBarProps, 'isPanelOpen' | '
       />
       <StatusPanel
         isOpen={isPanelOpen}
-        onClose={handleClose}
+        onClose={() => setIsPanelOpen(false)}
         activeAgents={activeAgents}
         queueDepth={queueDepth}
         costPerHour={costPerHour}
