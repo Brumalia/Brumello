@@ -1,45 +1,105 @@
-import Link from 'next/link'
+import CTAButtons from './components/CTAButtons'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="text-center space-y-8">
-        <div className="space-y-4">
-          <h1 className="text-6xl font-bold text-gray-900">
-            Brumello <span className="text-blue-600">❄️</span>
+    <main style={{
+      minHeight: '100vh',
+      backgroundColor: '#0b1215',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Subtle dot pattern background */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+        pointerEvents: 'none',
+      }} />
+      
+      {/* Gradient overlay */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '800px',
+        height: '600px',
+        background: 'radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%)',
+        pointerEvents: 'none',
+        filter: 'blur(80px)',
+      }} />
+
+      <div style={{
+        position: 'relative',
+        zIndex: 1,
+        textAlign: 'center',
+        maxWidth: '900px',
+      }}>
+        {/* Hero Section */}
+        <div style={{ marginBottom: '48px' }}>
+          <h1 style={{
+            fontFamily: "'Instrument Serif', Georgia, serif",
+            fontSize: '72px',
+            fontWeight: '400',
+            color: '#f0f5f1',
+            lineHeight: '1.1',
+            marginBottom: '16px',
+            letterSpacing: '-0.02em',
+          }}>
+            Brumello ❄️
           </h1>
-          <p className="text-2xl text-gray-600">
-            Task Management for the Agent Development Studio
-          </p>
-        </div>
-        
-        <div className="space-y-4 max-w-2xl mx-auto">
-          <p className="text-lg text-gray-700">
-            A modern, powerful task management tool built with Next.js and Supabase.
-          </p>
-          <p className="text-md text-gray-600">
-            Built by agents, for agents (and humans too!)
+          
+          <p style={{
+            fontSize: '20px',
+            color: '#8a9b91',
+            fontWeight: '400',
+            marginBottom: '24px',
+            letterSpacing: '-0.01em',
+          }}>
+            Task management for the agent development era
           </p>
         </div>
 
-        <div className="flex gap-4 justify-center pt-8">
-          <Link 
-            href="/auth/signup"
-            className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-          >
-            Get Started
-          </Link>
-          <Link 
-            href="/auth/login"
-            className="px-8 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
-          >
-            Sign In
-          </Link>
+        {/* Value Prop */}
+        <div style={{
+          marginBottom: '48px',
+          maxWidth: '600px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        }}>
+          <p style={{
+            fontSize: '18px',
+            color: '#c8d5cc',
+            lineHeight: '1.6',
+            marginBottom: '16px',
+          }}>
+            Task management built for the AI agent era
+          </p>
+          <p style={{
+            fontSize: '16px',
+            color: '#8a9b91',
+            lineHeight: '1.6',
+          }}>
+            Designed for autonomous workflows, built with modern tooling. Manage tasks the way agents think.
+          </p>
         </div>
 
-        <div className="pt-12 text-sm text-gray-500">
-          <p>🎉 Authentication system ready!</p>
-          <p className="pt-2">Built with ❄️ by Brumalia</p>
+        {/* CTA Buttons */}
+        <CTAButtons />
+
+        {/* Footer note */}
+        <div style={{
+          marginTop: '64px',
+          fontSize: '14px',
+          color: '#8a9b91',
+        }}>
+          <p>Built with ❄️ by Brumalia</p>
         </div>
       </div>
     </main>
