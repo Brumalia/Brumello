@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import CreateBoardButton from '@/components/CreateBoardButton'
 import NotificationBell from '@/components/NotificationBell'
+import BoardCard from '@/components/BoardCard'
 
 export default async function BoardsPage() {
   const supabase = await createClient()
@@ -74,11 +75,8 @@ export default async function BoardsPage() {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              transition: 'color 0.2s ease'
+              gap: '6px'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.color = '#34d399'}
-            onMouseLeave={(e) => e.currentTarget.style.color = '#f0f5f1'}
           >
             Brumello <span style={{ fontSize: '16px' }}>❄️</span>
           </Link>
@@ -99,11 +97,8 @@ export default async function BoardsPage() {
               style={{
                 fontSize: '14px',
                 color: '#8a9b91',
-                textDecoration: 'none',
-                transition: 'color 0.2s ease'
+                textDecoration: 'none'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#e2e8e4'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#8a9b91'}
             >
               Dashboard
             </Link>
@@ -174,72 +169,7 @@ export default async function BoardsPage() {
             gap: '16px'
           }}>
             {allBoards.map((board: any) => (
-              <Link
-                key={board.id}
-                href={`/boards/${board.id}`}
-                style={{
-                  backgroundColor: board.background_color || '#142024',
-                  borderRadius: '14px',
-                  boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
-                  padding: '24px',
-                  textDecoration: 'none',
-                  position: 'relative',
-                  transition: 'all 0.2s ease',
-                  cursor: 'pointer',
-                  display: 'block',
-                  minHeight: '140px'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.3)'
-                }}
-              >
-                <div style={{ position: 'relative', zIndex: 1 }}>
-                  <h3 style={{
-                    fontSize: '18px',
-                    fontWeight: 600,
-                    color: '#ffffff',
-                    margin: '0 0 8px 0',
-                    lineHeight: 1.3
-                  }}>
-                    {board.title}
-                  </h3>
-                  {board.description && (
-                    <p style={{
-                      fontSize: '14px',
-                      color: 'rgba(255,255,255,0.85)',
-                      margin: 0,
-                      lineHeight: 1.4,
-                      overflow: 'hidden',
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical'
-                    }}>
-                      {board.description}
-                    </p>
-                  )}
-                  {board.member && (
-                    <span style={{
-                      position: 'absolute',
-                      top: '-4px',
-                      right: '-4px',
-                      backgroundColor: 'rgba(255,255,255,0.2)',
-                      backdropFilter: 'blur(8px)',
-                      fontSize: '11px',
-                      fontWeight: 500,
-                      color: '#ffffff',
-                      padding: '4px 10px',
-                      borderRadius: '6px'
-                    }}>
-                      Shared
-                    </span>
-                  )}
-                </div>
-              </Link>
+              <BoardCard key={board.id} board={board} />
             ))}
           </div>
         )}
