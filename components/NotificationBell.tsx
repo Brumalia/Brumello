@@ -91,41 +91,51 @@ export default function NotificationBell({ userId }: NotificationBellProps) {
   }
 
   const getNotificationIcon = (type: string) => {
+    const iconStyles = {
+      width: '32px',
+      height: '32px',
+      borderRadius: '50%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexShrink: 0
+    }
+
     switch (type) {
       case 'mention':
         return (
-          <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center">
-            <span className="text-orange-600">@</span>
+          <div style={{ ...iconStyles, backgroundColor: 'rgba(251, 146, 60, 0.15)' }}>
+            <span style={{ color: '#fb923c', fontWeight: 600 }}>@</span>
           </div>
         )
       case 'board_invite':
         return (
-          <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-            <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div style={{ ...iconStyles, backgroundColor: 'rgba(52, 211, 153, 0.15)' }}>
+            <svg style={{ width: '16px', height: '16px', color: '#34d399' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
             </svg>
           </div>
         )
       case 'card_assigned':
         return (
-          <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-            <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div style={{ ...iconStyles, backgroundColor: 'rgba(96, 165, 250, 0.15)' }}>
+            <svg style={{ width: '16px', height: '16px', color: '#60a5fa' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
         )
       case 'card_due':
         return (
-          <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
-            <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div style={{ ...iconStyles, backgroundColor: 'rgba(248, 113, 113, 0.15)' }}>
+            <svg style={{ width: '16px', height: '16px', color: '#f87171' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
         )
       default:
         return (
-          <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-600">?</span>
+          <div style={{ ...iconStyles, backgroundColor: 'rgba(138, 155, 145, 0.15)' }}>
+            <span style={{ color: '#8a9b91' }}>?</span>
           </div>
         )
     }
@@ -147,67 +157,193 @@ export default function NotificationBell({ userId }: NotificationBellProps) {
   }
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div style={{ position: 'relative' }} ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-white hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
+        style={{
+          position: 'relative',
+          padding: '8px',
+          color: '#e2e8e4',
+          backgroundColor: 'transparent',
+          border: 'none',
+          borderRadius: '10px',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'transparent'
+        }}
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
         </svg>
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+          <span 
+            style={{
+              position: 'absolute',
+              top: '-4px',
+              right: '-4px',
+              width: '20px',
+              height: '20px',
+              backgroundColor: '#f87171',
+              color: '#fff',
+              fontSize: '11px',
+              fontWeight: 700,
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
       </button>
 
       {isOpen && createPortal(
-        <div className="fixed bg-white rounded-lg shadow-xl z-[9999] border border-gray-200 overflow-hidden w-80" style={{
-          right: '1rem',
-          top: '3.5rem',
-        }}>
-          <div className="p-3 border-b border-gray-100 flex justify-between items-center">
-            <h3 className="font-semibold text-gray-900">Notifications</h3>
+        <div 
+          style={{
+            position: 'fixed',
+            backgroundColor: '#142024',
+            borderRadius: '14px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+            zIndex: 9999,
+            border: '1px solid rgba(255,255,255,0.07)',
+            overflow: 'hidden',
+            width: '320px',
+            right: '1rem',
+            top: '3.5rem'
+          }}
+        >
+          <div 
+            style={{
+              padding: '12px 16px',
+              borderBottom: '1px solid rgba(255,255,255,0.04)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <h3 
+              style={{
+                fontWeight: 600,
+                color: '#f0f5f1',
+                fontSize: '14px',
+                margin: 0
+              }}
+            >
+              Notifications
+            </h3>
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="text-xs text-blue-600 hover:text-blue-800"
+                style={{
+                  fontSize: '12px',
+                  color: '#34d399',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontWeight: 500
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#10b981'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#34d399'
+                }}
               >
                 Mark all as read
               </button>
             )}
           </div>
 
-          <div className="max-h-96 overflow-y-auto">
+          <div 
+            style={{
+              maxHeight: '384px',
+              overflowY: 'auto'
+            }}
+          >
             {notifications.length === 0 ? (
-              <div className="p-4 text-center text-gray-500">
+              <div 
+                style={{
+                  padding: '16px',
+                  textAlign: 'center',
+                  color: '#8a9b91',
+                  fontSize: '14px'
+                }}
+              >
                 No notifications yet
               </div>
             ) : (
               notifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className={`p-3 border-b border-gray-100 hover:bg-gray-50 ${
-                    !notification.read ? 'bg-blue-50' : ''
-                  }`}
+                  style={{
+                    padding: '12px 16px',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    backgroundColor: !notification.read ? 'rgba(52, 211, 153, 0.05)' : 'transparent',
+                    transition: 'background-color 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = !notification.read ? 'rgba(52, 211, 153, 0.05)' : 'transparent'
+                  }}
                 >
                   <Link
                     href={notification.link || '#'}
                     onClick={() => markAsRead(notification.id)}
-                    className="flex gap-3"
+                    style={{
+                      display: 'flex',
+                      gap: '12px',
+                      textDecoration: 'none'
+                    }}
                   >
                     {getNotificationIcon(notification.type)}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                    <div 
+                      style={{
+                        flex: 1,
+                        minWidth: 0
+                      }}
+                    >
+                      <p 
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 500,
+                          color: '#f0f5f1',
+                          margin: 0,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
                         {notification.title}
                       </p>
                       {notification.message && (
-                        <p className="text-xs text-gray-500 truncate">
+                        <p 
+                          style={{
+                            fontSize: '12px',
+                            color: '#8a9b91',
+                            margin: '2px 0 0 0',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
                           {notification.message}
                         </p>
                       )}
-                      <p className="text-xs text-gray-400 mt-1">
+                      <p 
+                        style={{
+                          fontSize: '11px',
+                          color: '#4d5f56',
+                          margin: '4px 0 0 0'
+                        }}
+                      >
                         {formatTime(notification.created_at)}
                       </p>
                     </div>
@@ -217,7 +353,22 @@ export default function NotificationBell({ userId }: NotificationBellProps) {
                       e.preventDefault()
                       deleteNotification(notification.id)
                     }}
-                    className="text-gray-400 hover:text-red-500 text-xs mt-1 ml-11"
+                    style={{
+                      color: '#4d5f56',
+                      fontSize: '11px',
+                      marginTop: '4px',
+                      marginLeft: '44px',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontWeight: 500
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#f87171'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#4d5f56'
+                    }}
                   >
                     Delete
                   </button>

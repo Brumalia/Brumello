@@ -66,7 +66,27 @@ export default function CreateCardButton({ listId, cardsCount }: CreateCardButto
     return (
       <button
         onClick={() => setIsAdding(true)}
-        className="w-full text-left text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded p-2 transition-colors"
+        style={{
+          width: '100%',
+          textAlign: 'left',
+          fontSize: '14px',
+          color: '#8a9b91',
+          backgroundColor: 'transparent',
+          border: 'none',
+          borderRadius: '6px',
+          padding: '8px',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease',
+          marginTop: '8px'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = '#e2e8e4'
+          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.color = '#8a9b91'
+          e.currentTarget.style.backgroundColor = 'transparent'
+        }}
       >
         + Add a card
       </button>
@@ -74,10 +94,26 @@ export default function CreateCardButton({ listId, cardsCount }: CreateCardButto
   }
 
   return (
-    <div className="mt-2">
-      <form onSubmit={handleCreate} className="space-y-2">
+    <div style={{ marginTop: '8px' }}>
+      <form 
+        onSubmit={handleCreate} 
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px'
+        }}
+      >
         {error && (
-          <div className="bg-red-50 text-red-600 p-2 rounded text-xs">
+          <div 
+            style={{
+              backgroundColor: 'rgba(248, 113, 113, 0.1)',
+              color: '#f87171',
+              padding: '8px',
+              borderRadius: '6px',
+              fontSize: '12px',
+              border: '1px solid rgba(248, 113, 113, 0.2)'
+            }}
+          >
             {error}
           </div>
         )}
@@ -89,14 +125,51 @@ export default function CreateCardButton({ listId, cardsCount }: CreateCardButto
           placeholder="Enter a title for this card..."
           autoFocus
           rows={3}
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm"
+          style={{
+            width: '100%',
+            padding: '8px 12px',
+            backgroundColor: '#101a1e',
+            border: '1px solid rgba(255,255,255,0.07)',
+            borderRadius: '6px',
+            color: '#e2e8e4',
+            fontSize: '14px',
+            resize: 'none',
+            outline: 'none'
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.border = '1px solid #34d399'
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.border = '1px solid rgba(255,255,255,0.07)'
+          }}
         />
 
-        <div className="flex gap-2">
+        <div style={{ display: 'flex', gap: '8px' }}>
           <button
             type="submit"
             disabled={loading || !title.trim()}
-            className="px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-semibold"
+            style={{
+              padding: '6px 12px',
+              backgroundColor: '#34d399',
+              color: '#0b1215',
+              borderRadius: '6px',
+              fontSize: '14px',
+              fontWeight: 600,
+              border: 'none',
+              cursor: (loading || !title.trim()) ? 'not-allowed' : 'pointer',
+              opacity: (loading || !title.trim()) ? 0.5 : 1,
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              if (!loading && title.trim()) {
+                e.currentTarget.style.backgroundColor = '#10b981'
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!loading && title.trim()) {
+                e.currentTarget.style.backgroundColor = '#34d399'
+              }
+            }}
           >
             {loading ? 'Adding...' : 'Add card'}
           </button>
@@ -107,12 +180,35 @@ export default function CreateCardButton({ listId, cardsCount }: CreateCardButto
               setTitle('')
               setError(null)
             }}
-            className="px-3 py-1.5 text-gray-700 hover:bg-gray-100 rounded transition-colors text-sm"
+            style={{
+              padding: '6px 12px',
+              color: '#e2e8e4',
+              backgroundColor: 'transparent',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '14px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent'
+            }}
           >
             Cancel
           </button>
         </div>
-        <p className="text-xs text-gray-500">Press Esc to cancel</p>
+        <p 
+          style={{
+            fontSize: '11px',
+            color: '#4d5f56',
+            margin: 0
+          }}
+        >
+          Press Esc to cancel
+        </p>
       </form>
     </div>
   )

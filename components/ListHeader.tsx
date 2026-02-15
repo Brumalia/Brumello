@@ -62,7 +62,7 @@ export default function ListHeader({ listId, title, cardsCount }: ListHeaderProp
 
   if (isEditing) {
     return (
-      <div className="mb-3">
+      <div style={{ marginBottom: '12px' }}>
         <input
           type="text"
           value={newTitle}
@@ -77,36 +77,118 @@ export default function ListHeader({ listId, title, cardsCount }: ListHeaderProp
           onBlur={handleUpdate}
           autoFocus
           disabled={loading}
-          className="w-full px-2 py-1 font-bold text-gray-900 border-2 border-blue-500 rounded focus:outline-none"
+          style={{
+            width: '100%',
+            padding: '6px 8px',
+            fontWeight: 600,
+            color: '#f0f5f1',
+            backgroundColor: '#101a1e',
+            border: '2px solid #34d399',
+            borderRadius: '6px',
+            fontSize: '14px',
+            outline: 'none'
+          }}
         />
       </div>
     )
   }
 
   return (
-    <div className="flex justify-between items-start mb-3 group">
+    <div 
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        marginBottom: '12px',
+        position: 'relative'
+      }}
+    >
       <h3
         onClick={() => setIsEditing(true)}
-        className="font-bold text-gray-900 cursor-pointer hover:bg-gray-200 px-2 py-1 rounded flex-1"
+        style={{
+          fontWeight: 600,
+          color: '#f0f5f1',
+          cursor: 'pointer',
+          padding: '6px 8px',
+          borderRadius: '6px',
+          flex: 1,
+          margin: 0,
+          fontSize: '14px',
+          transition: 'background-color 0.2s ease'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'transparent'
+        }}
       >
         {title}
       </h3>
-      <div className="relative">
+      <div style={{ position: 'relative' }}>
         <button
           onClick={() => setShowMenu(!showMenu)}
-          className="opacity-0 group-hover:opacity-100 text-gray-600 hover:bg-gray-200 rounded px-2 py-1 transition-opacity"
+          style={{
+            opacity: 0,
+            color: '#8a9b91',
+            backgroundColor: 'transparent',
+            border: 'none',
+            borderRadius: '6px',
+            padding: '6px 8px',
+            cursor: 'pointer',
+            fontSize: '16px',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '1'
+            e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+          }}
+          onMouseLeave={(e) => {
+            if (!showMenu) {
+              e.currentTarget.style.opacity = '0'
+            }
+            e.currentTarget.style.backgroundColor = 'transparent'
+          }}
         >
           ⋯
         </button>
         
         {showMenu && (
-          <div className="absolute right-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+          <div 
+            style={{
+              position: 'absolute',
+              right: 0,
+              marginTop: '4px',
+              width: '192px',
+              backgroundColor: '#142024',
+              borderRadius: '10px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+              border: '1px solid rgba(255,255,255,0.07)',
+              zIndex: 10,
+              overflow: 'hidden'
+            }}
+          >
             <button
               onClick={() => {
                 setIsEditing(true)
                 setShowMenu(false)
               }}
-              className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+              style={{
+                width: '100%',
+                textAlign: 'left',
+                padding: '8px 16px',
+                fontSize: '14px',
+                color: '#e2e8e4',
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent'
+              }}
             >
               Edit List
             </button>
@@ -114,20 +196,59 @@ export default function ListHeader({ listId, title, cardsCount }: ListHeaderProp
             {!deleteConfirm ? (
               <button
                 onClick={() => setDeleteConfirm(true)}
-                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600 text-sm"
+                style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '8px 16px',
+                  color: '#f87171',
+                  fontSize: '14px',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(248, 113, 113, 0.1)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent'
+                }}
               >
                 Delete List
               </button>
             ) : (
-              <div className="p-2">
-                <p className="text-xs text-gray-600 mb-2">
+              <div style={{ padding: '8px' }}>
+                <p 
+                  style={{
+                    fontSize: '12px',
+                    color: '#8a9b91',
+                    marginBottom: '8px',
+                    marginTop: 0
+                  }}
+                >
                   Delete list and {cardsCount} cards?
                 </p>
-                <div className="flex gap-2">
+                <div style={{ display: 'flex', gap: '8px' }}>
                   <button
                     onClick={handleDelete}
                     disabled={loading}
-                    className="flex-1 px-2 py-1 bg-red-600 text-white rounded text-xs hover:bg-red-700"
+                    style={{
+                      flex: 1,
+                      padding: '6px 8px',
+                      backgroundColor: '#f87171',
+                      color: '#fff',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontWeight: 500,
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      opacity: loading ? 0.5 : 1
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) e.currentTarget.style.backgroundColor = '#ef4444'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) e.currentTarget.style.backgroundColor = '#f87171'
+                    }}
                   >
                     {loading ? 'Deleting...' : 'Delete'}
                   </button>
@@ -136,7 +257,22 @@ export default function ListHeader({ listId, title, cardsCount }: ListHeaderProp
                       setDeleteConfirm(false)
                       setShowMenu(false)
                     }}
-                    className="flex-1 px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs hover:bg-gray-300"
+                    style={{
+                      flex: 1,
+                      padding: '6px 8px',
+                      backgroundColor: '#101a1e',
+                      color: '#e2e8e4',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      border: 'none',
+                      cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#1a2a30'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = '#101a1e'
+                    }}
                   >
                     Cancel
                   </button>

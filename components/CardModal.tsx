@@ -267,18 +267,42 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
     switch (saveStatus) {
       case 'saving':
         return (
-          <span className="text-sm text-gray-500 flex items-center gap-1">
-            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          <span 
+            style={{
+              fontSize: '14px',
+              color: '#8a9b91',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            <svg 
+              style={{ 
+                width: '16px', 
+                height: '16px',
+                animation: 'spin 1s linear infinite'
+              }} 
+              fill="none" 
+              viewBox="0 0 24 24"
+            >
+              <circle style={{ opacity: 0.25 }} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path style={{ opacity: 0.75 }} fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
             Saving...
           </span>
         )
       case 'saved':
         return (
-          <span className="text-sm text-green-600 flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span 
+            style={{
+              fontSize: '14px',
+              color: '#34d399',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
             Saved
@@ -286,8 +310,16 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
         )
       case 'error':
         return (
-          <span className="text-sm text-red-600 flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span 
+            style={{
+              fontSize: '14px',
+              color: '#f87171',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}
+          >
+            <svg style={{ width: '16px', height: '16px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Error saving
@@ -303,64 +335,229 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
   )
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full my-8">
-        <div className="p-6">
+    <div 
+      style={{
+        position: 'fixed',
+        inset: 0,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        zIndex: 50,
+        padding: '16px',
+        overflowY: 'auto'
+      }}
+    >
+      <div 
+        style={{
+          backgroundColor: '#142024',
+          borderRadius: '14px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+          maxWidth: '672px',
+          width: '100%',
+          marginTop: '32px',
+          marginBottom: '32px',
+          border: '1px solid rgba(255,255,255,0.07)'
+        }}
+      >
+        {/* Inject keyframe animation for spinner */}
+        <style>{`
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+
+        <div style={{ padding: '24px' }}>
           {/* Header */}
-          <div className="flex justify-between items-start mb-6">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+          <div 
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              marginBottom: '24px'
+            }}
+          >
+            <div style={{ flex: 1 }}>
+              <div 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '14px',
+                  color: '#8a9b91',
+                  marginBottom: '8px'
+                }}
+              >
                 <span>in list</span>
-                <span className="font-medium text-gray-700">{listTitle}</span>
+                <span style={{ fontWeight: 500, color: '#e2e8e4' }}>{listTitle}</span>
               </div>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full text-2xl font-bold text-gray-900 border-none focus:ring-2 focus:ring-blue-500 rounded px-0"
                 placeholder="Card title"
+                style={{
+                  width: '100%',
+                  fontSize: '24px',
+                  fontWeight: 700,
+                  color: '#f0f5f1',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  padding: 0,
+                  outline: 'none'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.02)'
+                  e.currentTarget.style.padding = '4px 8px'
+                  e.currentTarget.style.borderRadius = '6px'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent'
+                  e.currentTarget.style.padding = '0'
+                }}
               />
             </div>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl font-bold ml-4"
+              style={{
+                color: '#8a9b91',
+                fontSize: '28px',
+                fontWeight: 700,
+                marginLeft: '16px',
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                lineHeight: 1
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#f0f5f1'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#8a9b91'
+              }}
             >
               ×
             </button>
           </div>
 
           {/* Save Status */}
-          <div className="mb-4 flex justify-end">
+          <div 
+            style={{
+              marginBottom: '16px',
+              display: 'flex',
+              justifyContent: 'flex-end'
+            }}
+          >
             {getSaveStatusDisplay()}
           </div>
 
           {/* Description with @mentions */}
-          <div className="mb-6 relative">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-            <div className="relative">
+          <div style={{ marginBottom: '24px', position: 'relative' }}>
+            <h3 
+              style={{
+                fontSize: '16px',
+                fontWeight: 600,
+                color: '#f0f5f1',
+                marginBottom: '8px',
+                marginTop: 0
+              }}
+            >
+              Description
+            </h3>
+            <div style={{ position: 'relative' }}>
               <textarea
                 ref={descriptionRef}
                 value={description}
                 onChange={handleDescriptionChange}
                 placeholder="Add a more detailed description... (@ to mention)"
                 rows={6}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  backgroundColor: '#101a1e',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  borderRadius: '10px',
+                  color: '#e2e8e4',
+                  fontSize: '14px',
+                  resize: 'none',
+                  outline: 'none',
+                  lineHeight: 1.5
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255,255,255,0.12)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255,255,255,0.07)'
+                }}
               />
               
               {/* Mention Dropdown */}
               {showMentions && filteredMembers.length > 0 && (
-                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-40 overflow-y-auto">
+                <div 
+                  style={{
+                    position: 'absolute',
+                    zIndex: 10,
+                    width: '100%',
+                    marginTop: '4px',
+                    backgroundColor: '#142024',
+                    border: '1px solid rgba(255,255,255,0.07)',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+                    maxHeight: '160px',
+                    overflowY: 'auto'
+                  }}
+                >
                   {filteredMembers.map((member) => (
                     <button
                       key={member.user_id}
                       onClick={() => insertMention(member)}
-                      className="w-full px-3 py-2 text-left text-sm hover:bg-gray-100 flex items-center gap-2"
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        textAlign: 'left',
+                        fontSize: '14px',
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: '#e2e8e4'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                      }}
                     >
-                      <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">
+                      <div 
+                        style={{
+                          width: '24px',
+                          height: '24px',
+                          borderRadius: '50%',
+                          backgroundColor: '#34d399',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#0b1215',
+                          fontSize: '12px',
+                          fontWeight: 600
+                        }}
+                      >
                         {member.email.charAt(0).toUpperCase()}
                       </div>
                       <span>{member.email}</span>
-                      <span className="text-xs text-gray-400 capitalize">({member.role})</span>
+                      <span 
+                        style={{
+                          fontSize: '12px',
+                          color: '#4d5f56',
+                          textTransform: 'capitalize'
+                        }}
+                      >
+                        ({member.role})
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -369,30 +566,79 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
           </div>
 
           {/* Due Date & Completion */}
-          <div className="mb-6 grid grid-cols-2 gap-4">
+          <div 
+            style={{
+              marginBottom: '24px',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '16px'
+            }}
+          >
             {/* Due Date */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label 
+                style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  color: '#f0f5f1',
+                  marginBottom: '8px'
+                }}
+              >
                 Due Date
               </label>
               <input
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  backgroundColor: '#101a1e',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                  borderRadius: '10px',
+                  color: '#e2e8e4',
+                  fontSize: '14px',
+                  outline: 'none'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255,255,255,0.12)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.border = '1px solid rgba(255,255,255,0.07)'
+                }}
               />
             </div>
 
             {/* Completion */}
-            <div className="flex items-center">
-              <label className="flex items-center cursor-pointer">
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <label 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
+              >
                 <input
                   type="checkbox"
                   checked={completed}
                   onChange={(e) => setCompleted(e.target.checked)}
-                  className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    accentColor: '#34d399',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
                 />
-                <span className="ml-2 text-sm font-semibold text-gray-700">
+                <span 
+                  style={{
+                    marginLeft: '8px',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#e2e8e4'
+                  }}
+                >
                   Mark as completed
                 </span>
               </label>
@@ -400,27 +646,64 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
           </div>
 
           {/* Labels */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Labels</h3>
+          <div style={{ marginBottom: '24px' }}>
+            <h3 
+              style={{
+                fontSize: '16px',
+                fontWeight: 600,
+                color: '#f0f5f1',
+                marginBottom: '8px',
+                marginTop: 0
+              }}
+            >
+              Labels
+            </h3>
             <LabelSelector cardId={card.id} boardId={boardId} selectedLabels={labels} onUpdate={() => {}} />
           </div>
 
           {/* Card Color */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Card Color</h3>
-            <div className="flex flex-wrap gap-2">
+          <div style={{ marginBottom: '24px' }}>
+            <h3 
+              style={{
+                fontSize: '16px',
+                fontWeight: 600,
+                color: '#f0f5f1',
+                marginBottom: '8px',
+                marginTop: 0
+              }}
+            >
+              Card Color
+            </h3>
+            <div 
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px'
+              }}
+            >
               {CARD_COLORS.map((colorOption) => (
                 <button
                   key={colorOption.name}
                   onClick={() => setBackgroundColor(colorOption.color)}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-                    backgroundColor === colorOption.color
-                      ? 'ring-2 ring-offset-2 ring-gray-900'
-                      : 'hover:opacity-80'
-                  }`}
                   style={{
-                    backgroundColor: colorOption.color || '#e5e7eb',
-                    color: colorOption.color ? '#374151' : '#6b7280'
+                    padding: '6px 12px',
+                    borderRadius: '10px',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    transition: 'all 0.2s ease',
+                    backgroundColor: colorOption.color || '#101a1e',
+                    color: colorOption.color ? '#374151' : '#8a9b91',
+                    border: backgroundColor === colorOption.color ? '2px solid #34d399' : '1px solid rgba(255,255,255,0.07)',
+                    cursor: 'pointer',
+                    boxShadow: backgroundColor === colorOption.color ? '0 0 0 2px #0b1215, 0 0 0 4px #34d399' : 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (backgroundColor !== colorOption.color) {
+                      e.currentTarget.style.opacity = '0.8'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = '1'
                   }}
                 >
                   {colorOption.name}
@@ -430,7 +713,7 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
           </div>
 
           {/* Checklists */}
-          <div className="mb-6">
+          <div style={{ marginBottom: '24px' }}>
             <ChecklistSelector
               cardId={card.id}
               onUpdate={() => {}}
@@ -438,7 +721,7 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
           </div>
 
           {/* Comments */}
-          <div className="mb-6">
+          <div style={{ marginBottom: '24px' }}>
             <CommentSelector
               cardId={card.id}
               boardId={boardId}
@@ -447,25 +730,73 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
           </div>
 
           {/* Delete Button Only */}
-          <div className="flex justify-end">
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             {!deleteConfirm ? (
               <button
                 onClick={() => setDeleteConfirm(true)}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors"
+                style={{
+                  padding: '8px 16px',
+                  backgroundColor: '#f87171',
+                  color: '#fff',
+                  borderRadius: '10px',
+                  fontWeight: 600,
+                  fontSize: '14px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#ef4444'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f87171'
+                }}
               >
                 Delete Card
               </button>
             ) : (
-              <div className="flex gap-2">
+              <div style={{ display: 'flex', gap: '8px' }}>
                 <button
                   onClick={handleDelete}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors"
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#f87171',
+                    color: '#fff',
+                    borderRadius: '10px',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#ef4444'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f87171'
+                  }}
                 >
                   Confirm Delete
                 </button>
                 <button
                   onClick={() => setDeleteConfirm(false)}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#101a1e',
+                    color: '#e2e8e4',
+                    borderRadius: '10px',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#1a2a30'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#101a1e'
+                  }}
                 >
                   Cancel
                 </button>

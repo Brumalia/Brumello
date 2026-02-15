@@ -45,47 +45,259 @@ export default function BoardSettingsButton({ board, currentUserId }: { board: B
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)} className="p-2 text-white hover:bg-white/20 rounded-lg">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button 
+        onClick={() => setIsOpen(true)} 
+        style={{
+          padding: '8px',
+          color: '#e2e8e4',
+          backgroundColor: 'transparent',
+          border: 'none',
+          borderRadius: '10px',
+          cursor: 'pointer',
+          transition: 'all 0.2s ease'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'transparent'
+        }}
+      >
+        <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       </button>
 
       {isOpen && createPortal(
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-lg font-bold">Board Settings</h2>
-              <button onClick={() => setIsOpen(false)} className="text-2xl text-gray-500 hover:text-gray-700">&times;</button>
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            padding: '16px'
+          }}
+        >
+          <div 
+            style={{
+              backgroundColor: '#142024',
+              borderRadius: '14px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+              width: '100%',
+              maxWidth: '450px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              border: '1px solid rgba(255,255,255,0.07)'
+            }}
+          >
+            <div 
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '16px',
+                borderBottom: '1px solid rgba(255,255,255,0.04)'
+              }}
+            >
+              <h2 
+                style={{
+                  fontSize: '18px',
+                  fontWeight: 600,
+                  color: '#f0f5f1',
+                  margin: 0
+                }}
+              >
+                Board Settings
+              </h2>
+              <button 
+                onClick={() => setIsOpen(false)} 
+                style={{
+                  fontSize: '28px',
+                  color: '#8a9b91',
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  lineHeight: 1
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = '#f0f5f1'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#8a9b91'
+                }}
+              >
+                &times;
+              </button>
             </div>
-            <div className="flex border-b">
-              <button onClick={() => setTab('settings')} className={`flex-1 py-3 text-sm font-medium ${tab === 'settings' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'}`}>Settings</button>
-              <button onClick={() => setTab('members')} className={`flex-1 py-3 text-sm font-medium ${tab === 'members' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-500'}`}>Members</button>
+            <div style={{ display: 'flex', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+              <button 
+                onClick={() => setTab('settings')} 
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: tab === 'settings' ? '#34d399' : '#8a9b91',
+                  borderBottom: tab === 'settings' ? '2px solid #34d399' : 'none'
+                }}
+              >
+                Settings
+              </button>
+              <button 
+                onClick={() => setTab('members')} 
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: tab === 'members' ? '#34d399' : '#8a9b91',
+                  borderBottom: tab === 'members' ? '2px solid #34d399' : 'none'
+                }}
+              >
+                Members
+              </button>
             </div>
-            <div className="p-4 max-h-[calc(90vh-140px)] overflow-y-auto">
+            <div 
+              style={{
+                padding: '16px',
+                maxHeight: 'calc(90vh - 140px)',
+                overflowY: 'auto'
+              }}
+            >
               {tab === 'settings' ? (
-                <div className="space-y-4">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Board Name</label>
-                    <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-3 py-2 border rounded-lg" />
+                    <label 
+                      style={{
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        marginBottom: '4px',
+                        color: '#e2e8e4'
+                      }}
+                    >
+                      Board Name
+                    </label>
+                    <input 
+                      value={title} 
+                      onChange={(e) => setTitle(e.target.value)} 
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        backgroundColor: '#101a1e',
+                        border: '1px solid rgba(255,255,255,0.07)',
+                        borderRadius: '10px',
+                        color: '#e2e8e4',
+                        fontSize: '14px'
+                      }} 
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1">Description</label>
-                    <textarea value={desc} onChange={(e) => setDesc(e.target.value)} className="w-full px-3 py-2 border rounded-lg" rows={3} />
+                    <label 
+                      style={{
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        marginBottom: '4px',
+                        color: '#e2e8e4'
+                      }}
+                    >
+                      Description
+                    </label>
+                    <textarea 
+                      value={desc} 
+                      onChange={(e) => setDesc(e.target.value)} 
+                      rows={3}
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        backgroundColor: '#101a1e',
+                        border: '1px solid rgba(255,255,255,0.07)',
+                        borderRadius: '10px',
+                        color: '#e2e8e4',
+                        fontSize: '14px',
+                        resize: 'vertical'
+                      }} 
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Background Color</label>
-                    <div className="grid grid-cols-4 gap-2">
+                    <label 
+                      style={{
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        marginBottom: '8px',
+                        color: '#e2e8e4'
+                      }}
+                    >
+                      Background Color
+                    </label>
+                    <div 
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        gap: '8px'
+                      }}
+                    >
                       {COLORS.map((c) => (
-                        <button key={c.color} onClick={() => setBg(c.color)} className={`h-10 rounded-lg text-white text-xs font-medium ${bg === c.color ? 'ring-2 ring-offset-2 ring-gray-900' : ''}`} style={{ backgroundColor: c.color }}>{c.name}</button>
+                        <button 
+                          key={c.color} 
+                          onClick={() => setBg(c.color)} 
+                          style={{
+                            height: '40px',
+                            borderRadius: '10px',
+                            color: '#fff',
+                            fontSize: '12px',
+                            fontWeight: 500,
+                            backgroundColor: c.color,
+                            border: bg === c.color ? '2px solid #34d399' : '1px solid rgba(255,255,255,0.1)',
+                            cursor: 'pointer',
+                            boxShadow: bg === c.color ? '0 0 0 2px #0b1215, 0 0 0 4px #34d399' : 'none'
+                          }}
+                        >
+                          {c.name}
+                        </button>
                       ))}
                     </div>
                   </div>
-                  <button onClick={save} disabled={saving} className="w-full py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50">{saving ? 'Saving...' : 'Save Changes'}</button>
+                  <button 
+                    onClick={save} 
+                    disabled={saving} 
+                    style={{
+                      width: '100%',
+                      padding: '10px',
+                      backgroundColor: '#34d399',
+                      color: '#0b1215',
+                      borderRadius: '10px',
+                      fontWeight: 600,
+                      fontSize: '14px',
+                      border: 'none',
+                      cursor: saving ? 'not-allowed' : 'pointer',
+                      opacity: saving ? 0.5 : 1,
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!saving) e.currentTarget.style.backgroundColor = '#10b981'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!saving) e.currentTarget.style.backgroundColor = '#34d399'
+                    }}
+                  >
+                    {saving ? 'Saving...' : 'Save Changes'}
+                  </button>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   <MembersTab boardId={board.id} />
                 </div>
               )}
@@ -159,10 +371,20 @@ function MembersTab({ boardId }: { boardId: string }) {
   }
 
   return (
-    <div className="space-y-4">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <div>
-        <label className="block text-sm font-medium mb-2">Add Members</label>
-        <div className="relative">
+        <label 
+          style={{
+            display: 'block',
+            fontSize: '14px',
+            fontWeight: 500,
+            marginBottom: '8px',
+            color: '#e2e8e4'
+          }}
+        >
+          Add Members
+        </label>
+        <div style={{ position: 'relative' }}>
           <input
             type="text"
             placeholder="Search by email..."
@@ -171,16 +393,56 @@ function MembersTab({ boardId }: { boardId: string }) {
               setSearchQuery(e.target.value)
               searchUsers(e.target.value)
             }}
-            className="w-full px-3 py-2 border rounded-lg text-sm"
+            style={{
+              width: '100%',
+              padding: '8px 12px',
+              backgroundColor: '#101a1e',
+              border: '1px solid rgba(255,255,255,0.07)',
+              borderRadius: '10px',
+              color: '#e2e8e4',
+              fontSize: '14px'
+            }}
           />
           {searchResults.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-10 max-h-40 overflow-y-auto">
+            <div 
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                marginTop: '4px',
+                backgroundColor: '#142024',
+                border: '1px solid rgba(255,255,255,0.07)',
+                borderRadius: '10px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+                zIndex: 10,
+                maxHeight: '160px',
+                overflowY: 'auto'
+              }}
+            >
               {searchResults.map((user) => (
                 <button
                   key={user.id}
                   onClick={() => inviteMember(user.id)}
                   disabled={inviting}
-                  className="w-full text-left px-3 py-2 hover:bg-gray-100 border-b text-sm last:border-b-0 disabled:opacity-50"
+                  style={{
+                    width: '100%',
+                    textAlign: 'left',
+                    padding: '8px 12px',
+                    borderBottom: '1px solid rgba(255,255,255,0.04)',
+                    fontSize: '14px',
+                    color: '#e2e8e4',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    cursor: inviting ? 'not-allowed' : 'pointer',
+                    opacity: inviting ? 0.5 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!inviting) e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                  }}
                 >
                   {user.email}
                 </button>
@@ -191,19 +453,61 @@ function MembersTab({ boardId }: { boardId: string }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-2">Board Members</label>
-        <div className="space-y-2 max-h-48 overflow-y-auto">
+        <label 
+          style={{
+            display: 'block',
+            fontSize: '14px',
+            fontWeight: 500,
+            marginBottom: '8px',
+            color: '#e2e8e4'
+          }}
+        >
+          Board Members
+        </label>
+        <div 
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+            maxHeight: '192px',
+            overflowY: 'auto'
+          }}
+        >
           {loading ? (
-            <p className="text-sm text-gray-500">Loading...</p>
+            <p style={{ fontSize: '14px', color: '#8a9b91' }}>Loading...</p>
           ) : members.length === 0 ? (
-            <p className="text-sm text-gray-500">No members yet</p>
+            <p style={{ fontSize: '14px', color: '#8a9b91' }}>No members yet</p>
           ) : (
             members.map((member) => (
-              <div key={member.id} className="flex justify-between items-center p-2 bg-gray-50 rounded text-sm">
-                <span>{member.email}</span>
+              <div 
+                key={member.id} 
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '8px',
+                  backgroundColor: '#101a1e',
+                  borderRadius: '6px',
+                  fontSize: '14px'
+                }}
+              >
+                <span style={{ color: '#e2e8e4' }}>{member.email}</span>
                 <button
                   onClick={() => removeMember(member.id)}
-                  className="text-red-500 hover:text-red-700 text-xs font-medium"
+                  style={{
+                    color: '#f87171',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#ef4444'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = '#f87171'
+                  }}
                 >
                   Remove
                 </button>

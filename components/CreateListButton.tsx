@@ -56,11 +56,38 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
 
   if (!isAdding) {
     return (
-      <div className="bg-gray-800 bg-opacity-30 backdrop-blur-sm rounded-lg p-4 min-w-[300px] max-w-[300px]">
+      <div 
+        style={{
+          backgroundColor: 'rgba(20, 32, 36, 0.5)',
+          borderRadius: '14px',
+          padding: '16px',
+          minWidth: '300px',
+          maxWidth: '300px',
+          border: '1px solid rgba(255,255,255,0.04)'
+        }}
+      >
         <button
           onClick={() => setIsAdding(true)}
-          className="w-full text-left text-white hover:bg-gray-700 hover:bg-opacity-50 rounded p-2 transition-colors font-semibold"
           type="button"
+          style={{
+            width: '100%',
+            textAlign: 'left',
+            color: '#e2e8e4',
+            backgroundColor: 'transparent',
+            border: 'none',
+            borderRadius: '6px',
+            padding: '8px',
+            fontWeight: 600,
+            fontSize: '14px',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent'
+          }}
         >
           + Add a list
         </button>
@@ -69,10 +96,36 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
   }
 
   return (
-    <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-lg p-4 min-w-[300px] max-w-[300px]">
-      <form onSubmit={handleCreate} className="space-y-3">
+    <div 
+      style={{
+        backgroundColor: '#142024',
+        borderRadius: '14px',
+        padding: '16px',
+        minWidth: '300px',
+        maxWidth: '300px',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
+        border: '1px solid rgba(255,255,255,0.07)'
+      }}
+    >
+      <form 
+        onSubmit={handleCreate} 
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '12px'
+        }}
+      >
         {error && (
-          <div className="bg-red-50 text-red-600 p-2 rounded text-sm">
+          <div 
+            style={{
+              backgroundColor: 'rgba(248, 113, 113, 0.1)',
+              color: '#f87171',
+              padding: '8px',
+              borderRadius: '6px',
+              fontSize: '14px',
+              border: '1px solid rgba(248, 113, 113, 0.2)'
+            }}
+          >
             {error}
           </div>
         )}
@@ -84,14 +137,50 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
           placeholder="Enter list title..."
           autoFocus
           required
-          className="w-full px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          style={{
+            width: '100%',
+            padding: '8px 12px',
+            backgroundColor: '#101a1e',
+            border: '1px solid rgba(255,255,255,0.07)',
+            borderRadius: '6px',
+            color: '#e2e8e4',
+            fontSize: '14px',
+            outline: 'none'
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.border = '1px solid #34d399'
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.border = '1px solid rgba(255,255,255,0.07)'
+          }}
         />
 
-        <div className="flex gap-2">
+        <div style={{ display: 'flex', gap: '8px' }}>
           <button
             type="submit"
             disabled={loading || !title.trim()}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm font-semibold"
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#34d399',
+              color: '#0b1215',
+              borderRadius: '6px',
+              fontSize: '14px',
+              fontWeight: 600,
+              border: 'none',
+              cursor: (loading || !title.trim()) ? 'not-allowed' : 'pointer',
+              opacity: (loading || !title.trim()) ? 0.5 : 1,
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              if (!loading && title.trim()) {
+                e.currentTarget.style.backgroundColor = '#10b981'
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!loading && title.trim()) {
+                e.currentTarget.style.backgroundColor = '#34d399'
+              }
+            }}
           >
             {loading ? 'Adding...' : 'Add list'}
           </button>
@@ -102,7 +191,22 @@ export default function CreateListButton({ boardId, listsCount }: CreateListButt
               setTitle('')
               setError(null)
             }}
-            className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded transition-colors text-sm"
+            style={{
+              padding: '8px 16px',
+              color: '#e2e8e4',
+              backgroundColor: 'transparent',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '14px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.04)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent'
+            }}
           >
             Cancel
           </button>

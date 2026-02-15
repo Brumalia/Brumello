@@ -79,18 +79,47 @@ export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
   const hasFilters = searchQuery || filterLabel || filterCompleted !== null
 
   return (
-    <div className="mb-4 space-y-2">
+    <div 
+      style={{
+        marginBottom: '16px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px'
+      }}
+    >
       {/* Search Input */}
-      <div className="relative">
+      <div style={{ position: 'relative' }}>
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search cards..."
-          className="w-full px-4 py-2 pl-10 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          style={{
+            width: '100%',
+            padding: '8px 12px 8px 36px',
+            backgroundColor: '#142024',
+            border: '1px solid rgba(255,255,255,0.07)',
+            borderRadius: '10px',
+            color: '#e2e8e4',
+            fontSize: '14px',
+            outline: 'none'
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.border = '1px solid rgba(255,255,255,0.12)'
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.border = '1px solid rgba(255,255,255,0.07)'
+          }}
         />
         <svg 
-          className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" 
+          style={{
+            position: 'absolute',
+            left: '12px',
+            top: '10px',
+            width: '16px',
+            height: '16px',
+            color: '#4d5f56'
+          }}
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -100,7 +129,23 @@ export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
         {searchQuery && (
           <button
             onClick={() => setSearchQuery('')}
-            className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
+            style={{
+              position: 'absolute',
+              right: '12px',
+              top: '10px',
+              color: '#4d5f56',
+              backgroundColor: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '20px',
+              lineHeight: 1
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = '#8a9b91'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#4d5f56'
+            }}
           >
             ×
           </button>
@@ -108,12 +153,26 @@ export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
       </div>
 
       {/* Filter Toggle & Active Filters */}
-      <div className="flex items-center gap-2">
+      <div 
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          flexWrap: 'wrap'
+        }}
+      >
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`px-3 py-1 text-sm rounded-lg border ${
-            hasFilters ? 'bg-blue-100 border-blue-300 text-blue-700' : 'bg-white border-gray-300 text-gray-700'
-          }`}
+          style={{
+            padding: '6px 12px',
+            fontSize: '14px',
+            borderRadius: '10px',
+            border: '1px solid rgba(255,255,255,0.07)',
+            backgroundColor: hasFilters ? 'rgba(52, 211, 153, 0.1)' : '#142024',
+            color: hasFilters ? '#34d399' : '#e2e8e4',
+            cursor: 'pointer',
+            fontWeight: 500
+          }}
         >
           {showFilters ? 'Hide' : 'Show'} Filters
         </button>
@@ -121,37 +180,126 @@ export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
         {hasFilters && (
           <button
             onClick={clearFilters}
-            className="px-3 py-1 text-sm text-red-600 hover:text-red-700"
+            style={{
+              padding: '6px 12px',
+              fontSize: '14px',
+              color: '#f87171',
+              backgroundColor: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              fontWeight: 500
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = '#ef4444'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#f87171'
+            }}
           >
             Clear all
           </button>
         )}
 
         {filterLabel && (
-          <span className="px-2 py-1 text-xs bg-gray-200 rounded-full flex items-center gap-1">
+          <span 
+            style={{
+              padding: '4px 8px',
+              fontSize: '12px',
+              backgroundColor: 'rgba(138, 155, 145, 0.1)',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              color: '#e2e8e4'
+            }}
+          >
             Label: {availableLabels.find(l => l.id === filterLabel)?.name}
-            <button onClick={() => setFilterLabel(null)}>×</button>
+            <button 
+              onClick={() => setFilterLabel(null)}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                color: '#8a9b91',
+                cursor: 'pointer',
+                fontSize: '16px',
+                lineHeight: 1
+              }}
+            >
+              ×
+            </button>
           </span>
         )}
 
         {filterCompleted !== null && (
-          <span className="px-2 py-1 text-xs bg-gray-200 rounded-full flex items-center gap-1">
+          <span 
+            style={{
+              padding: '4px 8px',
+              fontSize: '12px',
+              backgroundColor: 'rgba(138, 155, 145, 0.1)',
+              borderRadius: '10px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              color: '#e2e8e4'
+            }}
+          >
             {filterCompleted ? 'Completed' : 'Incomplete'}
-            <button onClick={() => setFilterCompleted(null)}>×</button>
+            <button 
+              onClick={() => setFilterCompleted(null)}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                color: '#8a9b91',
+                cursor: 'pointer',
+                fontSize: '16px',
+                lineHeight: 1
+              }}
+            >
+              ×
+            </button>
           </span>
         )}
       </div>
 
       {/* Filter Options */}
       {showFilters && (
-        <div className="p-3 bg-white border border-gray-200 rounded-lg space-y-3">
+        <div 
+          style={{
+            padding: '12px',
+            backgroundColor: '#142024',
+            border: '1px solid rgba(255,255,255,0.07)',
+            borderRadius: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px'
+          }}
+        >
           {/* Label Filter */}
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">Label</label>
+            <label 
+              style={{
+                display: 'block',
+                fontSize: '12px',
+                fontWeight: 500,
+                color: '#8a9b91',
+                marginBottom: '4px'
+              }}
+            >
+              Label
+            </label>
             <select
               value={filterLabel || ''}
               onChange={(e) => setFilterLabel(e.target.value || null)}
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg"
+              style={{
+                width: '100%',
+                padding: '8px 12px',
+                fontSize: '14px',
+                backgroundColor: '#101a1e',
+                border: '1px solid rgba(255,255,255,0.07)',
+                borderRadius: '6px',
+                color: '#e2e8e4',
+                outline: 'none'
+              }}
             >
               <option value="">All labels</option>
               {availableLabels.map(label => (
@@ -162,14 +310,33 @@ export default function SearchFilter({ cards, onFilter }: SearchFilterProps) {
 
           {/* Completed Filter */}
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1">Status</label>
+            <label 
+              style={{
+                display: 'block',
+                fontSize: '12px',
+                fontWeight: 500,
+                color: '#8a9b91',
+                marginBottom: '4px'
+              }}
+            >
+              Status
+            </label>
             <select
               value={filterCompleted === null ? '' : filterCompleted.toString()}
               onChange={(e) => {
                 if (e.target.value === '') setFilterCompleted(null)
                 else setFilterCompleted(e.target.value === 'true')
               }}
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg"
+              style={{
+                width: '100%',
+                padding: '8px 12px',
+                fontSize: '14px',
+                backgroundColor: '#101a1e',
+                border: '1px solid rgba(255,255,255,0.07)',
+                borderRadius: '6px',
+                color: '#e2e8e4',
+                outline: 'none'
+              }}
             >
               <option value="">All</option>
               <option value="false">Incomplete</option>

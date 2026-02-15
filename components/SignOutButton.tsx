@@ -20,7 +20,33 @@ export default function SignOutButton() {
     <button
       onClick={handleSignOut}
       disabled={loading}
-      className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+      style={{
+        padding: '8px 16px',
+        fontSize: '14px',
+        fontWeight: 500,
+        backgroundColor: '#142024',
+        color: '#e2e8e4',
+        borderRadius: '10px',
+        border: '1px solid rgba(255,255,255,0.07)',
+        cursor: loading ? 'not-allowed' : 'pointer',
+        transition: 'all 0.2s ease',
+        opacity: loading ? 0.5 : 1,
+        boxShadow: '0 1px 2px rgba(0,0,0,0.3)'
+      }}
+      onMouseEnter={(e) => {
+        if (!loading) {
+          e.currentTarget.style.backgroundColor = '#1a2a30'
+          e.currentTarget.style.transform = 'translateY(-1px)'
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)'
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!loading) {
+          e.currentTarget.style.backgroundColor = '#142024'
+          e.currentTarget.style.transform = 'translateY(0)'
+          e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.3)'
+        }
+      }}
     >
       {loading ? 'Signing out...' : 'Sign Out'}
     </button>

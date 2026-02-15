@@ -41,7 +41,7 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
   }
 
   const labelColor = card.card_labels?.[0]?.labels?.color
-  const cardBgColor = card.background_color || '#ffffff'
+  const cardBgColor = card.background_color || '#142024'
   
   // Check if card is overdue
   const isOverdue = card.due_date && !card.completed && new Date(card.due_date) < new Date()
@@ -72,22 +72,70 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
       style={{
         ...style,
         backgroundColor: cardBgColor,
+        borderRadius: '10px',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
+        position: 'relative',
+        overflow: 'hidden',
+        border: '1px solid rgba(255,255,255,0.04)',
+        transition: 'all 0.2s ease'
       }}
       {...attributes}
-      className="rounded-lg shadow-sm hover:shadow-md transition-shadow relative group overflow-hidden"
+      onMouseEnter={(e) => {
+        if (!isDragging) {
+          e.currentTarget.style.transform = 'translateY(-2px)'
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)'
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!isDragging) {
+          e.currentTarget.style.transform = 'translateY(0)'
+          e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.3)'
+        }
+      }}
     >
       {/* Color bar on left edge if card has a label */}
       {labelColor && (
         <div
-          className="absolute left-0 top-0 bottom-0 w-1"
-          style={{ backgroundColor: labelColor }}
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: '4px',
+            backgroundColor: labelColor
+          }}
         />
       )}
 
       {/* Drag Handle - only this part triggers dragging */}
       <button
         {...listeners}
-        className="absolute top-2 right-2 p-1 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600"
+        style={{
+          position: 'absolute',
+          top: '8px',
+          right: '8px',
+          padding: '4px',
+          opacity: 0,
+          cursor: 'grab',
+          color: '#4d5f56',
+          backgroundColor: 'transparent',
+          border: 'none',
+          transition: 'opacity 0.2s ease'
+        }}
+        onMouseDown={(e) => {
+          e.currentTarget.style.cursor = 'grabbing'
+        }}
+        onMouseUp={(e) => {
+          e.currentTarget.style.cursor = 'grab'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = '#8a9b91'
+          e.currentTarget.style.opacity = '1'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.color = '#4d5f56'
+          e.currentTarget.style.opacity = '0'
+        }}
         aria-label="Drag card"
       >
         <svg
@@ -109,31 +157,93 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
       {/* Card Content - clickable to open modal */}
       <div
         onClick={onClick}
-        className="p-3 pr-8 cursor-pointer"
-        style={{ paddingLeft: labelColor ? '16px' : '12px' }}
+        style={{
+          padding: '12px',
+          paddingRight: '32px',
+          paddingLeft: labelColor ? '16px' : '12px',
+          cursor: 'pointer'
+        }}
       >
-        <div className="flex items-start gap-2">
+        <div 
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '8px'
+          }}
+        >
           {card.completed && (
-            <span className="text-green-600 flex-shrink-0 mt-0.5">✓</span>
+            <span 
+              style={{
+                color: '#34d399',
+                flexShrink: 0,
+                marginTop: '2px',
+                fontSize: '14px'
+              }}
+            >
+              ✓
+            </span>
           )}
-          <p className={`text-sm flex-1 ${card.completed ? 'line-through text-gray-500' : 'text-gray-900'}`}>
+          <p 
+            style={{
+              fontSize: '14px',
+              flex: 1,
+              color: card.completed ? '#8a9b91' : '#e2e8e4',
+              textDecoration: card.completed ? 'line-through' : 'none',
+              margin: 0,
+              lineHeight: 1.4
+            }}
+          >
             {card.title}
           </p>
         </div>
         
         {card.description && (
-          <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+          <p 
+            style={{
+              fontSize: '12px',
+              color: '#8a9b91',
+              marginTop: '4px',
+              marginBottom: 0,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: 'vertical',
+              lineHeight: 1.4
+            }}
+          >
             {card.description}
           </p>
         )}
         
         {/* Due Date Badge */}
         {card.due_date && !card.completed && (
-          <div className="flex items-center gap-1 mt-2">
-            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+          <div 
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              marginTop: '8px'
+            }}
+          >
+            <svg 
+              style={{ 
+                width: '12px', 
+                height: '12px',
+                color: isOverdue ? '#f87171' : '#8a9b91'
+              }} 
+              fill="currentColor" 
+              viewBox="0 0 20 20"
+            >
               <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
             </svg>
-            <span className={`text-xs font-medium ${isOverdue ? 'text-red-600' : 'text-gray-600'}`}>
+            <span 
+              style={{
+                fontSize: '12px',
+                fontWeight: 500,
+                color: isOverdue ? '#f87171' : '#8a9b91'
+              }}
+            >
               {formatDueDate(card.due_date)}
             </span>
           </div>
@@ -141,8 +251,21 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
         
         {/* Completed Badge */}
         {card.completed && card.due_date && (
-          <div className="flex items-center gap-1 mt-2">
-            <span className="text-xs font-medium text-green-600">
+          <div 
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              marginTop: '8px'
+            }}
+          >
+            <span 
+              style={{
+                fontSize: '12px',
+                fontWeight: 500,
+                color: '#34d399'
+              }}
+            >
               Completed
             </span>
           </div>
