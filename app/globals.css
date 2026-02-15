@@ -6,14 +6,33 @@
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
 
 :root {
-  --background: #0a0e27;
-  --foreground: #ededed;
-  --brand-green: #00ff41;
-  --brand-green-dim: #00cc33;
+  /* Backgrounds - warmer, layered */
+  --background: #0c0d12;
+  --bg-primary: #0c0d12;
+  --bg-surface: #13141a;
+  --bg-card: #191a22;
+  --bg-hover: #1e1f28;
+  
+  /* Text */
+  --foreground: #e8e8e8;
+  --text-primary: #e8e8e8;
+  --text-secondary: #8a8a9a;
+  --text-muted: #4a4a5a;
+  
+  /* Brand accents - softened */
+  --brand-green: #00e85c;
+  --brand-green-dim: #00c44e;
+  --brand-green-glow: rgba(0, 232, 92, 0.08);
+  --brand-green-glow-strong: rgba(0, 232, 92, 0.15);
   --brand-cyan: #00d4ff;
-  --brand-amber: #ffa500;
-  --brand-surface: #11152d;
-  --brand-border: #1a1f3a;
+  --brand-amber: #f5a623;
+  --brand-red: #ef4444;
+  --brand-blue: #6366f1;
+  
+  /* Borders - opacity-based */
+  --border-default: rgba(255, 255, 255, 0.06);
+  --border-bright: rgba(255, 255, 255, 0.10);
+  --border-focus: rgba(0, 232, 92, 0.3);
 }
 
 * {
@@ -33,7 +52,7 @@ body {
   position: relative;
 }
 
-/* Scanlines Effect */
+/* Scanlines Effect - softened green */
 body::before {
   content: "";
   position: fixed;
@@ -43,8 +62,8 @@ body::before {
   height: 100%;
   background-image: repeating-linear-gradient(
     0deg,
-    rgba(0, 255, 65, 0.05) 0px,
-    rgba(0, 255, 65, 0.05) 2px,
+    rgba(0, 232, 92, 0.05) 0px,
+    rgba(0, 232, 92, 0.05) 2px,
     transparent 2px,
     transparent 4px
   );
@@ -121,8 +140,8 @@ code {
   .scanlines {
     background-image: repeating-linear-gradient(
       0deg,
-      rgba(0, 255, 65, 0.05) 0px,
-      rgba(0, 255, 65, 0.05) 2px,
+      rgba(0, 232, 92, 0.05) 0px,
+      rgba(0, 232, 92, 0.05) 2px,
       transparent 2px,
       transparent 4px
     );
@@ -137,7 +156,7 @@ code {
 
   /* Brand Accent Glow */
   .glow-green {
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+    box-shadow: 0 0 20px rgba(0, 232, 92, 0.3);
   }
 
   /* Sharp Border (no rounded) */

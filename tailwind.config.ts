@@ -4,13 +4,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "brand-bg": "#0a0e27",
-        "brand-surface": "#11152d",
-        "brand-border": "#1a1f3a",
-        "brand-green": "#00ff41",
-        "brand-green-dim": "#00cc33",
+        // Backgrounds - warmer, layered
+        "bg-primary": "#0c0d12",
+        "bg-surface": "#13141a",
+        "bg-card": "#191a22",
+        "bg-hover": "#1e1f28",
+        
+        // Brand accents - softened
+        "brand-green": "#00e85c",
+        "brand-green-dim": "#00c44e",
+        "brand-green-glow": "rgba(0, 232, 92, 0.08)",
+        "brand-green-glow-strong": "rgba(0, 232, 92, 0.15)",
         "brand-cyan": "#00d4ff",
-        "brand-amber": "#ffa500",
+        "brand-amber": "#f5a623",
+        "brand-red": "#ef4444",
+        "brand-blue": "#6366f1",
+        
+        // Borders - opacity-based
+        "border-default": "rgba(255, 255, 255, 0.06)",
+        "border-bright": "rgba(255, 255, 255, 0.10)",
+        "border-focus": "rgba(0, 232, 92, 0.3)",
+        
+        // Text
+        "text-primary": "#e8e8e8",
+        "text-secondary": "#8a8a9a",
+        "text-muted": "#4a4a5a",
       },
       fontFamily: {
         sans: ["Geist", "ui-sans-serif", "system-ui", "sans-serif"],
@@ -29,13 +47,13 @@ const config: Config = {
         '5xl': ['4.5rem', { lineHeight: '1' }],           // 72px - hero text
       },
       backgroundColor: {
-        DEFAULT: "#0a0e27",
+        DEFAULT: "#0c0d12",
       },
       textColor: {
-        DEFAULT: "#ededed",
+        DEFAULT: "#e8e8e8",
       },
       borderColor: {
-        DEFAULT: "#1a1f3a",
+        DEFAULT: "rgba(255, 255, 255, 0.06)",
       },
     },
   },
