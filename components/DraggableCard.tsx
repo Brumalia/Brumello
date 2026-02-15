@@ -41,7 +41,6 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
   }
 
   const labelColor = card.card_labels?.[0]?.labels?.color
-  const cardBgColor = card.background_color || '#142024'
   
   // Check if card is overdue
   const isOverdue = card.due_date && !card.completed && new Date(card.due_date) < new Date()
@@ -71,7 +70,7 @@ export default function DraggableCard({ card, onClick }: DraggableCardProps) {
       ref={setNodeRef}
       style={{
         ...style,
-        backgroundColor: cardBgColor,
+        backgroundColor: '#142024',
         borderRadius: '10px',
         boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
         position: 'relative',

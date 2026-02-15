@@ -36,22 +36,9 @@ interface CardModalProps {
   onClose: () => void
 }
 
-const CARD_COLORS = [
-  { name: 'None', color: null },
-  { name: 'Green', color: '#D3F8E2' },
-  { name: 'Yellow', color: '#FFF4C4' },
-  { name: 'Orange', color: '#FFE5C4' },
-  { name: 'Red', color: '#FFD5D5' },
-  { name: 'Purple', color: '#EDE4FF' },
-  { name: 'Blue', color: '#D4E5FF' },
-  { name: 'Sky', color: '#C4F0FF' },
-  { name: 'Lime', color: '#E4FFD4' },
-]
-
 export default function CardModal({ card, listTitle, boardId, onClose }: CardModalProps) {
   const [title, setTitle] = useState(card.title)
   const [description, setDescription] = useState(card.description || '')
-  const [backgroundColor, setBackgroundColor] = useState(card.background_color)
   const [dueDate, setDueDate] = useState(
     card.due_date ? new Date(card.due_date).toISOString().split('T')[0] : ''
   )
@@ -160,7 +147,6 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
       .update({
         title: title.trim(),
         description: description.trim() || null,
-        background_color: backgroundColor,
         due_date: dueDate || null,
         completed: completed,
       })
@@ -178,7 +164,7 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
       // Reset to idle after 2 seconds
       setTimeout(() => setSaveStatus('idle'), 2000)
     }
-  }, [title, description, backgroundColor, dueDate, completed, card.id, supabase, router, notifyMentions, prevDescription])
+  }, [title, description, dueDate, completed, card.id, supabase, router, notifyMentions, prevDescription])
 
   // Auto-save when any field changes (debounced)
   useEffect(() => {
@@ -187,7 +173,6 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
       if (
         title !== card.title ||
         description !== (card.description || '') ||
-        backgroundColor !== card.background_color ||
         dueDate !== (card.due_date ? new Date(card.due_date).toISOString().split('T')[0] : '') ||
         completed !== card.completed
       ) {
@@ -196,7 +181,7 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
     }, 500) // 500ms debounce
 
     return () => clearTimeout(timer)
-  }, [title, description, backgroundColor, dueDate, completed, card, autoSave])
+  }, [title, description, dueDate, completed, card, autoSave])
 
   // Load labels
   useEffect(() => {
@@ -659,57 +644,6 @@ export default function CardModal({ card, listTitle, boardId, onClose }: CardMod
               Labels
             </h3>
             <LabelSelector cardId={card.id} boardId={boardId} selectedLabels={labels} onUpdate={() => {}} />
-          </div>
-
-          {/* Card Color */}
-          <div style={{ marginBottom: '24px' }}>
-            <h3 
-              style={{
-                fontSize: '16px',
-                fontWeight: 600,
-                color: '#f0f5f1',
-                marginBottom: '8px',
-                marginTop: 0
-              }}
-            >
-              Card Color
-            </h3>
-            <div 
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '8px'
-              }}
-            >
-              {CARD_COLORS.map((colorOption) => (
-                <button
-                  key={colorOption.name}
-                  onClick={() => setBackgroundColor(colorOption.color)}
-                  style={{
-                    padding: '6px 12px',
-                    borderRadius: '10px',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    transition: 'all 0.2s ease',
-                    backgroundColor: colorOption.color || '#101a1e',
-                    color: colorOption.color ? '#374151' : '#8a9b91',
-                    border: backgroundColor === colorOption.color ? '2px solid #34d399' : '1px solid rgba(255,255,255,0.07)',
-                    cursor: 'pointer',
-                    boxShadow: backgroundColor === colorOption.color ? '0 0 0 2px #0b1215, 0 0 0 4px #34d399' : 'none'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (backgroundColor !== colorOption.color) {
-                      e.currentTarget.style.opacity = '0.8'
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.opacity = '1'
-                  }}
-                >
-                  {colorOption.name}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Checklists */}
