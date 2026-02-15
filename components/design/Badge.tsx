@@ -3,29 +3,37 @@
 import React from 'react';
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: 'default' | 'success' | 'warning' | 'error' | 'info';
+  variant?: 'default' | 'active' | 'done' | 'warning' | 'error' | 'info' | 'idle';
   children: React.ReactNode;
 }
 
 /**
- * Mission Control Badge Component
- * Geist Mono for data-like content, softened colors, 4px corners
+ * Premium Mission Control Badge Component
+ * - 6px border-radius (rounded-sm)
+ * - Emerald palette for active/done states
+ * - Muted backgrounds with bright text
+ * - Geist Sans for labels (not mono)
  */
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ variant = 'default', className = '', children, ...props }, ref) => {
     const baseStyles =
-      'font-mono text-xs font-medium px-2 py-0.5 inline-block rounded transition-colors duration-200 tracking-wide';
+      'font-sans text-xs font-medium px-2.5 py-1 inline-block rounded-sm transition-colors duration-200';
 
     const variants = {
       default:
-        'bg-bg-card text-text-secondary border border-border-bright',
-      success:
-        'bg-brand-green/10 text-brand-green border border-brand-green/20',
+        'bg-bg-card text-text-secondary border border-border-default',
+      active:
+        'bg-[rgba(52,211,153,0.12)] text-status-active border-0',
+      done:
+        'bg-[rgba(52,211,153,0.12)] text-status-active border-0',
       warning:
-        'bg-brand-amber/10 text-brand-amber border border-brand-amber/20',
+        'bg-[rgba(251,191,36,0.12)] text-status-warning border-0',
       error:
-        'bg-brand-red/10 text-brand-red border border-brand-red/20',
-      info: 'bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20',
+        'bg-[rgba(248,113,113,0.12)] text-status-error border-0',
+      info:
+        'bg-[rgba(96,165,250,0.12)] text-status-info border-0',
+      idle:
+        'bg-[rgba(255,255,255,0.05)] text-text-muted border-0',
     };
 
     return (

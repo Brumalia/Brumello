@@ -1,4 +1,4 @@
-/* Import Refined Mission Control Fonts */
+/* Import Premium Mission Control Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
@@ -6,33 +6,59 @@
 @import "tailwindcss";
 
 :root {
-  /* Backgrounds - warmer, layered */
-  --background: #0c0d12;
-  --bg-primary: #0c0d12;
-  --bg-surface: #13141a;
-  --bg-card: #191a22;
-  --bg-hover: #1e1f28;
+  /* ===== BACKGROUNDS — monochromatic green-tinted ===== */
+  --background: #0b1215;          /* bg-base: deepest layer */
+  --bg-base: #0b1215;             /* near-black with green undertone */
+  --bg-surface: #101a1e;          /* sidebar, panels - dark forest */
+  --bg-card: #142024;             /* cards, elevated surfaces */
+  --bg-card-hover: #182a2e;       /* card hover state */
+  --bg-input: #0e1619;            /* input fields, slightly recessed */
   
-  /* Text */
-  --foreground: #e8e8e8;
-  --text-primary: #e8e8e8;
-  --text-secondary: #8a8a9a;
-  --text-muted: #4a4a5a;
+  /* ===== TEXT — green-tinted ===== */
+  --foreground: #e2e8e4;          /* text-primary: slightly green-tinted white */
+  --text-primary: #e2e8e4;
+  --text-secondary: #8a9b91;      /* muted green-grey */
+  --text-muted: #4d5f56;          /* labels, timestamps */
+  --text-heading: #f0f5f1;        /* slightly brighter for headings */
   
-  /* Brand accents - softened */
-  --brand-green: #00e85c;
-  --brand-green-dim: #00c44e;
-  --brand-green-glow: rgba(0, 232, 92, 0.08);
-  --brand-green-glow-strong: rgba(0, 232, 92, 0.15);
+  /* ===== ACCENT GREEN — emerald palette ===== */
+  --brand-green: #34d399;         /* emerald-400: primary accent */
+  --brand-green-dim: #10b981;     /* emerald-500: secondary */
+  --brand-green-dark: #059669;    /* emerald-600: pressed states */
+  --green-50: rgba(52, 211, 153, 0.06);    /* ghost bg */
+  --green-100: rgba(52, 211, 153, 0.10);   /* subtle badge backgrounds */
+  --green-200: rgba(52, 211, 153, 0.15);   /* stronger badge / active state */
+  
+  /* ===== STATUS COLORS — muted to match palette ===== */
+  --status-active: #34d399;       /* emerald green */
+  --status-warning: #fbbf24;      /* warm amber */
+  --status-error: #f87171;        /* soft red */
+  --status-info: #60a5fa;         /* soft blue */
+  --status-idle: #4d5f56;         /* same as text-muted */
+  
+  /* Legacy colors for compatibility */
   --brand-cyan: #00d4ff;
   --brand-amber: #f5a623;
   --brand-red: #ef4444;
   --brand-blue: #6366f1;
   
-  /* Borders - opacity-based */
-  --border-default: rgba(255, 255, 255, 0.06);
-  --border-bright: rgba(255, 255, 255, 0.10);
-  --border-focus: rgba(0, 232, 92, 0.3);
+  /* ===== BORDERS — opacity-based ===== */
+  --border-subtle: rgba(255, 255, 255, 0.04);   /* barely there */
+  --border-default: rgba(255, 255, 255, 0.07);  /* standard borders */
+  --border-bright: rgba(255, 255, 255, 0.12);   /* hover/focus borders */
+  --border-focus: rgba(52, 211, 153, 0.3);      /* emerald focus */
+  
+  /* ===== SHADOWS ===== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px rgba(52, 211, 153, 0.08);
+  
+  /* ===== RADII ===== */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
 }
 
 * {
@@ -42,17 +68,17 @@
 }
 
 html {
-  background: var(--background);
+  background: var(--bg-base);
 }
 
 body {
-  background: var(--background);
+  background: var(--bg-base);
   color: var(--foreground);
   font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
   position: relative;
 }
 
-/* Scanlines Effect - softened green */
+/* Scanlines Effect - emerald green */
 body::before {
   content: "";
   position: fixed;
@@ -62,8 +88,8 @@ body::before {
   height: 100%;
   background-image: repeating-linear-gradient(
     0deg,
-    rgba(0, 232, 92, 0.05) 0px,
-    rgba(0, 232, 92, 0.05) 2px,
+    rgba(52, 211, 153, 0.04) 0px,
+    rgba(52, 211, 153, 0.04) 2px,
     transparent 2px,
     transparent 4px
   );
@@ -89,50 +115,50 @@ body::before {
 
 /* Typography Hierarchy */
 
-/* H1: Board Name - Instrument Serif Bold */
+/* H1: Board Name - Instrument Serif 400 (not bold anymore) */
 h1 {
   font-family: "Instrument Serif", serif;
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--foreground);
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--text-heading);
   border-bottom: 2px solid var(--brand-green);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
 }
 
-/* H2: Section Title - Geist Sans Medium */
+/* H2: Section Title - Geist Sans 600 */
 h2 {
   font-family: "Geist", sans-serif;
-  font-size: 1.125rem;
-  font-weight: 500;
+  font-size: 1.25rem;
+  font-weight: 600;
   color: var(--brand-green);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
-/* H3: Card Title - Geist Sans Medium */
+/* H3: Card Title - Geist Sans 500 */
 h3 {
   font-family: "Geist", sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--foreground);
+  color: var(--text-primary);
 }
 
-/* Body Text */
+/* Body Text - Geist Sans 400 */
 p {
   font-family: "Geist", sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
-  color: #aaaaaa;
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
-/* Monospace Labels (timestamps, IDs, costs, badges) */
+/* Monospace Labels (timestamps, IDs, costs) */
 .mono-label,
 code {
   font-family: "Geist Mono", monospace;
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   font-weight: 400;
-  color: #666666;
-  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
 }
 
 /* Utility Classes for Scanlines */
@@ -140,8 +166,8 @@ code {
   .scanlines {
     background-image: repeating-linear-gradient(
       0deg,
-      rgba(0, 232, 92, 0.05) 0px,
-      rgba(0, 232, 92, 0.05) 2px,
+      rgba(52, 211, 153, 0.04) 0px,
+      rgba(52, 211, 153, 0.04) 2px,
       transparent 2px,
       transparent 4px
     );
@@ -154,9 +180,9 @@ code {
     background-size: 32px 32px;
   }
 
-  /* Brand Accent Glow */
+  /* Brand Accent Glow - emerald */
   .glow-green {
-    box-shadow: 0 0 20px rgba(0, 232, 92, 0.3);
+    box-shadow: 0 0 20px rgba(52, 211, 153, 0.15);
   }
 
   /* Sharp Border (no rounded) */
@@ -166,7 +192,7 @@ code {
 
   /* High Contrast Text */
   .high-contrast {
-    color: var(--foreground);
+    color: var(--text-heading);
     font-weight: 600;
   }
 }
@@ -183,7 +209,7 @@ code {
   }
 }
 
-/* Focus States */
+/* Focus States - emerald */
 :focus {
   outline: 2px solid var(--brand-green);
   outline-offset: 2px;

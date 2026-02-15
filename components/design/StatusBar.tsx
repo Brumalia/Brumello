@@ -46,10 +46,10 @@ export interface StatusPanelProps {
 
 const HealthDot: React.FC<{ status: HealthStatus }> = ({ status }) => {
   const colors = {
-    healthy: 'bg-brand-green',
-    warning: 'bg-brand-amber',
-    critical: 'bg-brand-red',
-    offline: 'bg-gray-500',
+    healthy: 'bg-status-active',
+    warning: 'bg-status-warning',
+    critical: 'bg-status-error',
+    offline: 'bg-status-idle',
   };
 
   const pulse = {
@@ -85,7 +85,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
 }) => {
   return (
     <div
-      className="fixed top-0 left-0 right-0 h-10 bg-bg-primary shadow-[0_1px_4px_rgba(0,0,0,0.3)] z-50 flex items-center px-4 gap-10 cursor-pointer hover:bg-bg-surface transition-all duration-200 group"
+      className="fixed top-0 left-0 right-0 h-10 bg-bg-surface border-b border-border-subtle shadow-sm z-50 flex items-center px-4 gap-8 cursor-pointer hover:bg-bg-card transition-all duration-200 group"
       onClick={onOpenDetails}
       role="button"
       tabIndex={0}
@@ -93,11 +93,11 @@ export const StatusBar: React.FC<StatusBarProps> = ({
     >
       {/* Logo / Brand */}
       <div className="flex items-center gap-2">
-        <span className="font-mono text-xs text-brand-green">⬡ Brumello</span>
+        <span className="font-sans text-xs font-medium text-brand-green">⬡ Brumello</span>
       </div>
 
-      {/* Status Signals - merged into natural phrases */}
-      <div className="flex items-center gap-10 font-mono text-xs text-text-secondary">
+      {/* Status Signals - Geist Sans 12px, text-muted, generous gaps (32px) */}
+      <div className="flex items-center gap-8 font-sans text-xs text-text-muted">
         {/* System Health */}
         <div className="flex items-center gap-2">
           <HealthDot status={healthStatus} />
@@ -124,7 +124,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
       <div className="flex-1" />
 
       {/* Click hint */}
-      <div className="font-mono text-xs text-text-muted group-hover:text-brand-green transition-colors duration-200">
+      <div className="font-sans text-xs text-text-muted group-hover:text-brand-green transition-colors duration-200">
         click for details
       </div>
     </div>
@@ -157,24 +157,24 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
         onClick={onClose}
       />
 
-      {/* Panel */}
-      <div className="fixed top-12 right-4 w-80 bg-bg-card border border-border-default rounded-xl z-50 shadow-[0_4px_16px_rgba(0,0,0,0.4),0_2px_4px_rgba(0,0,0,0.3)] animate-[slideDown_250ms_cubic-bezier(0.16,1,0.3,1)]">
+      {/* Panel - rounded-xl (18px), shadow-lg, inset margin 8px 16px */}
+      <div className="fixed top-[8px] right-[16px] w-80 bg-bg-card border border-border-default rounded-xl z-50 shadow-lg animate-[slideDown_250ms_cubic-bezier(0.16,1,0.3,1)]">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-border-default">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border-subtle">
           <div className="flex items-center gap-2">
             <span className="font-sans text-sm font-medium text-text-primary">System Status</span>
             <div className="h-1 w-1 rounded-full bg-brand-green animate-pulse" />
           </div>
           <button
             onClick={onClose}
-            className="font-mono text-xs text-text-muted hover:text-brand-green transition-colors"
+            className="font-sans text-xs text-text-muted hover:text-brand-green transition-colors"
           >
             esc
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-4 space-y-4">
+        <div className="p-6 space-y-4">
           {/* Health Status */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
@@ -184,58 +184,58 @@ export const StatusPanel: React.FC<StatusPanelProps> = ({
                 <span className="font-mono text-sm text-text-primary capitalize">{healthStatus}</span>
               </div>
             </div>
-            <div className="h-1 bg-bg-hover rounded-full overflow-hidden">
+            <div className="h-1 bg-bg-card-hover rounded-full overflow-hidden">
               <div
                 className={`h-full transition-all duration-500 ${
                   healthStatus === 'healthy'
-                    ? 'bg-brand-green w-full'
+                    ? 'bg-status-active w-full'
                     : healthStatus === 'warning'
-                      ? 'bg-brand-amber w-2/3'
+                      ? 'bg-status-warning w-2/3'
                       : healthStatus === 'critical'
-                        ? 'bg-brand-red w-1/3'
-                        : 'bg-gray-500 w-0'
+                        ? 'bg-status-error w-1/3'
+                        : 'bg-status-idle w-0'
                 }`}
               />
             </div>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-bg-surface p-3 rounded-lg border border-border-default">
-              <div className="font-sans text-xs text-text-muted mb-1">Active Agents</div>
-              <div className="font-serif text-xl text-text-primary">{activeAgents}</div>
+          {/* Stats Grid - 16px gaps between cards */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-bg-surface p-4 rounded-lg border border-border-subtle">
+              <div className="font-sans text-xs text-text-muted mb-2">Active Agents</div>
+              <div className="font-serif text-2xl text-text-heading">{activeAgents}</div>
             </div>
-            <div className="bg-bg-surface p-3 rounded-lg border border-border-default">
-              <div className="font-sans text-xs text-text-muted mb-1">Queue Depth</div>
-              <div className="font-serif text-xl text-text-primary">{queueDepth}</div>
+            <div className="bg-bg-surface p-4 rounded-lg border border-border-subtle">
+              <div className="font-sans text-xs text-text-muted mb-2">Queue Depth</div>
+              <div className="font-serif text-2xl text-text-heading">{queueDepth}</div>
             </div>
-            <div className="bg-bg-surface p-3 rounded-lg border border-border-default col-span-2">
-              <div className="font-sans text-xs text-text-muted mb-1">Current Cost</div>
-              <div className="font-serif text-2xl text-brand-green">£{costPerHour.toFixed(2)}</div>
-              <div className="font-mono text-xs text-text-muted mt-1">per hour</div>
+            <div className="bg-bg-surface p-4 rounded-lg border border-border-subtle col-span-2">
+              <div className="font-sans text-xs text-text-muted mb-2">Current Cost</div>
+              <div className="font-serif text-3xl text-brand-green">£{costPerHour.toFixed(2)}</div>
+              <div className="font-sans text-xs text-text-muted mt-2">per hour</div>
             </div>
           </div>
 
           {/* Live Placeholders (to be wired) */}
-          <div className="pt-2 border-t border-brand-border space-y-2">
-            <div className="font-mono text-xs text-gray-600 uppercase tracking-wider mb-2">
-              _live_feeds_placeholder
+          <div className="pt-4 border-t border-border-subtle space-y-2">
+            <div className="font-sans text-xs text-text-muted uppercase tracking-wider mb-2">
+              Live Feeds
             </div>
-            <div className="font-mono text-xs text-gray-500">
+            <div className="font-mono text-xs text-text-muted">
               › <span className="text-brand-green">agent_logs</span>: streaming...
             </div>
-            <div className="font-mono text-xs text-gray-500">
+            <div className="font-mono text-xs text-text-muted">
               › <span className="text-brand-green">queue_events</span>: pending
             </div>
-            <div className="font-mono text-xs text-gray-500">
+            <div className="font-mono text-xs text-text-muted">
               › <span className="text-brand-green">cost_tracker</span>: active
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2 border-t border-brand-border bg-brand-bg/50">
-          <div className="font-mono text-xs text-gray-600">
+        <div className="px-6 py-3 border-t border-border-subtle bg-bg-surface/50">
+          <div className="font-sans text-xs text-text-muted">
             Last updated: <span className="text-brand-green">{new Date().toLocaleTimeString()}</span>
           </div>
         </div>
