@@ -7,7 +7,7 @@ export default function DesignShell({ children }: { children: React.ReactNode })
   return (
     <div>
       <StatusBar onOpenDetails={() => setOpen(true)} activeAgents={3} queueDepth={5} costPerHour={0.75} />
-      <StatusPanel open={open} onClose={() => setOpen(false)} data={{ activeAgents: 3, queueDepth: 5, costs: { hourly: 0.75, totalToday: 12.34 }, lastUpdated: new Date().toISOString() }} />
+      <StatusPanel isOpen={open} onClose={() => setOpen(false)} activeAgents={3} queueDepth={5} costPerHour={0.75} healthStatus="healthy" />
       <main className="pt-12">{children}</main>
     </div>
   );
