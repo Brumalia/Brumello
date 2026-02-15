@@ -13,7 +13,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { StatusBar, StatusPanel, StatusBarWithPanel, StatusBarProps, HealthStatus } from './components/design/StatusBar';
+import { StatusBar, StatusPanel, StatusBarWithPanel, StatusBarProps, HealthStatus } from './StatusBar';
 
 // ============================================================================
 // Demo: Standalone StatusBar + Panel (controlled)
