@@ -39,30 +39,81 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Brumello <span className="text-blue-600">❄️</span>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#0b1215',
+      padding: '16px',
+    }}>
+      <div style={{
+        maxWidth: '448px',
+        width: '100%',
+        backgroundColor: '#142024',
+        borderRadius: '14px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+        padding: '32px',
+        border: '1px solid rgba(255,255,255,0.04)',
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h1 style={{
+            fontSize: '28px',
+            fontWeight: '700',
+            color: '#f0f5f1',
+            fontFamily: 'var(--font-geist-sans)',
+            margin: 0,
+          }}>
+            Brumello ❄️
           </h1>
-          <p className="text-gray-600 mt-2">Create your account</p>
+          <p style={{
+            color: '#8a9b91',
+            marginTop: '8px',
+            fontSize: '14px',
+            fontFamily: 'var(--font-geist-sans)',
+          }}>
+            Create your account
+          </p>
         </div>
 
         {success ? (
-          <div className="bg-green-50 text-green-700 p-4 rounded-lg text-center">
-            <p className="font-semibold">Account created successfully!</p>
-            <p className="text-sm mt-1">Redirecting to dashboard...</p>
+          <div style={{
+            backgroundColor: 'rgba(52, 211, 153, 0.1)',
+            color: '#34d399',
+            padding: '16px',
+            borderRadius: '10px',
+            textAlign: 'center',
+            border: '1px solid rgba(52, 211, 153, 0.2)',
+            fontFamily: 'var(--font-geist-sans)',
+          }}>
+            <p style={{ fontWeight: '600', margin: 0 }}>Account created successfully!</p>
+            <p style={{ fontSize: '14px', marginTop: '4px', margin: 0 }}>Redirecting to dashboard...</p>
           </div>
         ) : (
-          <form onSubmit={handleSignup} className="space-y-4">
+          <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {error && (
-              <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">
+              <div style={{
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                color: '#ef4444',
+                padding: '12px',
+                borderRadius: '10px',
+                fontSize: '14px',
+                border: '1px solid rgba(239, 68, 68, 0.2)',
+                fontFamily: 'var(--font-geist-sans)',
+              }}>
                 {error}
               </div>
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#c8d5cc',
+                marginBottom: '4px',
+                fontFamily: 'var(--font-geist-sans)',
+              }}>
                 Email
               </label>
               <input
@@ -71,13 +122,39 @@ export default function SignupPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  border: '1px solid rgba(255,255,255,0.04)',
+                  borderRadius: '10px',
+                  backgroundColor: '#101a1e',
+                  color: '#f0f5f1',
+                  fontSize: '14px',
+                  fontFamily: 'var(--font-geist-sans)',
+                  outline: 'none',
+                  transition: 'all 0.2s',
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(52,211,153,0.15)'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(52,211,153,0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.04)'
+                  e.target.style.boxShadow = 'none'
+                }}
                 placeholder="you@example.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="password" style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#c8d5cc',
+                marginBottom: '4px',
+                fontFamily: 'var(--font-geist-sans)',
+              }}>
                 Password
               </label>
               <input
@@ -87,25 +164,81 @@ export default function SignupPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  border: '1px solid rgba(255,255,255,0.04)',
+                  borderRadius: '10px',
+                  backgroundColor: '#101a1e',
+                  color: '#f0f5f1',
+                  fontSize: '14px',
+                  fontFamily: 'var(--font-geist-sans)',
+                  outline: 'none',
+                  transition: 'all 0.2s',
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(52,211,153,0.15)'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(52,211,153,0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.04)'
+                  e.target.style.boxShadow = 'none'
+                }}
                 placeholder="••••••••"
               />
-              <p className="text-xs text-gray-500 mt-1">At least 6 characters</p>
+              <p style={{
+                fontSize: '12px',
+                color: '#8a9b91',
+                marginTop: '4px',
+                margin: 0,
+                fontFamily: 'var(--font-geist-sans)',
+              }}>
+                At least 6 characters
+              </p>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              style={{
+                width: '100%',
+                backgroundColor: loading ? '#0f9a70' : '#10b981',
+                color: '#ffffff',
+                padding: '10px 16px',
+                borderRadius: '10px',
+                fontWeight: '600',
+                border: 'none',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.7 : 1,
+                transition: 'all 0.2s',
+                fontSize: '14px',
+                fontFamily: 'var(--font-geist-sans)',
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) e.currentTarget.style.backgroundColor = '#34d399'
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) e.currentTarget.style.backgroundColor = '#10b981'
+              }}
             >
               {loading ? 'Creating account...' : 'Sign Up'}
             </button>
           </form>
         )}
 
-        <div className="mt-6 text-center text-sm text-gray-600">
+        <div style={{
+          marginTop: '24px',
+          textAlign: 'center',
+          fontSize: '14px',
+          color: '#8a9b91',
+          fontFamily: 'var(--font-geist-sans)',
+        }}>
           Already have an account?{' '}
-          <Link href="/auth/login" className="text-blue-600 hover:text-blue-700 font-semibold">
+          <Link href="/auth/login" style={{
+            color: '#10b981',
+            fontWeight: '600',
+            textDecoration: 'none',
+          }}>
             Sign in
           </Link>
         </div>

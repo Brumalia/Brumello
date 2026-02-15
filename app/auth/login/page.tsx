@@ -56,57 +56,135 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Brumello <span className="text-blue-600">❄️</span>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#0b1215',
+      padding: '16px',
+    }}>
+      <div style={{
+        maxWidth: '448px',
+        width: '100%',
+        backgroundColor: '#142024',
+        borderRadius: '14px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2)',
+        padding: '32px',
+        border: '1px solid rgba(255,255,255,0.04)',
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h1 style={{
+            fontSize: '28px',
+            fontWeight: '700',
+            color: '#f0f5f1',
+            fontFamily: 'var(--font-geist-sans)',
+            margin: 0,
+          }}>
+            Brumello ❄️
           </h1>
-          <p className="text-gray-600 mt-2">Sign in to your account</p>
+          <p style={{
+            color: '#8a9b91',
+            marginTop: '8px',
+            fontSize: '14px',
+            fontFamily: 'var(--font-geist-sans)',
+          }}>
+            Sign in to your account
+          </p>
         </div>
 
         {/* Login Method Toggle */}
-        <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
+        <div style={{
+          display: 'flex',
+          marginBottom: '24px',
+          backgroundColor: '#101a1e',
+          borderRadius: '10px',
+          padding: '4px',
+          border: '1px solid rgba(255,255,255,0.04)',
+        }}>
           <button
             type="button"
             onClick={() => setLoginMethod('password')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-              loginMethod === 'password'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+            style={{
+              flex: 1,
+              padding: '8px 16px',
+              borderRadius: '6px',
+              fontSize: '14px',
+              fontWeight: '500',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              backgroundColor: loginMethod === 'password' ? '#142024' : 'transparent',
+              color: loginMethod === 'password' ? '#f0f5f1' : '#8a9b91',
+              boxShadow: loginMethod === 'password' ? '0 1px 2px rgba(0,0,0,0.3)' : 'none',
+              fontFamily: 'var(--font-geist-sans)',
+            }}
           >
             Password
           </button>
           <button
             type="button"
             onClick={() => setLoginMethod('magic')}
-            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
-              loginMethod === 'magic'
-                ? 'bg-white text-gray-900 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
+            style={{
+              flex: 1,
+              padding: '8px 16px',
+              borderRadius: '6px',
+              fontSize: '14px',
+              fontWeight: '500',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              backgroundColor: loginMethod === 'magic' ? '#142024' : 'transparent',
+              color: loginMethod === 'magic' ? '#f0f5f1' : '#8a9b91',
+              boxShadow: loginMethod === 'magic' ? '0 1px 2px rgba(0,0,0,0.3)' : 'none',
+              fontFamily: 'var(--font-geist-sans)',
+            }}
           >
             Magic Link
           </button>
         </div>
 
         {error && (
-          <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-4">
+          <div style={{
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            color: '#ef4444',
+            padding: '12px',
+            borderRadius: '10px',
+            fontSize: '14px',
+            marginBottom: '16px',
+            border: '1px solid rgba(239, 68, 68, 0.2)',
+            fontFamily: 'var(--font-geist-sans)',
+          }}>
             {error}
           </div>
         )}
 
         {success && (
-          <div className="bg-green-50 text-green-600 p-3 rounded-lg text-sm mb-4">
+          <div style={{
+            backgroundColor: 'rgba(52, 211, 153, 0.1)',
+            color: '#34d399',
+            padding: '12px',
+            borderRadius: '10px',
+            fontSize: '14px',
+            marginBottom: '16px',
+            border: '1px solid rgba(52, 211, 153, 0.2)',
+            fontFamily: 'var(--font-geist-sans)',
+          }}>
             {success}
           </div>
         )}
 
         {loginMethod === 'password' ? (
-          <form onSubmit={handlePasswordLogin} className="space-y-4">
+          <form onSubmit={handlePasswordLogin} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#c8d5cc',
+                marginBottom: '4px',
+                fontFamily: 'var(--font-geist-sans)',
+              }}>
                 Email
               </label>
               <input
@@ -115,13 +193,39 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  border: '1px solid rgba(255,255,255,0.04)',
+                  borderRadius: '10px',
+                  backgroundColor: '#101a1e',
+                  color: '#f0f5f1',
+                  fontSize: '14px',
+                  fontFamily: 'var(--font-geist-sans)',
+                  outline: 'none',
+                  transition: 'all 0.2s',
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(52,211,153,0.15)'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(52,211,153,0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.04)'
+                  e.target.style.boxShadow = 'none'
+                }}
                 placeholder="you@example.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="password" style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#c8d5cc',
+                marginBottom: '4px',
+                fontFamily: 'var(--font-geist-sans)',
+              }}>
                 Password
               </label>
               <input
@@ -130,7 +234,26 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  border: '1px solid rgba(255,255,255,0.04)',
+                  borderRadius: '10px',
+                  backgroundColor: '#101a1e',
+                  color: '#f0f5f1',
+                  fontSize: '14px',
+                  fontFamily: 'var(--font-geist-sans)',
+                  outline: 'none',
+                  transition: 'all 0.2s',
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(52,211,153,0.15)'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(52,211,153,0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.04)'
+                  e.target.style.boxShadow = 'none'
+                }}
                 placeholder="••••••••"
               />
             </div>
@@ -138,15 +261,41 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              style={{
+                width: '100%',
+                backgroundColor: loading ? '#0f9a70' : '#10b981',
+                color: '#ffffff',
+                padding: '10px 16px',
+                borderRadius: '10px',
+                fontWeight: '600',
+                border: 'none',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.7 : 1,
+                transition: 'all 0.2s',
+                fontSize: '14px',
+                fontFamily: 'var(--font-geist-sans)',
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) e.currentTarget.style.backgroundColor = '#34d399'
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) e.currentTarget.style.backgroundColor = '#10b981'
+              }}
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
         ) : (
-          <form onSubmit={handleMagicLink} className="space-y-4">
+          <form onSubmit={handleMagicLink} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div>
-              <label htmlFor="magic-email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="magic-email" style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#c8d5cc',
+                marginBottom: '4px',
+                fontFamily: 'var(--font-geist-sans)',
+              }}>
                 Email
               </label>
               <input
@@ -155,7 +304,26 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                style={{
+                  width: '100%',
+                  padding: '10px 14px',
+                  border: '1px solid rgba(255,255,255,0.04)',
+                  borderRadius: '10px',
+                  backgroundColor: '#101a1e',
+                  color: '#f0f5f1',
+                  fontSize: '14px',
+                  fontFamily: 'var(--font-geist-sans)',
+                  outline: 'none',
+                  transition: 'all 0.2s',
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(52,211,153,0.15)'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(52,211,153,0.1)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.04)'
+                  e.target.style.boxShadow = 'none'
+                }}
                 placeholder="you@example.com"
               />
             </div>
@@ -163,20 +331,55 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              style={{
+                width: '100%',
+                backgroundColor: loading ? '#0f9a70' : '#10b981',
+                color: '#ffffff',
+                padding: '10px 16px',
+                borderRadius: '10px',
+                fontWeight: '600',
+                border: 'none',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.7 : 1,
+                transition: 'all 0.2s',
+                fontSize: '14px',
+                fontFamily: 'var(--font-geist-sans)',
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) e.currentTarget.style.backgroundColor = '#34d399'
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) e.currentTarget.style.backgroundColor = '#10b981'
+              }}
             >
               {loading ? 'Sending...' : 'Send Magic Link'}
             </button>
 
-            <p className="text-xs text-gray-500 text-center">
+            <p style={{
+              fontSize: '12px',
+              color: '#8a9b91',
+              textAlign: 'center',
+              margin: 0,
+              fontFamily: 'var(--font-geist-sans)',
+            }}>
               We'll email you a secure link to sign in
             </p>
           </form>
         )}
 
-        <div className="mt-6 text-center text-sm text-gray-600">
+        <div style={{
+          marginTop: '24px',
+          textAlign: 'center',
+          fontSize: '14px',
+          color: '#8a9b91',
+          fontFamily: 'var(--font-geist-sans)',
+        }}>
           Don't have an account?{' '}
-          <Link href="/auth/signup" className="text-blue-600 hover:text-blue-700 font-semibold">
+          <Link href="/auth/signup" style={{
+            color: '#10b981',
+            fontWeight: '600',
+            textDecoration: 'none',
+          }}>
             Sign up
           </Link>
         </div>
