@@ -10,34 +10,21 @@ interface Board {
   id: string
   title: string
   description: string | null
-  background_color: string
   created_by: string
 }
-
-const COLORS = [
-  { name: 'Blue', color: '#0079bf' },
-  { name: 'Green', color: '#519839' },
-  { name: 'Yellow', color: '#d9b51c' },
-  { name: 'Orange', color: '#e67e22' },
-  { name: 'Red', color: '#eb5a46' },
-  { name: 'Purple', color: '#c377e0' },
-  { name: 'Pink', color: '#f24e4e' },
-  { name: 'Teal', color: '#00c2e0' },
-]
 
 export default function BoardSettingsButton({ board, currentUserId }: { board: Board; currentUserId: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const [tab, setTab] = useState<'settings' | 'members'>('settings')
   const [title, setTitle] = useState(board.title)
   const [desc, setDesc] = useState(board.description || '')
-  const [bg, setBg] = useState(board.background_color)
   const [saving, setSaving] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
   const save = async () => {
     setSaving(true)
-    await supabase.from('boards').update({ title, description: desc || null, background_color: bg }).eq('id', board.id)
+    await supabase.from('boards').update({ title, description: desc || null }).eq('id', board.id)
     router.refresh()
     setIsOpen(false)
     setSaving(false)
@@ -229,46 +216,6 @@ export default function BoardSettingsButton({ board, currentUserId }: { board: B
                         resize: 'vertical'
                       }} 
                     />
-                  </div>
-                  <div>
-                    <label 
-                      style={{
-                        display: 'block',
-                        fontSize: '14px',
-                        fontWeight: 500,
-                        marginBottom: '8px',
-                        color: '#e2e8e4'
-                      }}
-                    >
-                      Background Color
-                    </label>
-                    <div 
-                      style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(4, 1fr)',
-                        gap: '8px'
-                      }}
-                    >
-                      {COLORS.map((c) => (
-                        <button 
-                          key={c.color} 
-                          onClick={() => setBg(c.color)} 
-                          style={{
-                            height: '40px',
-                            borderRadius: '10px',
-                            color: '#fff',
-                            fontSize: '12px',
-                            fontWeight: 500,
-                            backgroundColor: c.color,
-                            border: bg === c.color ? '2px solid #34d399' : '1px solid rgba(255,255,255,0.1)',
-                            cursor: 'pointer',
-                            boxShadow: bg === c.color ? '0 0 0 2px #0b1215, 0 0 0 4px #34d399' : 'none'
-                          }}
-                        >
-                          {c.name}
-                        </button>
-                      ))}
-                    </div>
                   </div>
                   <button 
                     onClick={save} 

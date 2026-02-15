@@ -7,7 +7,6 @@ interface BoardCardProps {
     id: string
     title: string
     description?: string
-    background_color?: string
     member?: boolean
     owned?: boolean
   }
@@ -18,7 +17,7 @@ export default function BoardCard({ board }: BoardCardProps) {
     <Link
       href={`/boards/${board.id}`}
       style={{
-        backgroundColor: board.background_color || '#142024',
+        backgroundColor: '#142024',
         borderRadius: '14px',
         boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
         padding: '24px',

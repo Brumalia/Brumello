@@ -4,22 +4,10 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
-const BOARD_COLORS = [
-  '#0079bf', // Blue
-  '#d29034', // Orange
-  '#519839', // Green
-  '#b04632', // Red
-  '#89609e', // Purple
-  '#cd5a91', // Pink
-  '#4bbf6b', // Light Green
-  '#00aecc', // Cyan
-]
-
 export default function CreateBoardButton() {
   const [isOpen, setIsOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [backgroundColor, setBackgroundColor] = useState(BOARD_COLORS[0])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
@@ -43,7 +31,6 @@ export default function CreateBoardButton() {
       .insert({
         title,
         description,
-        background_color: backgroundColor,
         created_by: user.id,
       })
       .select()
@@ -56,7 +43,6 @@ export default function CreateBoardButton() {
       setIsOpen(false)
       setTitle('')
       setDescription('')
-      setBackgroundColor(BOARD_COLORS[0])
       router.refresh()
       // Optionally redirect to the new board
       if (data) {
@@ -253,55 +239,6 @@ export default function CreateBoardButton() {
                     e.currentTarget.style.boxShadow = 'none'
                   }}
                 />
-              </div>
-
-              <div>
-                <label style={{
-                  display: 'block',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  color: '#e2e8e4',
-                  marginBottom: '12px'
-                }}>
-                  Background Color
-                </label>
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(4, 1fr)',
-                  gap: '10px'
-                }}>
-                  {BOARD_COLORS.map((color) => (
-                    <button
-                      key={color}
-                      type="button"
-                      onClick={() => setBackgroundColor(color)}
-                      style={{
-                        height: '56px',
-                        borderRadius: '8px',
-                        border: backgroundColor === color 
-                          ? '3px solid #34d399' 
-                          : '2px solid rgba(255,255,255,0.1)',
-                        backgroundColor: color,
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        outline: 'none',
-                        boxShadow: backgroundColor === color 
-                          ? '0 0 0 4px rgba(52, 211, 153, 0.15)' 
-                          : 'none'
-                      }}
-                      onMouseEnter={(e) => {
-                        if (backgroundColor !== color) {
-                          e.currentTarget.style.opacity = '0.85'
-                          e.currentTarget.style.transform = 'scale(1.05)'
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.opacity = '1'
-                        e.currentTarget.style.transform = 'scale(1)'
-                      }}
-                    />
-                  ))}
-                </div>
               </div>
 
               <div style={{
